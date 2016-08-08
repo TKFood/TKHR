@@ -123,11 +123,11 @@ namespace TKHR
 
                     sqlConn.Open();
                     ds.Clear();
-                    adapter.Fill(ds, "TEMPds");
+                    adapter.Fill(ds, "TEMPds2");
                     sqlConn.Close();
 
 
-                    if (ds.Tables["TEMPds"].Rows.Count == 0)
+                    if (ds.Tables["TEMPds2"].Rows.Count == 0)
                     {
                         defaultdep();
                     }
@@ -136,7 +136,33 @@ namespace TKHR
                         DialogResult dialogResult = MessageBox.Show("是否真的要清空", "del?", MessageBoxButtons.YesNo);
                         if (dialogResult == DialogResult.Yes)
                         {
-                            defaultdep();
+                            connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                            sqlConn = new SqlConnection(connectionString);
+
+                            sqlConn.Close();
+                            sqlConn.Open();
+                            tran = sqlConn.BeginTransaction();
+
+                            sbSql.Clear();
+                            //ADD COPTC
+                            sbSql.Append(" ");
+                            sbSql.AppendFormat(" DELETE   [TKHR].[dbo].[MONTHDEPPEOPLE]  WHERE  [HRYEARS]='{0}' AND [HRMONTHS]='{1}' ", dateTimePicker2.Value.Year.ToString(), dateTimePicker2.Value.Month.ToString());
+
+                            cmd.Connection = sqlConn;
+                            cmd.CommandTimeout = 60;
+                            cmd.CommandText = sbSql.ToString();
+                            cmd.Transaction = tran;
+                            result = cmd.ExecuteNonQuery();
+
+                            if (result == 0)
+                            {
+                                tran.Rollback();    //交易取消
+                            }
+                            else
+                            {
+                                tran.Commit();      //執行交易  
+                                defaultdep();
+                            }
                         }
                     }
                 }
