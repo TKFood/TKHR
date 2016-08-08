@@ -36,6 +36,7 @@ namespace TKHR
         SqlTransaction tran;
         SqlCommand cmd = new SqlCommand();
         DataSet ds = new DataSet();
+        DataSet dsYear = new DataSet();
         DataTable dt = new DataTable();
         string strFilePath;
         OpenFileDialog file = new OpenFileDialog();
@@ -43,6 +44,7 @@ namespace TKHR
         string NowDay;
         string NowDB = "test";
         int rownum = 0;
+        string NowTable = null;
 
         public frmMONTHDEPOVERTIME()
         {
@@ -64,9 +66,7 @@ namespace TKHR
                     sbSqlQuery.Clear();
 
                     sbSql.AppendFormat(@"SELECT [HRYEARS] AS '年',[HRMONTHS] AS '月',[DEPNO] AS '部門代號',[DEPNAME] AS '部門',[HROTHR] AS '總加班時數',[HROTFEE] AS '總加班金額' FROM [TKHR].[dbo].[MONTHDEPOVERTIME] WHERE [HRYEARS]='{0}' AND [HRMONTHS]='{1}'  ORDER BY [HRYEARS],[HRMONTHS],[DEPNO] ", dateTimePicker1.Value.Year.ToString(), dateTimePicker1.Value.Month.ToString());
-
-                   
-
+                    
                     adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
                     sqlCmdBuilder = new SqlCommandBuilder(adapter);
 
@@ -85,6 +85,7 @@ namespace TKHR
 
                         dataGridView1.DataSource = ds.Tables["TEMPds"];
                         dataGridView1.AutoResizeColumns();
+                        dataGridView1.CurrentCell = dataGridView1[3, rownum];
                     }
                 }
                 else
@@ -102,7 +103,7 @@ namespace TKHR
 
             }
 
-            dataGridView1.CurrentCell = dataGridView1[3, rownum];
+           
         }
 
         public void Loaddep()
@@ -305,6 +306,169 @@ namespace TKHR
             {
             }
         }
+
+        public void ExcelExport()
+        {
+
+            string NowDB = "TKHR";
+            //建立Excel 2003檔案
+            IWorkbook wb = new XSSFWorkbook();
+            ISheet ws;
+
+
+            dt = ds.Tables["TEMPds"];
+            if (dt.TableName != string.Empty)
+            {
+                ws = wb.CreateSheet(dt.TableName);
+            }
+            else
+            {
+                ws = wb.CreateSheet("Sheet1");
+            }
+
+            ws.CreateRow(0);//第一行為欄位名稱
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                ws.GetRow(0).CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+            }
+
+
+            int j = 0;
+            foreach (DataGridViewRow dr in this.dataGridView1.Rows)
+            {
+                ws.CreateRow(j + 1);
+                ws.GetRow(j + 1).CreateCell(0).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[0].ToString());
+                ws.GetRow(j + 1).CreateCell(1).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[1].ToString());
+                ws.GetRow(j + 1).CreateCell(2).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[2].ToString());
+                ws.GetRow(j + 1).CreateCell(3).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString());
+                ws.GetRow(j + 1).CreateCell(4).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[4].ToString()));
+                ws.GetRow(j + 1).CreateCell(5).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[5].ToString()));
+                
+
+                j++;
+            }
+
+            if (Directory.Exists(@"c:\temp\"))
+            {
+                //資料夾存在
+            }
+            else
+            {
+                //新增資料夾
+                Directory.CreateDirectory(@"c:\temp\");
+            }
+            StringBuilder filename = new StringBuilder();
+            filename.AppendFormat(@"c:\temp\每月各部門加班明細表{0}.xlsx", DateTime.Now.ToString("yyyyMMdd"));
+
+            FileStream file = new FileStream(filename.ToString(), FileMode.Create);//產生檔案
+            wb.Write(file);
+            file.Close();
+
+            MessageBox.Show("匯出完成-EXCEL放在-" + filename.ToString());
+            FileInfo fi = new FileInfo(filename.ToString());
+            if (fi.Exists)
+            {
+                System.Diagnostics.Process.Start(filename.ToString());
+            }
+            else
+            {
+                //file doesn't exist
+            }
+
+
+        }
+
+        public void ExportExcel()
+        {
+            String NowDB = "TKHR";
+            connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
+
+            sbSql.Clear();
+            sbSqlQuery.Clear();
+
+            sbSql.AppendFormat(@"SELECT [HRYEARS] AS '年',[HRMONTHS] AS '月',[DEPNO] AS '部門代號',[DEPNAME] AS '部門',[HROTHR] AS '總加班時數',[HROTFEE] AS '總加班金額' FROM [TKHR].[dbo].[MONTHDEPOVERTIME] WHERE [HRYEARS]='{0}'   ORDER BY [HRYEARS],[HRMONTHS],[DEPNO] ", dateTimePicker1.Value.Year.ToString());
+
+            adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
+            sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+            sqlConn.Open();
+            dsYear.Clear();
+            adapter.Fill(dsYear, "TEMPdsYear");
+            sqlConn.Close();
+
+            //建立Excel 2003檔案
+            IWorkbook wb = new XSSFWorkbook();
+            ISheet ws;
+
+            dt = dsYear.Tables["TEMPdsYear"];
+
+            ////建立Excel 2007檔案
+            //IWorkbook wb = new XSSFWorkbook();
+            //ISheet ws;
+
+            if (dt.TableName != string.Empty)
+            {
+                ws = wb.CreateSheet(dt.TableName);
+            }
+            else
+            {
+                ws = wb.CreateSheet("Sheet1");
+            }
+
+            ws.CreateRow(0);//第一行為欄位名稱
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                ws.GetRow(0).CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+            }
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ws.CreateRow(i + 1);
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {                   
+                    if (j==4)
+                    {
+                        ws.GetRow(i + 1).CreateCell(j).SetCellValue(Convert.ToInt32(dt.Rows[i][j].ToString()));
+                    }
+                    else  if (j == 5)
+                    {
+                        ws.GetRow(i + 1).CreateCell(j).SetCellValue(Convert.ToInt32(dt.Rows[i][j].ToString()));
+                    }
+                    else
+                    {
+                        ws.GetRow(i + 1).CreateCell(j).SetCellValue(dt.Rows[i][j].ToString());
+                    }
+                }
+            }
+
+            if (Directory.Exists(@"c:\temp\"))
+            {
+                //資料夾存在
+            }
+            else
+            {
+                //新增資料夾
+                Directory.CreateDirectory(@"c:\temp\");
+            }
+            StringBuilder filename = new StringBuilder();
+            filename.AppendFormat(@"c:\temp\各部門每月加班費總表{0}.xlsx", DateTime.Now.ToString("yyyyMMdd"));
+
+            FileStream file = new FileStream(filename.ToString(), FileMode.Create);//產生檔案
+            wb.Write(file);
+            file.Close();
+
+            MessageBox.Show("匯出完成-EXCEL放在-" + filename.ToString());
+            FileInfo fi = new FileInfo(filename.ToString());
+            if (fi.Exists)
+            {
+                System.Diagnostics.Process.Start(filename.ToString());
+            }
+            else
+            {
+                //file doesn't exist
+            }
+        }
         #endregion
 
         #region BUTTON
@@ -328,6 +492,15 @@ namespace TKHR
         }
 
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ExcelExport();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ExportExcel();
+        }
         #endregion
 
 

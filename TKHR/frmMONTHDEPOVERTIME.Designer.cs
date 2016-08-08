@@ -204,6 +204,7 @@
             this.button5.TabIndex = 29;
             this.button5.Text = "匯出單月EXCEL";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button3
             // 
@@ -213,6 +214,7 @@
             this.button3.TabIndex = 36;
             this.button3.Text = "匯出年度EXCEL";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // dataGridView1
             // 
