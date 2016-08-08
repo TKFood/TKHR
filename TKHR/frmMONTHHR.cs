@@ -64,12 +64,12 @@ namespace TKHR
 
                     if (checkBox1.Checked == true)
                     {
-                        sbSql.AppendFormat(@"SELECT [HRYEARS] AS '年',[HRMONTHS] AS '月',[HRIN] AS '到職人數',[HRRESIGN] AS '離職人數',[HROFRESIGN] AS '正職離職人數',[HRMANUIN] AS '生產部到職人數',[HRMANURESIGN] AS '生產部離職人數',[HRPTRESIGN] AS 'PT離職人數',[HRNOW] AS '現有人數',[HRLOST] AS '缺編人數' FROM [TKHR].[dbo].[MONTHHR] WHERE  [HRYEARS]='{0}' AND [HRMONTHS]='{1}'  ", dateTimePicker1.Value.Year.ToString(), dateTimePicker1.Value.Month.ToString());
+                        sbSql.AppendFormat(@"SELECT [HRYEARS] AS '年',[HRMONTHS] AS '月',[HRIN] AS '到職人數',[HRRESIGN] AS '離職人數',[HROFRESIGN] AS '正職離職人數',[HRMANUIN] AS '生產部到職人數',[HRMANURESIGN] AS '生產部離職人數',[HRPTRESIGN] AS 'PT離職人數',[HRNOW] AS '現有人數',[HRLOST] AS '缺編人數',[HRINRATE] AS '到職率',[HRRESIGNRATE] AS '離職率',[HROUTRATE] AS '耗損率',[HRSTAYRATE] AS '留職率',[HRMOVERATE] AS '流動率' FROM [TKHR].[dbo].[MONTHHR] WHERE  [HRYEARS]='{0}' AND [HRMONTHS]='{1}'  ", dateTimePicker1.Value.Year.ToString(), dateTimePicker1.Value.Month.ToString());
                     }
                     else
                     {
                         
-                        sbSql.AppendFormat(@"SELECT [HRYEARS] AS '年',[HRMONTHS] AS '月',[HRIN] AS '到職人數',[HRRESIGN] AS '離職人數',[HROFRESIGN] AS '正職離職人數',[HRMANUIN] AS '生產部到職人數',[HRMANURESIGN] AS '生產部離職人數',[HRPTRESIGN] AS 'PT離職人數',[HRNOW] AS '現有人數',[HRLOST] AS '缺編人數' FROM [TKHR].[dbo].[MONTHHR] WHERE  [HRYEARS]='{0}'   ", dateTimePicker1.Value.Year.ToString());
+                        sbSql.AppendFormat(@"SELECT [HRYEARS] AS '年',[HRMONTHS] AS '月',[HRIN] AS '到職人數',[HRRESIGN] AS '離職人數',[HROFRESIGN] AS '正職離職人數',[HRMANUIN] AS '生產部到職人數',[HRMANURESIGN] AS '生產部離職人數',[HRPTRESIGN] AS 'PT離職人數',[HRNOW] AS '現有人數',[HRLOST] AS '缺編人數',[HRINRATE] AS '到職率',[HRRESIGNRATE] AS '離職率',[HROUTRATE] AS '耗損率',[HRSTAYRATE] AS '留職率',[HRMOVERATE] AS '流動率' FROM [TKHR].[dbo].[MONTHHR] WHERE  [HRYEARS]='{0}'   ", dateTimePicker1.Value.Year.ToString());
                     }
                     
 
@@ -310,14 +310,20 @@ namespace TKHR
                 ws.CreateRow(j + 1);
                 ws.GetRow(j + 1).CreateCell(0).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[0].ToString());
                 ws.GetRow(j + 1).CreateCell(1).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[1].ToString());
-                ws.GetRow(j + 1).CreateCell(2).SetCellValue(Convert.ToInt16(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[2].ToString()));
-                ws.GetRow(j + 1).CreateCell(3).SetCellValue(Convert.ToInt16(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString()));
-                ws.GetRow(j + 1).CreateCell(4).SetCellValue(Convert.ToInt16(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[4].ToString()));
-                ws.GetRow(j + 1).CreateCell(5).SetCellValue(Convert.ToInt16(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[5].ToString()));
-                ws.GetRow(j + 1).CreateCell(6).SetCellValue(Convert.ToInt16(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[6].ToString()));
-                ws.GetRow(j + 1).CreateCell(7).SetCellValue(Convert.ToInt16(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[7].ToString()));
-                ws.GetRow(j + 1).CreateCell(8).SetCellValue(Convert.ToInt16(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[8].ToString()));
-                ws.GetRow(j + 1).CreateCell(9).SetCellValue(Convert.ToInt16(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[9].ToString()));
+                ws.GetRow(j + 1).CreateCell(2).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[2].ToString()));
+                ws.GetRow(j + 1).CreateCell(3).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString()));
+                ws.GetRow(j + 1).CreateCell(4).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[4].ToString()));
+                ws.GetRow(j + 1).CreateCell(5).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[5].ToString()));
+                ws.GetRow(j + 1).CreateCell(6).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[6].ToString()));
+                ws.GetRow(j + 1).CreateCell(7).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[7].ToString()));
+                ws.GetRow(j + 1).CreateCell(8).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[8].ToString()));
+                ws.GetRow(j + 1).CreateCell(9).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[9].ToString()));
+                ws.GetRow(j + 1).CreateCell(10).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[10].ToString()));
+                ws.GetRow(j + 1).CreateCell(11).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[11].ToString()));
+                ws.GetRow(j + 1).CreateCell(12).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[12].ToString()));
+                ws.GetRow(j + 1).CreateCell(13).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[13].ToString()));
+                ws.GetRow(j + 1).CreateCell(14).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[14].ToString()));
+
 
                 j++;
             }
