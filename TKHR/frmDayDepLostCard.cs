@@ -65,7 +65,7 @@ namespace TKHR
                     sbSql.Clear();
                     sbSqlQuery.Clear();
 
-                    sbSql.Append(@" SELECT CONVERT(varchar(100),[AttendanceRollcall].[Date],112) AS '日期',[Department].Name AS '部門',CnName  AS '姓名',[CollectBegin]  AS '上班刷卡',[CollectEnd]  AS '下班刷卡'");
+                    sbSql.Append(@" SELECT CONVERT(varchar(100),[AttendanceRollcall].[Date],112) AS '日期',[Department].Name AS '部門',CnName  AS '姓名',( CASE WHEN ISNULL([CollectBegin],'')<>''and ISNULL([CollectEnd],'')<>'' AND datepart(HH,[CollectBegin])>=13 THEN  NULL ELSE [CollectBegin] END) AS '上班刷卡',( CASE WHEN ISNULL([CollectBegin],'')<>''and ISNULL([CollectEnd],'')<>'' AND datepart(HH,[CollectBegin])<13 THEN  NULL ELSE [CollectEnd] END)   AS '下班刷卡'");
                     sbSql.Append(@" ,CASE WHEN ISNULL([CollectBegin],'')='' THEN '上班未刷' WHEN ISNULL([CollectEnd],'')='' THEN '下班未刷'   WHEN ISNULL([CollectBegin],'')<>''and ISNULL([CollectEnd],'')<>'' AND datepart(HH,[CollectBegin])>=13 THEN '下班重複刷'  WHEN ISNULL([CollectBegin],'')<>''and ISNULL([CollectEnd],'')<>'' AND datepart(HH,[CollectBegin])<=13 THEN '上班重複刷'  END AS '狀況'");
                     sbSql.Append(@" FROM [HRMDB].[dbo].[AttendanceRollcall],[HRMDB].[dbo].[Employee],[HRMDB].[dbo].[Department]");
                     sbSql.Append(@" WHERE [AttendanceRollcall].[EmployeeId]=[Employee].[EmployeeId]");
