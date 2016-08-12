@@ -66,10 +66,11 @@ namespace TKHR
                     sbSqlQuery.Clear();
 
                     sbSql.Append(@" SELECT CONVERT(varchar(100),[AttendanceRollcall].[Date],112) AS '日期',[Department].Name AS '部門',CnName  AS '姓名',[CollectBegin]  AS '上班刷卡',[CollectEnd]  AS '下班刷卡'");
+                    sbSql.Append(@" ,CASE WHEN ISNULL([CollectBegin],'')='' THEN '上班未刷' WHEN ISNULL([CollectEnd],'')='' THEN '下班未刷'  ELSE '重複刷卡' END AS '狀況'");
                     sbSql.Append(@" FROM [HRMDB].[dbo].[AttendanceRollcall],[HRMDB].[dbo].[Employee],[HRMDB].[dbo].[Department]");
                     sbSql.Append(@" WHERE [AttendanceRollcall].[EmployeeId]=[Employee].[EmployeeId]");
                     sbSql.Append(@" AND [Employee].[DepartmentId]= [Department].[DepartmentId]");
-                    sbSql.Append(@" AND ((ISNULL([CollectBegin],'')='' AND  ISNULL([CollectEnd],'')<>'') OR (ISNULL([CollectBegin],'')<>'' AND  ISNULL([CollectEnd],'')=''))");
+                    sbSql.Append(@" AND ((ISNULL([CollectBegin],'')='' AND  ISNULL([CollectEnd],'')<>'') OR (ISNULL([CollectBegin],'')<>'' AND  ISNULL([CollectEnd],'')='') OR (Datediff(Minute,[CollectBegin],[CollectEnd])<=5))");
                     sbSql.AppendFormat(@" AND CONVERT(varchar(100),[AttendanceRollcall].[Date],112)='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
                     sbSql.Append(@" ORDER BY [AttendanceRollcall].[Date] ,[Department].Name,CnName");
                     sbSql.Append(@" ");
@@ -149,6 +150,7 @@ namespace TKHR
                 ws.GetRow(j + 1).CreateCell(2).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[2].ToString());
                 ws.GetRow(j + 1).CreateCell(3).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString());
                 ws.GetRow(j + 1).CreateCell(4).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[4].ToString());
+                ws.GetRow(j + 1).CreateCell(5).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[5].ToString());
 
 
 
