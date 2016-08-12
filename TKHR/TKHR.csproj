@@ -63,6 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmDayDepLostCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDayDepLostCard.Designer.cs">
+      <DependentUpon>frmDayDepLostCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmDayDepWorkHR.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmDayDepLostCard.resx">
+      <DependentUpon>frmDayDepLostCard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmDayDepWorkHR.resx">
       <DependentUpon>frmDayDepWorkHR.cs</DependentUpon>
     </EmbeddedResource>
