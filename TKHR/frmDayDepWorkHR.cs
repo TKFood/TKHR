@@ -64,20 +64,19 @@ namespace TKHR
                     sbSql.Clear();
                     sbSqlQuery.Clear();
 
-                    sbSql.Append(@" SELECT CONVERT(varchar(8),[Date],112) AS '日期',DEP AS '部門' ,[Name] AS '類別',SUM(HR) AS '時數'");
+                    sbSql.Append(@" SELECT CONVERT(varchar(8),[Date],112) AS '日期',[DepCode] AS '代號',DEP AS '部門' ,SUM(THR) AS '時數' ");
                     sbSql.Append(@" FROM (");
-                    sbSql.Append(@" SELECT [Department].[Name] AS DEP,[AttendanceRollcall].[Date],[Employee].[CnName],[AttendanceType].[Name],[AttendanceRollcall].[Hours],[AttendanceRollcall].[QuartersHoursUnit]");
-                    sbSql.Append(@" ,CASE WHEN [AttendanceRollcall].[QuartersHoursUnit]='AttendanceUnit_003' THEN [AttendanceRollcall].[Hours]/60  WHEN  [AttendanceRollcall].[QuartersHoursUnit]='AttendanceUnit_002' THEN [AttendanceRollcall].[Hours] END AS HR");
-                    sbSql.Append(@" FROM [HRMDB].[dbo].[AttendanceRollcall],[HRMDB].[dbo].[AttendanceType],[HRMDB].[dbo].[Employee],[HRMDB].[dbo].[Department]");
-                    sbSql.Append(@" WHERE [AttendanceRollcall].[AttendanceTypeId]=[AttendanceType].[AttendanceTypeId]");
-                    sbSql.Append(@" AND [AttendanceRollcall].[EmployeeId]=[Employee].[EmployeeId]");
-                    sbSql.Append(@" AND [Department].[DepartmentId]=[Employee].[DepartmentId]");
-                    sbSql.AppendFormat(@" AND CONVERT(varchar(8),[AttendanceRollcall].[Date],112)='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
-                    sbSql.Append(@" AND [AttendanceRollcall].[QuartersHoursUnit]<>'AttendanceUnit_004' ) AS TEMP");
-                    sbSql.Append(@" GROUP BY CONVERT(varchar(8),[Date],112),DEP,[Name]");
-                    sbSql.Append(@" ORDER BY CONVERT(varchar(8),[Date],112),DEP,[Name]");
+                    sbSql.Append(@" SELECT [Department].[Code] AS DepCode,[Department].[Name] AS DEP,[AttendanceRollcall].[Date],[Employee].[CnName],[AttendanceType].[Code],[AttendanceType].[Name],[AttendanceRollcall].[Hours],[AttendanceRollcall].[QuartersHoursUnit] ");
+                    sbSql.Append(@" ,CASE WHEN [AttendanceRollcall].[QuartersHoursUnit]='AttendanceUnit_003' THEN [AttendanceRollcall].[Hours]/60  WHEN  [AttendanceRollcall].[QuartersHoursUnit]='AttendanceUnit_002' THEN [AttendanceRollcall].[Hours] END AS HR ");
+                    sbSql.Append(@" ,[HRAttendanceType].CType");
+                    sbSql.Append(@" ,CASE WHEN [AttendanceRollcall].[QuartersHoursUnit]='AttendanceUnit_003' THEN [HRAttendanceType].CType*[AttendanceRollcall].[Hours]/60  WHEN  [AttendanceRollcall].[QuartersHoursUnit]='AttendanceUnit_002' THEN [HRAttendanceType].CType*[AttendanceRollcall].[Hours] END AS THR ");
+                    sbSql.Append(@" FROM [HRMDB].[dbo].[AttendanceRollcall],[HRMDB].[dbo].[AttendanceType],[HRMDB].[dbo].[Employee],[HRMDB].[dbo].[Department],[TKHR].[dbo].[HRAttendanceType] ");
+                    sbSql.AppendFormat(@" WHERE [AttendanceRollcall].[AttendanceTypeId]=[AttendanceType].[AttendanceTypeId] AND [AttendanceRollcall].[EmployeeId]=[Employee].[EmployeeId] AND [Department].[DepartmentId]=[Employee].[DepartmentId] AND CONVERT(varchar(8),[AttendanceRollcall].[Date],112)='{0}' AND [AttendanceRollcall].[QuartersHoursUnit]<>'AttendanceUnit_004' ", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.Append(@" AND [HRAttendanceType].Code=[AttendanceType].Code COLLATE Chinese_PRC_CI_AS");
+                    sbSql.Append(@"  ) AS TEMP ");
+                    sbSql.Append(@" GROUP BY CONVERT(varchar(8),[Date],112),DepCode ,DEP  ");
+                    sbSql.Append(@" ORDER BY CONVERT(varchar(8),[Date],112),DepCode ,DEP  ");
                     sbSql.Append(@" ");
-
 
 
                     adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
