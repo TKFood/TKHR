@@ -64,7 +64,8 @@ namespace TKHR
 
                     sbSql.Clear();
                     sbSqlQuery.Clear();
-
+                    sbSql.Append(@" SELECT 日期,部門,姓名,上班刷卡,下班刷卡,狀況");
+                    sbSql.Append(@" FROM (");
                     sbSql.Append(@" SELECT CONVERT(varchar(100),[AttendanceRollcall].[Date],112) AS '日期',[Department].Name AS '部門',CnName  AS '姓名',( CASE WHEN ISNULL([CollectBegin],'')<>''and ISNULL([CollectEnd],'')<>'' AND datepart(HH,[CollectBegin])>=13 THEN  NULL ELSE [CollectBegin] END) AS '上班刷卡',( CASE WHEN ISNULL([CollectBegin],'')<>''and ISNULL([CollectEnd],'')<>'' AND datepart(HH,[CollectBegin])<13 THEN  NULL ELSE [CollectEnd] END)   AS '下班刷卡'");
                     sbSql.Append(@" ,CASE WHEN ISNULL([CollectBegin],'')='' THEN '上班未刷' WHEN ISNULL([CollectEnd],'')='' THEN '下班未刷'   WHEN ISNULL([CollectBegin],'')<>''and ISNULL([CollectEnd],'')<>'' AND datepart(HH,[CollectBegin])>=13 THEN '下班重複刷'  WHEN ISNULL([CollectBegin],'')<>''and ISNULL([CollectEnd],'')<>'' AND datepart(HH,[CollectBegin])<=13 THEN '上班重複刷'  END AS '狀況'");
                     sbSql.Append(@" FROM [HRMDB].[dbo].[AttendanceRollcall],[HRMDB].[dbo].[Employee],[HRMDB].[dbo].[Department]");
@@ -72,8 +73,22 @@ namespace TKHR
                     sbSql.Append(@" AND [Employee].[DepartmentId]= [Department].[DepartmentId]");
                     sbSql.Append(@" AND ((ISNULL([CollectBegin],'')='' AND  ISNULL([CollectEnd],'')<>'') OR (ISNULL([CollectBegin],'')<>'' AND  ISNULL([CollectEnd],'')='') OR (Datediff(Minute,[CollectBegin],[CollectEnd])<=5))");
                     sbSql.AppendFormat(@" AND CONVERT(varchar(100),[AttendanceRollcall].[Date],112)='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
-                    sbSql.Append(@" ORDER BY [AttendanceRollcall].[Date] ,[Department].Name,CnName");
+                    sbSql.Append(@" UNION ALL ");
+                    sbSql.AppendFormat(@" SELECT '{0}',[Department].Name AS '部門',CnName  AS '姓名' ,NULL,NULL,'可能曠工'", dateTimePicker1.Value.ToString("yyyyMMdd")); ;
+                    sbSql.Append(@" FROM [HRMDB].[dbo].[Employee],[HRMDB].[dbo].[Department] ");
+                    sbSql.Append(@" WHERE [Employee].[DepartmentId]= [Department].[DepartmentId] ");
+                    sbSql.AppendFormat(@" AND ([EmployeeId] IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceEmpRank] WHERE  [AttendanceEmpRank].[Date]='{0}') OR [EmployeeId]  IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].AttendanceRankChange WHERE [Date]='{0}'))", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.Append(@" AND [EmployeeId]<>'6FBF39F6-4666-4941-9FAF-A9CBBC8B1E0B'");
+                    sbSql.AppendFormat(@" AND [EmployeeId] IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceRollcall] WHERE [AttendanceRollcall].[Date]='{0}' AND ISNULL([CollectBegin],'')='' AND ISNULL([CollectEnd],'')='' AND ISNULL([EmpRankCards],'')='')", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceLeave] WHERE [BeginDate]>='{0}' AND [EndDate]<='{0}')", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[TWALReg] WHERE [BeginDate]>='{0}' AND [EndDate]<='{0}') ", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceOTRest] WHERE [BeginDate]>='{0}' AND [EndDate]<='{0}')", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT [EmployeeId]  FROM [HRMDB].[dbo].[BusinessRegister] WHERE [BeginDate]>='{0}' AND [EndDate]<='{0}')", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.AppendFormat(@" AND [EmployeeId] NOT IN  (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceEmpRank]WHERE [DATE]='{0}'AND [AttendanceRankId] IN (SELECT [AttendanceRankId]FROM [HRMDB].[dbo].[AttendanceRank]WHERE [Name] LIKE '%休息%'))", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.Append(@" AND [Employee].EmployTypeId<>'EmployType_002'");
+                    sbSql.Append(@" ) AS TEMP");
                     sbSql.Append(@" ");
+                    sbSql.Append(@" ORDER BY 日期,狀況,部門 ");
 
                     adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
                     sqlCmdBuilder = new SqlCommandBuilder(adapter);
