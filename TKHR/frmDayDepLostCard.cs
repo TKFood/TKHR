@@ -86,9 +86,11 @@ namespace TKHR
                     sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT [EmployeeId]  FROM [HRMDB].[dbo].[BusinessRegister] WHERE [BeginDate]>='{0}' AND [EndDate]<='{0}')", dateTimePicker1.Value.ToString("yyyyMMdd"));
                     sbSql.AppendFormat(@" AND [EmployeeId] NOT IN  (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceEmpRank]WHERE [DATE]='{0}'AND [AttendanceRankId] IN (SELECT [AttendanceRankId]FROM [HRMDB].[dbo].[AttendanceRank]WHERE [Name] LIKE '%休息%'))", dateTimePicker1.Value.ToString("yyyyMMdd"));
                     sbSql.Append(@" AND [Employee].EmployTypeId<>'EmployType_002'");
-                    sbSql.Append(@" ) AS TEMP");
-                    sbSql.Append(@" ");
+                    sbSql.Append(@" AND [Department].[DepartmentId] <>'48047BE6-156F-4364-A439-B6EE907CF87E'");
+                    sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT EmployeeId FROM [HRMDB].[dbo].AttendanceRollcall WHERE [DATE]='{0}' AND [AttendanceTypeId]='408')", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.Append(@" ) AS TEMP");                   
                     sbSql.Append(@" ORDER BY 日期,狀況,部門 ");
+                    sbSql.Append(@" ");
 
                     adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
                     sqlCmdBuilder = new SqlCommandBuilder(adapter);
