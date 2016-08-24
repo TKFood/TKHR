@@ -194,7 +194,7 @@ namespace TKHR
             sbSql.Clear();
             //ADD COPTC
             sbSql.Append(" ");
-            sbSql.AppendFormat(" INSERT INTO [TKHR].[dbo].[MONTHDEPPEOPLE] ([HRYEARS],[HRMONTHS],[DEPNO],[DEPNAME],[HRNOW],[HRPT],[HRLOST],[HRONBAORD],[HRTOTAL] ) SELECT '{0}','{1}',[Code],[Name],0,0,0,0,0 FROM [TKHR].[dbo].[Department] ORDER BY Code ", dateTimePicker1.Value.Year.ToString(), dateTimePicker1.Value.Month.ToString());
+            sbSql.AppendFormat(" INSERT INTO [TKHR].[dbo].[MONTHDEPPEOPLE] ([HRYEARS],[HRMONTHS],[DEPNO],[DEPNAME],[HRNOW],[HRPT],[HRLOST],[HRONBAORD],[HRTOTAL] ) SELECT '{0}','{1}',[Code],[Name],0,0,0,ISNULL((SELECT COUNT(EM.EmployeeId) FROM [HRMDB].[dbo].Employee EM WITH (NOLOCK), [HRMDB].[dbo].Department DEP WITH (NOLOCK) WHERE EM.DepartmentId=DEP.DepartmentId AND DEP.Code=Department.Code COLLATE Chinese_Taiwan_Stroke_BIN),0) ,0 FROM [TKHR].[dbo].[Department] ORDER BY Code ", dateTimePicker1.Value.Year.ToString(), dateTimePicker1.Value.Month.ToString());
 
             cmd.Connection = sqlConn;
             cmd.CommandTimeout = 60;
@@ -406,6 +406,21 @@ namespace TKHR
 
 
         }
+
+        public void CALTOTAL()
+        {
+            textBox7.Text = (Convert.ToInt16(textBox3.Text.ToString())+ Convert.ToInt16(textBox4.Text.ToString())).ToString();
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            CALTOTAL();
+        }
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            CALTOTAL();
+        }
+
         #endregion
 
         #region BUTTON
@@ -433,7 +448,11 @@ namespace TKHR
             HRUPDATENULL();
         }
 
+
+
         #endregion
+
+
 
 
     }
