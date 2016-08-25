@@ -409,7 +409,13 @@ namespace TKHR
 
         public void CALTOTAL()
         {
-            textBox7.Text = (Convert.ToInt16(textBox3.Text.ToString())+ Convert.ToInt16(textBox4.Text.ToString())).ToString();
+            textBox5.Text = (Convert.ToInt16(textBox3.Text.ToString())- Convert.ToInt16(textBox4.Text.ToString())-Convert.ToInt16(textBox6.Text.ToString())).ToString();
+            textBox7.Text = (Convert.ToInt16(textBox4.Text.ToString()) +Convert.ToInt16(textBox6.Text.ToString())).ToString();
+
+        }
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            CALTOTAL();
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -450,9 +456,10 @@ namespace TKHR
 
 
 
+
+
+
         #endregion
-
-
 
 
     }
