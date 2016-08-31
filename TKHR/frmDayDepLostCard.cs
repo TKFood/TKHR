@@ -88,6 +88,18 @@ namespace TKHR
                     sbSql.Append(@" AND [Employee].EmployTypeId<>'EmployType_002'");
                     sbSql.Append(@" AND [Department].[DepartmentId] <>'48047BE6-156F-4364-A439-B6EE907CF87E'");
                     sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT EmployeeId FROM [HRMDB].[dbo].AttendanceRollcall WHERE [DATE]='{0}' AND [AttendanceTypeId]='408')", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.Append(@" UNION ALL");
+                    sbSql.Append(@" SELECT CONVERT(varchar(100),[AttendanceRollcall].[Date],112) AS '日期'");
+                    sbSql.Append(@" ,[Department].Name AS '部門',CnName  AS '姓名'");
+                    sbSql.Append(@" ,( CASE WHEN ISNULL([CollectBegin],'')<>''and ISNULL([CollectEnd],'')<>'' AND datepart(HH,[CollectBegin])>=13 THEN  NULL ELSE [CollectBegin] END) AS '上班刷卡'");
+                    sbSql.Append(@" ,( CASE WHEN ISNULL([CollectBegin],'')<>''and ISNULL([CollectEnd],'')<>'' AND datepart(HH,[CollectBegin])<13 THEN  NULL ELSE [CollectEnd] END)   AS '下班刷卡' ");
+                    sbSql.Append(@" ,'遲到'");
+                    sbSql.Append(@" FROM [HRMDB].[dbo].[AttendanceRollcall],[HRMDB].[dbo].[Employee],[HRMDB].[dbo].[Department] ");
+                    sbSql.Append(@" WHERE [AttendanceRollcall].[EmployeeId]=[Employee].[EmployeeId] ");
+                    sbSql.Append(@" AND [Employee].[DepartmentId]= [Department].[DepartmentId]");
+                    sbSql.Append(@" AND ISNULL([CollectBegin],'')<>''");
+                    sbSql.AppendFormat(@" AND CONVERT(varchar(100),[AttendanceRollcall].[Date],112)='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.Append(@" AND [AttendanceRollcall].[BeginTime]<=[CollectBegin]");
                     sbSql.Append(@" ) AS TEMP");                   
                     sbSql.Append(@" ORDER BY 日期,狀況,部門 ");
                     sbSql.Append(@" ");
