@@ -80,7 +80,7 @@ namespace TKHR
                     sbSql.AppendFormat(@" AND ([EmployeeId] IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceEmpRank] WHERE  [AttendanceEmpRank].[Date]='{0}') OR [EmployeeId]  IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].AttendanceRankChange WHERE [Date]='{0}'))", dateTimePicker1.Value.ToString("yyyyMMdd"));
                     sbSql.Append(@" AND [EmployeeId]<>'6FBF39F6-4666-4941-9FAF-A9CBBC8B1E0B'");
                     sbSql.AppendFormat(@" AND [EmployeeId] IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceRollcall] WHERE [AttendanceRollcall].[Date]='{0}' AND ISNULL([CollectBegin],'')='' AND ISNULL([CollectEnd],'')='' AND ISNULL([EmpRankCards],'')='')", dateTimePicker1.Value.ToString("yyyyMMdd"));
-                    sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceLeave] WHERE [BeginDate]>='{0}' AND [EndDate]<='{0}')", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                    sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceLeave] WHERE [BeginDate]<='{0}' AND [EndDate]>='{0}')", dateTimePicker1.Value.ToString("yyyyMMdd"));
                     sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[TWALReg] WHERE [BeginDate]>='{0}' AND [EndDate]<='{0}') ", dateTimePicker1.Value.ToString("yyyyMMdd"));
                     sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT [EmployeeId] FROM [HRMDB].[dbo].[AttendanceOTRest] WHERE [BeginDate]>='{0}' AND [EndDate]<='{0}')", dateTimePicker1.Value.ToString("yyyyMMdd"));
                     sbSql.AppendFormat(@" AND [EmployeeId] NOT IN (SELECT [EmployeeId]  FROM [HRMDB].[dbo].[BusinessRegister] WHERE [BeginDate]>='{0}' AND [EndDate]<='{0}')", dateTimePicker1.Value.ToString("yyyyMMdd"));
@@ -99,7 +99,7 @@ namespace TKHR
                     sbSql.Append(@" AND [Employee].[DepartmentId]= [Department].[DepartmentId]");
                     sbSql.Append(@" AND ISNULL([CollectBegin],'')<>''");
                     sbSql.AppendFormat(@" AND CONVERT(varchar(100),[AttendanceRollcall].[Date],112)='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
-                    sbSql.Append(@" AND [AttendanceRollcall].[BeginTime]<=[CollectBegin]");
+                    sbSql.Append(@" AND DATEADD( MINUTE , 1 , [AttendanceRollcall].[BeginTime] )<=[CollectBegin]");
                     sbSql.Append(@" ) AS TEMP");                   
                     sbSql.Append(@" ORDER BY 日期,狀況,部門 ");
                     sbSql.Append(@" ");
