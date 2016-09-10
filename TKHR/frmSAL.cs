@@ -132,9 +132,9 @@ namespace TKHR
                 sbSql.Clear();
                 sbSqlQuery.Clear();
  
-                sbSql.Append(@" SELECT [SALEMPINFO].[ID] AS '工號',[NAME] AS '姓名',[SALJOB].[JOBNAME] AS '職務',[SALEMPALOWANCE].[EMPNAME] AS '職能別',[YEARS] AS '年資',[SALEMPINFO].[JOBLEVEL] AS '職等',[SALEMPINFO].[JOBYEAR] AS '職級',[TOTALMONEY] AS '總薪資',[SALJOB] AS '主管',[SALJOBLEVEL] AS '薪資點',[SALJOBALOWANCE] AS '幕僚',[SALEMPALOWANCE] AS '職能別',[SALOTHER] AS '久任',[JOBADD] AS '主管津貼',[JOBALOWANCEADD] AS '幕僚加給',[EMPALOWANCEADD] AS '職能加給'   ");
-                sbSql.Append(@" FROM [TKHR].[dbo].[SALEMPINFO],[TKHR].[dbo].[SALJOB],[TKHR].[dbo].[SALEMPALOWANCE]");
-                sbSql.Append(@" WHERE [SALEMPINFO].[JOBID]=[SALJOB].[ID] AND [SALEMPINFO].[EMPID]=[SALEMPALOWANCE].[ID]");
+                sbSql.Append(@" SELECT [SALEMPINFO].[ID] AS '工號',[NAME] AS '姓名',[SALJOB].[JOBNAME] AS '職務',[SALEMPALOWANCE].[EMPNAME] AS '職能別',[SALJOBALOWANCE].[JOBNAME] AS '幕僚別' ,[YEARS] AS '年資',[SALEMPINFO].[JOBLEVEL] AS '職等',[SALEMPINFO].[JOBYEAR] AS '職級',[TOTALMONEY] AS '總薪資',[SALJOB] AS '主管',[SALJOBLEVEL] AS '薪資點',[SALJOBALOWANCE] AS '幕僚',[SALEMPALOWANCE] AS '職能',[SALOTHER] AS '久任',[JOBADD] AS '主管津貼',[JOBALOWANCEADD] AS '幕僚加給',[EMPALOWANCEADD] AS '職能加給' ,[SALEMPINFO].[JOBID],[SALEMPINFO].[EMPID],[SALEMPINFO].[ALOWANCEID] ");
+                sbSql.Append(@" FROM [TKHR].[dbo].[SALEMPINFO],[TKHR].[dbo].[SALJOB],[TKHR].[dbo].[SALEMPALOWANCE],[TKHR].[dbo].[SALJOBALOWANCE]");
+                sbSql.Append(@" WHERE [SALEMPINFO].[JOBID]=[SALJOB].[ID] AND [SALEMPINFO].[EMPID]=[SALEMPALOWANCE].[ID] AND [SALEMPINFO].[ALOWANCEID]=[SALJOBALOWANCE].[ID]");
 
                 adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
                 sqlCmdBuilder = new SqlCommandBuilder(adapter);
@@ -445,6 +445,35 @@ namespace TKHR
         {
             CALOTHER();
         }
+
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            var curRow = dataGridView1.CurrentRow;
+            if (curRow != null)
+            {
+                textBox1.Text = dataGridView1.CurrentRow.Cells["工號"].Value.ToString();
+                textBox2.Text = dataGridView1.CurrentRow.Cells["姓名"].Value.ToString();
+                textBox3.Text = dataGridView1.CurrentRow.Cells["職等"].Value.ToString();
+                textBox4.Text = dataGridView1.CurrentRow.Cells["職級"].Value.ToString();
+                textBox5.Text = dataGridView1.CurrentRow.Cells["總薪資"].Value.ToString();
+                textBox6.Text = dataGridView1.CurrentRow.Cells["主管"].Value.ToString();
+                textBox7.Text = dataGridView1.CurrentRow.Cells["薪資點"].Value.ToString();
+                textBox8.Text = dataGridView1.CurrentRow.Cells["幕僚"].Value.ToString();
+                textBox9.Text = dataGridView1.CurrentRow.Cells["職能"].Value.ToString();
+                textBox10.Text = dataGridView1.CurrentRow.Cells["久任"].Value.ToString();
+                textBox11.Text = dataGridView1.CurrentRow.Cells["主管津貼"].Value.ToString();
+                textBox12.Text = dataGridView1.CurrentRow.Cells["幕僚加給"].Value.ToString();
+                textBox13.Text = dataGridView1.CurrentRow.Cells["職能加給"].Value.ToString();
+                comboBox1.SelectedValue= dataGridView1.CurrentRow.Cells["JOBID"].Value.ToString();
+                comboBox2.SelectedValue = dataGridView1.CurrentRow.Cells["EMPID"].Value.ToString();
+                comboBox3.SelectedValue = dataGridView1.CurrentRow.Cells["ALOWANCEID"].Value.ToString();
+                numericUpDown1.Value= Convert.ToInt32(dataGridView1.CurrentRow.Cells["年資"].Value.ToString());
+
+            }
+
+        }
+
         #endregion
 
         #region BUTTON
@@ -456,11 +485,7 @@ namespace TKHR
         {
             ExcelExport();
         }
-
-
-
-
-
+        
 
         #endregion
 
