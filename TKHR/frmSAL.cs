@@ -39,6 +39,7 @@ namespace TKHR
         DataSet ds3 = new DataSet();
         DataSet ds4 = new DataSet();
         DataSet ds5 = new DataSet();
+        DataSet ds6 = new DataSet();
         DataSet dsYear = new DataSet();
         DataTable dt = new DataTable();
         string strFilePath;
@@ -645,6 +646,34 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            FINDCNAME();
+        }
+        public void FINDCNAME()
+        {
+            sbSql.Clear();
+            sbSqlQuery.Clear();
+
+            sbSql.AppendFormat(@" SELECT [CnName],[Code] FROM [HRMDB].[dbo].[Employee] WHERE [Code]='{0}'  ", textBox1.Text.ToString());
+
+            adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
+            sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+            sqlConn.Open();
+            ds6.Clear();
+            adapter.Fill(ds6, "TEMPds6");
+            sqlConn.Close();
+
+
+            if (ds6.Tables["TEMPds6"].Rows.Count >= 1)
+            {
+                textBox2.Text = ds6.Tables["TEMPds6"].Rows[0]["CnName"].ToString();
+
+
+            }
+        }
         #endregion
 
         #region BUTTON
@@ -693,6 +722,7 @@ namespace TKHR
             SAVESAL();
         }
 
+        
         #endregion
 
 
