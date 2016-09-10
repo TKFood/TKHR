@@ -630,7 +630,8 @@ namespace TKHR
                     }
                     else
                     {
-                        tran.Commit();      //執行交易                    
+                        tran.Commit();      //執行交易     
+                        Search();
                     }
                 }
             }
