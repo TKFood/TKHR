@@ -98,7 +98,7 @@ namespace TKHR
             comboBox2.DisplayMember = "EMPNAME";
             sqlConn.Close();
 
-            comboBox2.SelectedValue = "01";
+            comboBox2.SelectedValue = "00";
 
         }
         public void combobox3load()
@@ -119,7 +119,7 @@ namespace TKHR
             comboBox3.DisplayMember = "JOBNAME";
             sqlConn.Close();
 
-            comboBox3.SelectedValue = "01";
+            comboBox3.SelectedValue = "00";
 
         }
         public void Search()
@@ -154,11 +154,33 @@ namespace TKHR
                     dt= ds.Tables["TEMPds"];
                     dataGridView1.DataSource = dt;
                     dataGridView1.AutoResizeColumns();
-                    dataGridView1.CurrentCell = dataGridView1[3, rownum];
-                }
-               
+                    dataGridView1.CurrentCell = dataGridView1[1, rownum];
+                    var curRow = dataGridView1.CurrentRow;
+                    if (curRow != null)
+                    {
+                        textBox1.Text = dataGridView1.CurrentRow.Cells["工號"].Value.ToString();
+                        textBox2.Text = dataGridView1.CurrentRow.Cells["姓名"].Value.ToString();
+                        textBox3.Text = dataGridView1.CurrentRow.Cells["職等"].Value.ToString();
+                        textBox4.Text = dataGridView1.CurrentRow.Cells["職級"].Value.ToString();
+                        textBox5.Text = dataGridView1.CurrentRow.Cells["總薪資"].Value.ToString();
+                        textBox6.Text = dataGridView1.CurrentRow.Cells["主管"].Value.ToString();
+                        textBox7.Text = dataGridView1.CurrentRow.Cells["薪資點"].Value.ToString();
+                        textBox8.Text = dataGridView1.CurrentRow.Cells["幕僚"].Value.ToString();
+                        textBox9.Text = dataGridView1.CurrentRow.Cells["職能"].Value.ToString();
+                        textBox10.Text = dataGridView1.CurrentRow.Cells["久任"].Value.ToString();
+                        textBox11.Text = dataGridView1.CurrentRow.Cells["主管津貼"].Value.ToString();
+                        textBox12.Text = dataGridView1.CurrentRow.Cells["幕僚加給"].Value.ToString();
+                        textBox13.Text = dataGridView1.CurrentRow.Cells["職能加給"].Value.ToString();
+                        comboBox1.SelectedValue = dataGridView1.CurrentRow.Cells["JOBID"].Value.ToString();
+                        comboBox2.SelectedValue = dataGridView1.CurrentRow.Cells["EMPID"].Value.ToString();
+                        comboBox3.SelectedValue = dataGridView1.CurrentRow.Cells["ALOWANCEID"].Value.ToString();
+                        numericUpDown1.Value = Convert.ToInt32(dataGridView1.CurrentRow.Cells["年資"].Value.ToString());
 
-            }
+                    }
+                    }
+
+
+                }
             catch
             {
 
@@ -194,7 +216,11 @@ namespace TKHR
             ws.CreateRow(0);//第一行為欄位名稱
             for (int i = 0; i < dt.Columns.Count; i++)
             {
-                ws.GetRow(0).CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+                if(i <=16)
+                {
+                    ws.GetRow(0).CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+                }
+                
             }
 
 
@@ -205,10 +231,22 @@ namespace TKHR
                 ws.GetRow(j + 1).CreateCell(0).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[0].ToString());
                 ws.GetRow(j + 1).CreateCell(1).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[1].ToString());
                 ws.GetRow(j + 1).CreateCell(2).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[2].ToString());
-                ws.GetRow(j + 1).CreateCell(3).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString()));
-
-
-
+                ws.GetRow(j + 1).CreateCell(3).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString());
+                ws.GetRow(j + 1).CreateCell(4).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[4].ToString());
+                ws.GetRow(j + 1).CreateCell(5).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[5].ToString()));
+                ws.GetRow(j + 1).CreateCell(6).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[6].ToString()));
+                ws.GetRow(j + 1).CreateCell(7).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[7].ToString()));
+                ws.GetRow(j + 1).CreateCell(8).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[8].ToString()));
+                ws.GetRow(j + 1).CreateCell(9).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[9].ToString()));
+                ws.GetRow(j + 1).CreateCell(10).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[10].ToString()));
+                ws.GetRow(j + 1).CreateCell(11).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[11].ToString()));
+                ws.GetRow(j + 1).CreateCell(12).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[12].ToString()));
+                ws.GetRow(j + 1).CreateCell(13).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[13].ToString()));
+                ws.GetRow(j + 1).CreateCell(14).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[14].ToString()));
+                ws.GetRow(j + 1).CreateCell(15).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[15].ToString()));
+                ws.GetRow(j + 1).CreateCell(16).SetCellValue(Convert.ToInt32(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[16].ToString()));
+                
+                
 
                 j++;
             }
@@ -223,7 +261,7 @@ namespace TKHR
                 Directory.CreateDirectory(@"c:\temp\");
             }
             StringBuilder filename = new StringBuilder();
-            filename.AppendFormat(@"c:\temp\每日各部門上班時數明細表{0}.xlsx", DateTime.Now.ToString("yyyyMMdd"));
+            filename.AppendFormat(@"c:\temp\薪資明細表{0}.xlsx", DateTime.Now.ToString("yyyyMMdd"));
 
             FileStream file = new FileStream(filename.ToString(), FileMode.Create);//產生檔案
             wb.Write(file);
@@ -286,7 +324,8 @@ namespace TKHR
 
         public void CALLEVEMONEY()
         {
-
+            connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            sqlConn = new SqlConnection(connectionString);
             sbSql.Clear();
             sbSqlQuery.Clear();
 
@@ -474,6 +513,137 @@ namespace TKHR
 
         }
 
+        public void SAVESAL()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.Append(" INSERT INTO  [TKHR].[dbo].[SALEMPINFO] ([ID],[NAME],[JOBID],[EMPID],[ALOWANCEID],[YEARS],[JOBLEVEL],[JOBYEAR],[TOTALMONEY],[SALJOB],[SALJOBLEVEL],[SALJOBALOWANCE],[SALEMPALOWANCE],[SALOTHER],[JOBADD],[JOBALOWANCEADD],[EMPALOWANCEADD])");
+                sbSql.AppendFormat(" VALUES('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}')", textBox1.Text.ToString(), textBox2.Text.ToString(), comboBox1.SelectedValue.ToString(), comboBox2.SelectedValue.ToString(), comboBox3.SelectedValue.ToString(), numericUpDown1.Value.ToString(), textBox3.Text.ToString(), textBox4.Text.ToString(), textBox5.Text.ToString(), textBox6.Text.ToString(), textBox7.Text.ToString(), textBox8.Text.ToString(), textBox9.Text.ToString(), textBox10.Text.ToString(), textBox11.Text.ToString(), textBox12.Text.ToString(), textBox13.Text.ToString());
+                sbSql.Append(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易             
+                    Search();
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void UPDATESAL()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat(" UPDATE  [TKHR].[dbo].[SALEMPINFO] SET [NAME]='{1}',[JOBID]='{2}',[EMPID]='{3}',[ALOWANCEID]='{4}',[YEARS]='{5}',[JOBLEVEL]='{6}',[JOBYEAR]='{7}',[TOTALMONEY]='{8}',[SALJOB]='{9}',[SALJOBLEVEL]='{10}',[SALJOBALOWANCE]='{11}',[SALEMPALOWANCE]='{12}',[SALOTHER]='{13}',[JOBADD]='{14}',[JOBALOWANCEADD]='{15}',[EMPALOWANCEADD]='{16}' WHERE [ID]='{0}'", textBox1.Text.ToString(),textBox2.Text.ToString(),comboBox1.SelectedValue.ToString(),comboBox2.SelectedValue.ToString(),comboBox3.SelectedValue.ToString(),numericUpDown1.Value.ToString(), textBox3.Text.ToString(), textBox4.Text.ToString(), textBox5.Text.ToString(), textBox6.Text.ToString(), textBox7.Text.ToString(), textBox8.Text.ToString(), textBox9.Text.ToString(), textBox10.Text.ToString(), textBox11.Text.ToString(), textBox12.Text.ToString(), textBox13.Text.ToString());
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易   
+                    rownum = dataGridView1.CurrentCell.RowIndex; 
+                    Search();
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void DELSQL()
+        {
+            try
+            {
+                DialogResult dialogResult = MessageBox.Show("是否真的要刪除", "del?", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    //add ZWAREWHOUSEPURTH
+                    connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                    sqlConn = new SqlConnection(connectionString);
+
+                    sqlConn.Close();
+                    sqlConn.Open();
+                    tran = sqlConn.BeginTransaction();
+
+                    sbSql.Clear();
+                    sbSql.AppendFormat(" DELETE   [TKHR].[dbo].[SALEMPINFO] WHERE ID='{0}'", textBox1.Text.ToString());
+
+                    cmd.Connection = sqlConn;
+                    cmd.CommandTimeout = 60;
+                    cmd.CommandText = sbSql.ToString();
+                    cmd.Transaction = tran;
+                    result = cmd.ExecuteNonQuery();
+
+                    if (result == 0)
+                    {
+                        tran.Rollback();    //交易取消
+                    }
+                    else
+                    {
+                        tran.Commit();      //執行交易                    
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         #endregion
 
         #region BUTTON
@@ -485,10 +655,45 @@ namespace TKHR
         {
             ExcelExport();
         }
-        
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "0";
+            textBox4.Text = "0";
+            textBox5.Text = "0";
+            textBox6.Text = "0";
+            textBox7.Text = "0";
+            textBox8.Text = "0";
+            textBox9.Text = "0";
+            textBox10.Text = "0";
+            textBox11.Text = "0";
+            textBox12.Text = "0";
+            textBox13.Text = "0";
+            comboBox1.SelectedValue = "01";
+            comboBox2.SelectedValue = "01";
+            comboBox3.SelectedValue = "01";
+            numericUpDown1.Value = 0;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            UPDATESAL();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DELSQL();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            SAVESAL();
+        }
 
         #endregion
 
-       
+
     }
 }
