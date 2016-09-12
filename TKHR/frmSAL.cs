@@ -702,8 +702,8 @@ namespace TKHR
             textBox12.Text = "0";
             textBox13.Text = "0";
             comboBox1.SelectedValue = "01";
-            comboBox2.SelectedValue = "01";
-            comboBox3.SelectedValue = "01";
+            comboBox2.SelectedValue = "00";
+            comboBox3.SelectedValue = "00";
             numericUpDown1.Value = 0;
         }
 
