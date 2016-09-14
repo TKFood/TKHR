@@ -418,10 +418,21 @@ namespace TKHR
         {
             if(numericUpDown1.Value>=1)
             {
-                textBox11.Text = (300 * numericUpDown1.Value).ToString();
-                textBox12.Text = (300 * numericUpDown1.Value).ToString();
-                textBox13.Text = (200 * numericUpDown1.Value).ToString();
+                if (comboBox1.SelectedValue.ToString().Equals("01") || comboBox1.SelectedValue.ToString().Equals("02") || comboBox1.SelectedValue.ToString().Equals("03") || comboBox1.SelectedValue.ToString().Equals("04") || comboBox1.SelectedValue.ToString().Equals("05") || comboBox1.SelectedValue.ToString().Equals("06") || comboBox1.SelectedValue.ToString().Equals("07") || comboBox1.SelectedValue.ToString().Equals("08") || comboBox1.SelectedValue.ToString().Equals("09") || comboBox1.SelectedValue.ToString().Equals("10"))
+                {
+                    textBox11.Text = (300 * numericUpDown1.Value).ToString();
+                    textBox12.Text = (300 * numericUpDown1.Value).ToString();
+                    textBox13.Text = (200 * numericUpDown1.Value).ToString();
+                }
+                else
+                {
+                    textBox11.Text = "0";
+                    textBox12.Text = "0";
+                    textBox13.Text = "0";
+
+                }
             }
+                
             if((numericUpDown1.Value%2)==0)
             {
                 textBox4.Text = (Convert.ToInt32(ds2.Tables["TEMPds2"].Rows[0]["JOBYEAR"].ToString()) + Convert.ToInt32(numericUpDown1.Value / 2)).ToString();
