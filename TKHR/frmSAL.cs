@@ -77,7 +77,7 @@ namespace TKHR
             comboBox1.DisplayMember = "JOBNAME";
             sqlConn.Close();
 
-            comboBox1.SelectedValue = "01";
+            comboBox1.SelectedValue = "00";
 
         }
 
@@ -421,6 +421,12 @@ namespace TKHR
                 if (comboBox1.SelectedValue.ToString().Equals("01") || comboBox1.SelectedValue.ToString().Equals("02") || comboBox1.SelectedValue.ToString().Equals("03") || comboBox1.SelectedValue.ToString().Equals("04") || comboBox1.SelectedValue.ToString().Equals("05") || comboBox1.SelectedValue.ToString().Equals("06") || comboBox1.SelectedValue.ToString().Equals("07") || comboBox1.SelectedValue.ToString().Equals("08") || comboBox1.SelectedValue.ToString().Equals("09") || comboBox1.SelectedValue.ToString().Equals("10"))
                 {
                     textBox11.Text = (300 * numericUpDown1.Value).ToString();
+                    textBox12.Text = "0";
+                    textBox13.Text = (200 * numericUpDown1.Value).ToString();
+                }
+                else if(comboBox3.SelectedValue.ToString().Equals("01") || comboBox3.SelectedValue.ToString().Equals("02") || comboBox3.SelectedValue.ToString().Equals("03") || comboBox3.SelectedValue.ToString().Equals("04") || comboBox3.SelectedValue.ToString().Equals("05") || comboBox3.SelectedValue.ToString().Equals("06") || comboBox3.SelectedValue.ToString().Equals("07")  )
+                {
+                    textBox11.Text = "0";
                     textBox12.Text = (300 * numericUpDown1.Value).ToString();
                     textBox13.Text = (200 * numericUpDown1.Value).ToString();
                 }
@@ -712,7 +718,7 @@ namespace TKHR
             textBox11.Text = "0";
             textBox12.Text = "0";
             textBox13.Text = "0";
-            comboBox1.SelectedValue = "01";
+            comboBox1.SelectedValue = "00";
             comboBox2.SelectedValue = "00";
             comboBox3.SelectedValue = "00";
             numericUpDown1.Value = 0;
