@@ -82,7 +82,7 @@ namespace TKHR
                     sbSql.Append(@" WHERE [AttendanceRollcall].[AttendanceTypeId]=[AttendanceType].[AttendanceTypeId] ");
                     sbSql.Append(@" AND [AttendanceRollcall].[EmployeeId]=[Employee].[EmployeeId] ");
                     sbSql.Append(@" AND [Department].[DepartmentId]=[Employee].[DepartmentId] ");
-                    sbSql.Append(@" AND CONVERT(varchar(8),[AttendanceRollcall].[Date],112)='20160930'");
+                    sbSql.AppendFormat(@" AND CONVERT(varchar(8),[AttendanceRollcall].[Date],112)='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
                     sbSql.Append(@" AND [HRAttendanceType].Code=[AttendanceType].Code COLLATE Chinese_PRC_CI_AS ");
                     sbSql.Append(@" AND [AttendanceRollcall].[AttendanceRankId]=[AttendanceRank].[AttendanceRankId]");
                     sbSql.Append(@" AND [HRAttendanceType].CType='1' ");
@@ -103,7 +103,7 @@ namespace TKHR
                     sbSql.Append(@" WHERE [AttendanceRollcall].[AttendanceTypeId]=[AttendanceType].[AttendanceTypeId] ");
                     sbSql.Append(@" AND [AttendanceRollcall].[EmployeeId]=[Employee].[EmployeeId] ");
                     sbSql.Append(@" AND [Department].[DepartmentId]=[Employee].[DepartmentId] ");
-                    sbSql.Append(@" AND CONVERT(varchar(8),[AttendanceRollcall].[Date],112)='20160930'");
+                    sbSql.AppendFormat(@" AND CONVERT(varchar(8),[AttendanceRollcall].[Date],112)='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
                     sbSql.Append(@" AND [HRAttendanceType].Code=[AttendanceType].Code COLLATE Chinese_PRC_CI_AS ");
                     sbSql.Append(@" AND [AttendanceRollcall].[AttendanceRankId]=[AttendanceRank].[AttendanceRankId]");
                     sbSql.Append(@" AND [HRAttendanceType].CType='-1' ");
@@ -123,7 +123,7 @@ namespace TKHR
                     sbSql.Append(@" WHERE [AttendanceRollcall].[AttendanceTypeId]=[AttendanceType].[AttendanceTypeId]");
                     sbSql.Append(@" AND [AttendanceRollcall].[EmployeeId]=[Employee].[EmployeeId]");
                     sbSql.Append(@" AND [Department].[DepartmentId]=[Employee].[DepartmentId]");
-                    sbSql.Append(@" AND CONVERT(varchar(8),[AttendanceRollcall].[Date],112)='20160930'");
+                    sbSql.AppendFormat(@" AND CONVERT(varchar(8),[AttendanceRollcall].[Date],112)='{0}'",dateTimePicker1.Value.ToString("yyyyMMdd"));
                     sbSql.Append(@" AND [HRAttendanceType].Code=[AttendanceType].Code COLLATE Chinese_PRC_CI_AS");
                     sbSql.Append(@" AND [AttendanceRollcall].[AttendanceRankId]=[AttendanceRank].[AttendanceRankId] ");
                     sbSql.Append(@" AND [HRAttendanceType].CType='1'");
