@@ -93,6 +93,12 @@
     <Compile Include="frmMONTHDEPPEOPLE.Designer.cs">
       <DependentUpon>frmMONTHDEPPEOPLE.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMONTHEMPSTATUS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMONTHEMPSTATUS.Designer.cs">
+      <DependentUpon>frmMONTHEMPSTATUS.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMONTHHR.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +139,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMONTHDEPPEOPLE.resx">
       <DependentUpon>frmMONTHDEPPEOPLE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMONTHEMPSTATUS.resx">
+      <DependentUpon>frmMONTHEMPSTATUS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMONTHHR.resx">
       <DependentUpon>frmMONTHHR.cs</DependentUpon>
