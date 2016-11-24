@@ -63,6 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmGetInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGetInfo.Designer.cs">
+      <DependentUpon>frmGetInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmDayDepLostCard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +131,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmGetInfo.resx">
+      <DependentUpon>frmGetInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmDayDepLostCard.resx">
       <DependentUpon>frmDayDepLostCard.cs</DependentUpon>
     </EmbeddedResource>
