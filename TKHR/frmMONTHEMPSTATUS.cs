@@ -72,7 +72,8 @@ namespace TKHR
                     sbSql.AppendFormat(@" ,[Employee].[Code] AS '工號'");
                     sbSql.AppendFormat(@" ,[CnName] AS '中文名'");
                     sbSql.AppendFormat(@" ,CASE WHEN [GenderId]='Gender_001' THEN '男' ELSE '女' END AS '性別'");
-                    sbSql.AppendFormat(@" ,CASE WHEN DateDiff(MONTH,[Date],'{0}')=0 THEN CONVERT(varchar(100),[Date],111)  END AS '到職日期'", dateTimePicker1.Value.ToString("yyyy/MM/dd"));
+                    //sbSql.AppendFormat(@" ,CASE WHEN DateDiff(MONTH,[Date],'{0}')=0 THEN CONVERT(varchar(100),[Date],111)  END AS '到職日期'", dateTimePicker1.Value.ToString("yyyy/MM/dd"));
+                    sbSql.AppendFormat(@"  , CONVERT(varchar(100),[Employee].[Date],111) AS '到職日期'");
                     sbSql.AppendFormat(@" ,CASE WHEN [LastWorkDate]='9999/12/31' THEN NULL ELSE CONVERT(varchar(100),[LastWorkDate],111)  END AS '離職日期'");
                     sbSql.AppendFormat(@" ,CASE WHEN [LastWorkDate]='9999/12/31' THEN '到職' ELSE '離職' END AS STATUS");
                     //sbSql.AppendFormat(@" ,[EmployeeId]");
