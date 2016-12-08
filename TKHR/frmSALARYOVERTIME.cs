@@ -32,7 +32,8 @@ namespace TKHR
         SqlCommand cmd = new SqlCommand();
         DataSet ds = new DataSet();
         DataTable dt = new DataTable();    
-        int result;    
+        int result;
+        int rownum = 0;
         Thread TD;
      
 
@@ -53,7 +54,7 @@ namespace TKHR
                 sbSqlQuery.Clear();
 
               
-                sbSql.AppendFormat(@"  SELECT [OTDATE] AS '日期',[Code] AS '工號',[NAME] AS '姓名',[STIME] AS '打卡起'");
+                sbSql.AppendFormat(@"  SELECT [OTDATE] AS '日期',[Code] AS '工號',[NAME] AS '姓名'");
                 sbSql.AppendFormat(@"  ,[STIME] AS '打卡起'  ,[ETIME] AS '打卡迄',[SHOURS] AS '打卡時數'");
                 sbSql.AppendFormat(@"  ,[AHOURS] AS '核可時數',[SUNITMONEY] AS '時薪',[AUNITMONEY] AS '核可金額'  ");
                 sbSql.AppendFormat(@"  FROM [TKHR].[dbo].[SALARYOVERTIME]");
@@ -83,6 +84,7 @@ namespace TKHR
                         //dataGridView1.Rows.Clear();
                         dataGridView1.DataSource = ds.Tables["TEMPds1"];
                         dataGridView1.AutoResizeColumns();
+                        dataGridView1.CurrentCell = dataGridView1[0, rownum];
 
                     }
 
@@ -188,7 +190,7 @@ namespace TKHR
                 sbSql.AppendFormat(@"  WHERE [DoorLog].[EmployeeID]=[Employee].[Code]");
                 sbSql.AppendFormat(@"  AND [TerminalID] IN ('2','3')");
                 sbSql.AppendFormat(@"  AND CONVERT(varchar(100),[DateTime], 112)='{0}'",dateTimePicker1.Value.ToString("yyyyMMdd"));
-                sbSql.AppendFormat(@"  AND [DoorLog].[EmployeeID]='160131'");
+                //sbSql.AppendFormat(@"  AND [DoorLog].[EmployeeID]='160131'");
                 sbSql.AppendFormat(@"  ");
                 sbSql.AppendFormat(@"  ");
 
@@ -240,6 +242,207 @@ namespace TKHR
                 }
             }
         }
+
+        public void SETUPDATE()
+        {
+            textBox4.ReadOnly = false;
+            textBox6.ReadOnly = false;
+            textBox4.Select();
+        }
+        public void SETFINISH()
+        {
+            textBox4.ReadOnly = true;
+            textBox6.ReadOnly = true;
+        }
+
+        public void UPDATE()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat(" UPDATE [TKHR].[dbo].[SALARYOVERTIME]  ");
+                sbSql.AppendFormat(" SET [AHOURS]='{0}'  ",textBox4.Text);
+                sbSql.AppendFormat(" WHERE [OTDATE]='{0}' AND [Code]='{1}'  ",dateTimePicker2.Value.ToString("yyyyMMdd"),textBox1.Text);
+                sbSql.AppendFormat("   ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void SETSUNITMONEY()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat("   UPDATE [TKHR].[dbo].[SALARYOVERTIME] ");
+                sbSql.AppendFormat("   SET [SUNITMONEY]=[ItemValue],[AUNITMONEY]=[ItemValue]*[AHOURS]");
+                sbSql.AppendFormat("   FROM [HRMDB].[dbo].[SalaryResultDetail],[HRMDB].[dbo].[SalaryResult], [HRMDB].[dbo].[Employee]");
+                sbSql.AppendFormat("   WHERE [SalaryResultDetail].[SalaryResultId]=[SalaryResult].[SalaryResultId]");
+                sbSql.AppendFormat("   AND [SalaryResult].[EmployeeId]=[Employee].[EmployeeId]");
+                sbSql.AppendFormat("   AND ItemName='加班時薪'");
+                sbSql.AppendFormat("   AND [SALARYOVERTIME].[Code] =[Employee].[Code] COLLATE Chinese_PRC_CI_AS");
+                sbSql.AppendFormat("   AND [YearMonth]='{0}'",dateTimePicker1.Value.ToString("yyyyMM"));
+                sbSql.AppendFormat("   ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+        public void ExcelExport()
+        {
+
+            string NowDB = "TK";
+            //建立Excel 2003檔案
+            IWorkbook wb = new XSSFWorkbook();
+            ISheet ws;
+
+            XSSFCellStyle cs = (XSSFCellStyle)wb.CreateCellStyle();
+            //框線樣式及顏色
+            cs.BorderBottom = NPOI.SS.UserModel.BorderStyle.Double;
+            cs.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+            cs.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
+            cs.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+            cs.BottomBorderColor = NPOI.HSSF.Util.HSSFColor.Grey50Percent.Index;
+            cs.LeftBorderColor = NPOI.HSSF.Util.HSSFColor.Grey50Percent.Index;
+            cs.RightBorderColor = NPOI.HSSF.Util.HSSFColor.Grey50Percent.Index;
+            cs.TopBorderColor = NPOI.HSSF.Util.HSSFColor.Grey50Percent.Index;
+
+            //Search();            
+            dt = ds.Tables["TEMPds1"];
+
+            if (dt.TableName != string.Empty)
+            {
+                ws = wb.CreateSheet(dt.TableName);
+            }
+            else
+            {
+                ws = wb.CreateSheet("Sheet1");
+            }
+
+            ws.CreateRow(0);//第一行為欄位名稱
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                ws.GetRow(0).CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+            }
+
+            int j = 0;
+            int k = dt.Rows.Count - 1;
+            foreach (DataGridViewRow dr in this.dataGridView1.Rows)
+            {
+
+                if (j <= k)
+                {
+                    ws.CreateRow(j + 1);
+                    ws.GetRow(j + 1).CreateCell(0).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[0].ToString());
+                    ws.GetRow(j + 1).CreateCell(0).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[0].ToString());
+                    ws.GetRow(j + 1).CreateCell(1).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[1].ToString());
+                    ws.GetRow(j + 1).CreateCell(2).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[2].ToString());
+                    ws.GetRow(j + 1).CreateCell(3).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString());
+                    ws.GetRow(j + 1).CreateCell(4).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[4].ToString());
+                    ws.GetRow(j + 1).CreateCell(5).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[5].ToString()));
+                    ws.GetRow(j + 1).CreateCell(6).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[6].ToString()));
+                    ws.GetRow(j + 1).CreateCell(7).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[7].ToString()));
+                    ws.GetRow(j + 1).CreateCell(8).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[8].ToString()));
+                    j++;
+                }
+
+            }
+
+
+
+            if (Directory.Exists(@"c:\temp\"))
+            {
+                //資料夾存在
+            }
+            else
+            {
+                //新增資料夾
+                Directory.CreateDirectory(@"c:\temp\");
+            }
+            StringBuilder filename = new StringBuilder();
+            filename.AppendFormat(@"c:\temp\加班時數{0}.xlsx", DateTime.Now.ToString("yyyyMMdd"));
+
+            FileStream file = new FileStream(filename.ToString(), FileMode.Create);//產生檔案
+            wb.Write(file);
+            file.Close();
+
+            MessageBox.Show("匯出完成-EXCEL放在-" + filename.ToString());
+            FileInfo fi = new FileInfo(filename.ToString());
+            if (fi.Exists)
+            {
+                System.Diagnostics.Process.Start(filename.ToString());
+            }
+            else
+            {
+                //file doesn't exist
+            }
+
+
+        }
+
         #endregion
 
         #region BUTTON
@@ -251,10 +454,36 @@ namespace TKHR
         {
             CHECKSALARYOVERTIME();
             Search();
+            MessageBox.Show("完成");
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            SETUPDATE();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            UPDATE();
+            if (ds.Tables["TEMPds1"].Rows.Count >= 1)
+            {
+                rownum = dataGridView1.CurrentCell.RowIndex;
+            }
+            SETFINISH();
+            Search();
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SETSUNITMONEY();
+            Search();
+            MessageBox.Show("完成");
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ExcelExport();
+        }
         #endregion
 
-       
+
     }
 }
