@@ -54,8 +54,8 @@ namespace TKHR
 
               
                 sbSql.AppendFormat(@"  SELECT [OTDATE] AS '日期',[Code] AS '工號',[NAME] AS '姓名',[STIME] AS '打卡起'");
-                sbSql.AppendFormat(@"  ,[ETIME] AS '打卡迄',[SHOURS] AS '打卡時數',[AHOURS] AS '核可時數");
-                sbSql.AppendFormat(@"  ',[SUNITMONEY] AS '時薪',[AUNITMONEY] AS '核可金額' ");
+                sbSql.AppendFormat(@"  ,[STIME] AS '打卡起'  ,[ETIME] AS '打卡迄',[SHOURS] AS '打卡時數'");
+                sbSql.AppendFormat(@"  ,[AHOURS] AS '核可時數',[SUNITMONEY] AS '時薪',[AUNITMONEY] AS '核可金額'  ");
                 sbSql.AppendFormat(@"  FROM [TKHR].[dbo].[SALARYOVERTIME]");
                 sbSql.AppendFormat(@"  WHERE [OTDATE]='{0}'",dateTimePicker1.Value.ToString("yyyyMMdd"));
                 sbSql.AppendFormat(@"  ");
@@ -112,8 +112,8 @@ namespace TKHR
 
 
                 sbSql.AppendFormat(@"  SELECT [OTDATE] AS '日期',[Code] AS '工號',[NAME] AS '姓名',[STIME] AS '打卡起'");
-                sbSql.AppendFormat(@"  ,[ETIME] AS '打卡迄',[SHOURS] AS '打卡時數',[AHOURS] AS '核可時數");
-                sbSql.AppendFormat(@"  ',[SUNITMONEY] AS '時薪',[AUNITMONEY] AS '核可金額' ");
+                sbSql.AppendFormat(@"  ,[ETIME] AS '打卡迄',[SHOURS] AS '打卡時數',[AHOURS] AS '核可時數' ");
+                sbSql.AppendFormat(@"  ,[SUNITMONEY] AS '時薪',[AUNITMONEY] AS '核可金額' ");
                 sbSql.AppendFormat(@"  FROM [TKHR].[dbo].[SALARYOVERTIME]");
                 sbSql.AppendFormat(@"  WHERE [OTDATE]='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
                 sbSql.AppendFormat(@"  ");
@@ -219,7 +219,27 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow != null)
+            {
+                int rowindex = dataGridView1.CurrentRow.Index;
+                if (rowindex >= 0)
+                {
+                    DataGridViewRow row = dataGridView1.Rows[rowindex];
+                    textBox1.Text = row.Cells["工號"].Value.ToString();
+                    textBox2.Text = row.Cells["姓名"].Value.ToString();
+                    textBox3.Text = row.Cells["打卡時數"].Value.ToString();
+                    textBox4.Text = row.Cells["核可時數"].Value.ToString();
+                    textBox5.Text = row.Cells["時薪"].Value.ToString();
+                    textBox6.Text = row.Cells["核可金額"].Value.ToString();
+                    dateTimePicker2.Value = Convert.ToDateTime(row.Cells["日期"].Value.ToString().Substring(0,4)+"/"+ row.Cells["日期"].Value.ToString().Substring(4, 2)+"/" + row.Cells["日期"].Value.ToString().Substring(6, 2));
+                    dateTimePicker3.Value = Convert.ToDateTime(row.Cells["打卡起"].Value.ToString());
+                    dateTimePicker4.Value = Convert.ToDateTime(row.Cells["打卡迄"].Value.ToString());
 
+                }
+            }
+        }
         #endregion
 
         #region BUTTON
@@ -232,8 +252,9 @@ namespace TKHR
             CHECKSALARYOVERTIME();
             Search();
         }
+
         #endregion
 
-
+       
     }
 }
