@@ -492,6 +492,34 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+
+        public void FINDEMP()
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[2].Value.ToString().Contains(textBox7.Text))
+                {
+                    //找到匹配行 
+                    dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells[2];
+                    int rowindex = dataGridView1.CurrentRow.Index;
+                    if (rowindex >= 0)
+                    {
+                        DataGridViewRow row = dataGridView1.Rows[rowindex];
+                        textBox1.Text = row.Cells["工號"].Value.ToString();
+                        textBox2.Text = row.Cells["姓名"].Value.ToString();
+                        textBox3.Text = row.Cells["打卡時數"].Value.ToString();
+                        textBox4.Text = row.Cells["核可時數"].Value.ToString();
+                        textBox5.Text = row.Cells["時薪"].Value.ToString();
+                        textBox6.Text = row.Cells["核可金額"].Value.ToString();
+                        dateTimePicker2.Value = Convert.ToDateTime(row.Cells["日期"].Value.ToString().Substring(0, 4) + "/" + row.Cells["日期"].Value.ToString().Substring(4, 2) + "/" + row.Cells["日期"].Value.ToString().Substring(6, 2));
+                        dateTimePicker3.Value = Convert.ToDateTime(row.Cells["打卡起"].Value.ToString());
+                        dateTimePicker4.Value = Convert.ToDateTime(row.Cells["打卡迄"].Value.ToString());
+
+                    }
+                    
+                }
+            }
+        }
         #endregion
 
         #region BUTTON
@@ -531,6 +559,10 @@ namespace TKHR
         private void button5_Click(object sender, EventArgs e)
         {
             ExcelExport();
+        }
+        private void button7_Click(object sender, EventArgs e)
+        {
+            FINDEMP();
         }
         #endregion
 
