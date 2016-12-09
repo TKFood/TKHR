@@ -443,6 +443,55 @@ namespace TKHR
 
         }
 
+        public void SETADDHORSMONEY()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat("  UPDATE  [TKHR].[dbo].[SALARYOVERTIME] SET [AUNITMONEY]=(8*[SUNITMONEY])+(([AHOURS]-8)*[SUNITMONEY]*1.3333) ");
+                sbSql.AppendFormat("  WHERE [AHOURS]>8 AND [AHOURS]<=10");
+                sbSql.AppendFormat("  AND [OTDATE]='{0}'",dateTimePicker1.Value.ToString("yyyyMMdd"));
+                sbSql.AppendFormat("  UPDATE  [TKHR].[dbo].[SALARYOVERTIME] SET [AUNITMONEY]=(8*[SUNITMONEY])+(2*[SUNITMONEY]*1.3333)+(([AHOURS]-10)*[SUNITMONEY]*1.6666)");
+                sbSql.AppendFormat("  WHERE [AHOURS]>10");
+                sbSql.AppendFormat("  AND [OTDATE]='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                sbSql.AppendFormat("   ");
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         #endregion
 
         #region BUTTON
@@ -475,6 +524,7 @@ namespace TKHR
         private void button3_Click(object sender, EventArgs e)
         {
             SETSUNITMONEY();
+            SETADDHORSMONEY();
             Search();
             MessageBox.Show("完成");
         }
