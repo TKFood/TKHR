@@ -62,6 +62,7 @@
             this.button6 = new System.Windows.Forms.Button();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -119,6 +120,7 @@
             this.tableLayoutPanel1.Controls.Add(this.labelget, 5, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox7, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.button7, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.button8, 8, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -177,7 +179,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(74, 32);
             this.button5.TabIndex = 4;
-            this.button5.Text = "匯出";
+            this.button5.Text = "匯出明細";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -502,6 +504,17 @@
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
+            // button8
+            // 
+            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button8.Location = new System.Drawing.Point(643, 44);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(74, 32);
+            this.button8.TabIndex = 8;
+            this.button8.Text = "匯出每月";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // frmSALARYOVERTIME
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -563,5 +576,6 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }

@@ -31,10 +31,12 @@ namespace TKHR
         SqlTransaction tran;
         SqlCommand cmd = new SqlCommand();
         DataSet ds = new DataSet();
+        DataSet ds2 = new DataSet();
         DataTable dt = new DataTable();    
         int result;
         int rownum = 0;
         Thread TD;
+        string TABLENAME;
      
 
         public frmSALARYOVERTIME()
@@ -44,7 +46,8 @@ namespace TKHR
 
         #region FUNCTION
         public void Search()
-        {          
+        {
+            TABLENAME = "TEMPds1";
             try
             {
                 connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
@@ -223,24 +226,28 @@ namespace TKHR
         }
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow != null)
+            if(TABLENAME.Equals("TEMPds1"))
             {
-                int rowindex = dataGridView1.CurrentRow.Index;
-                if (rowindex >= 0)
+                if (dataGridView1.CurrentRow != null)
                 {
-                    DataGridViewRow row = dataGridView1.Rows[rowindex];
-                    textBox1.Text = row.Cells["工號"].Value.ToString();
-                    textBox2.Text = row.Cells["姓名"].Value.ToString();
-                    textBox3.Text = row.Cells["打卡時數"].Value.ToString();
-                    textBox4.Text = row.Cells["核可時數"].Value.ToString();
-                    textBox5.Text = row.Cells["時薪"].Value.ToString();
-                    textBox6.Text = row.Cells["核可金額"].Value.ToString();
-                    dateTimePicker2.Value = Convert.ToDateTime(row.Cells["日期"].Value.ToString().Substring(0,4)+"/"+ row.Cells["日期"].Value.ToString().Substring(4, 2)+"/" + row.Cells["日期"].Value.ToString().Substring(6, 2));
-                    dateTimePicker3.Value = Convert.ToDateTime(row.Cells["打卡起"].Value.ToString());
-                    dateTimePicker4.Value = Convert.ToDateTime(row.Cells["打卡迄"].Value.ToString());
+                    int rowindex = dataGridView1.CurrentRow.Index;
+                    if (rowindex >= 0)
+                    {
+                        DataGridViewRow row = dataGridView1.Rows[rowindex];
+                        textBox1.Text = row.Cells["工號"].Value.ToString();
+                        textBox2.Text = row.Cells["姓名"].Value.ToString();
+                        textBox3.Text = row.Cells["打卡時數"].Value.ToString();
+                        textBox4.Text = row.Cells["核可時數"].Value.ToString();
+                        textBox5.Text = row.Cells["時薪"].Value.ToString();
+                        textBox6.Text = row.Cells["核可金額"].Value.ToString();
+                        dateTimePicker2.Value = Convert.ToDateTime(row.Cells["日期"].Value.ToString().Substring(0, 4) + "/" + row.Cells["日期"].Value.ToString().Substring(4, 2) + "/" + row.Cells["日期"].Value.ToString().Substring(6, 2));
+                        dateTimePicker3.Value = Convert.ToDateTime(row.Cells["打卡起"].Value.ToString());
+                        dateTimePicker4.Value = Convert.ToDateTime(row.Cells["打卡迄"].Value.ToString());
 
+                    }
                 }
             }
+          
         }
 
         public void SETUPDATE()
@@ -520,6 +527,146 @@ namespace TKHR
                 }
             }
         }
+        
+        public void SEARCHMONTH()
+        {
+            TABLENAME = "TEMPds2";
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+
+                sbSql.AppendFormat(@"  SELECT [Code] AS '工號',[NAME] AS '姓名',[AHOURS] AS '核可時數',[AUNITMONEY] AS '核可金額'");
+                sbSql.AppendFormat(@"  FROM [TKHR].[dbo].[SALARYOVERTIME]");
+                sbSql.AppendFormat(@"  WHERE [OTDATE] LIKE '{0}%'",dateTimePicker1.Value.ToString("yyyyMM"));
+                sbSql.AppendFormat(@"  GROUP BY [Code],[NAME],[AHOURS],[AUNITMONEY]");
+                sbSql.AppendFormat(@"  ");
+
+                adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+                sqlConn.Open();
+                ds2.Clear();
+                adapter.Fill(ds2, "TEMPds2");
+                sqlConn.Close();
+
+                if (ds2.Tables["TEMPds2"].Rows.Count == 0)
+                {
+                    
+                }
+                else
+                {
+                    if (ds2.Tables["TEMPds2"].Rows.Count >= 1)
+                    {
+                        dataGridView1.DataSource = ds2.Tables["TEMPds2"];
+                        dataGridView1.AutoResizeColumns();
+
+                        ExcelExportMonth();
+                    }
+
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        public void ExcelExportMonth()
+        {
+
+            string NowDB = "TK";
+            //建立Excel 2003檔案
+            IWorkbook wb = new XSSFWorkbook();
+            ISheet ws;
+
+            XSSFCellStyle cs = (XSSFCellStyle)wb.CreateCellStyle();
+            //框線樣式及顏色
+            cs.BorderBottom = NPOI.SS.UserModel.BorderStyle.Double;
+            cs.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+            cs.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
+            cs.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+            cs.BottomBorderColor = NPOI.HSSF.Util.HSSFColor.Grey50Percent.Index;
+            cs.LeftBorderColor = NPOI.HSSF.Util.HSSFColor.Grey50Percent.Index;
+            cs.RightBorderColor = NPOI.HSSF.Util.HSSFColor.Grey50Percent.Index;
+            cs.TopBorderColor = NPOI.HSSF.Util.HSSFColor.Grey50Percent.Index;
+
+            //Search();            
+            dt = ds2.Tables["TEMPds2"];
+
+            if (dt.TableName != string.Empty)
+            {
+                ws = wb.CreateSheet(dt.TableName);
+            }
+            else
+            {
+                ws = wb.CreateSheet("Sheet1");
+            }
+
+            ws.CreateRow(0);//第一行為欄位名稱
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                ws.GetRow(0).CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+            }
+
+            int j = 0;
+            int k = dt.Rows.Count - 1;
+            foreach (DataGridViewRow dr in this.dataGridView1.Rows)
+            {
+
+                if (j <= k)
+                {
+                    ws.CreateRow(j + 1);
+
+                    ws.GetRow(j + 1).CreateCell(0).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[0].ToString());
+                    ws.GetRow(j + 1).CreateCell(1).SetCellValue(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[1].ToString());
+                    ws.GetRow(j + 1).CreateCell(2).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[2].ToString()));
+                    ws.GetRow(j + 1).CreateCell(3).SetCellValue(Convert.ToDouble(((System.Data.DataRowView)(dr.DataBoundItem)).Row.ItemArray[3].ToString()));
+                    j++;
+                }
+
+            }
+
+
+
+            if (Directory.Exists(@"c:\temp\"))
+            {
+                //資料夾存在
+            }
+            else
+            {
+                //新增資料夾
+                Directory.CreateDirectory(@"c:\temp\");
+            }
+            StringBuilder filename = new StringBuilder();
+            filename.AppendFormat(@"c:\temp\加班時數月報{0}.xlsx", DateTime.Now.ToString("yyyyMMdd"));
+
+            FileStream file = new FileStream(filename.ToString(), FileMode.Create);//產生檔案
+            wb.Write(file);
+            file.Close();
+
+            MessageBox.Show("匯出完成-EXCEL放在-" + filename.ToString());
+            FileInfo fi = new FileInfo(filename.ToString());
+            if (fi.Exists)
+            {
+                System.Diagnostics.Process.Start(filename.ToString());
+            }
+            else
+            {
+                //file doesn't exist
+            }
+
+
+        }
         #endregion
 
         #region BUTTON
@@ -563,6 +710,11 @@ namespace TKHR
         private void button7_Click(object sender, EventArgs e)
         {
             FINDEMP();
+        }
+        private void button8_Click(object sender, EventArgs e)
+        {
+            
+            SEARCHMONTH();
         }
         #endregion
 
