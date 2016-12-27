@@ -541,10 +541,10 @@ namespace TKHR
                 sbSqlQuery.Clear();
 
 
-                sbSql.AppendFormat(@"  SELECT [Code] AS '工號',[NAME] AS '姓名',[AHOURS] AS '核可時數',[AUNITMONEY] AS '核可金額'");
+                sbSql.AppendFormat(@"  SELECT [Code] AS '工號',[NAME] AS '姓名',SUM([AHOURS]) AS '核可時數' ,SUM([AUNITMONEY]) AS '核可金額'  ");
                 sbSql.AppendFormat(@"  FROM [TKHR].[dbo].[SALARYOVERTIME]");
                 sbSql.AppendFormat(@"  WHERE [OTDATE] LIKE '{0}%'",dateTimePicker1.Value.ToString("yyyyMM"));
-                sbSql.AppendFormat(@"  GROUP BY [Code],[NAME],[AHOURS],[AUNITMONEY]");
+                sbSql.AppendFormat(@"  GROUP BY [Code],[NAME]");
                 sbSql.AppendFormat(@"  ");
 
                 adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
