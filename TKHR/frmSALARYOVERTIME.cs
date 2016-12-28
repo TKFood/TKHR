@@ -186,8 +186,9 @@ namespace TKHR
                 sbSql.AppendFormat(@"  ,[DoorLog].[EmployeeID]  AS [Code]");
                 sbSql.AppendFormat(@"  ,[Employee].[CnName] AS [NAME]");
                 sbSql.AppendFormat(@"  ,(SELECT TOP 1 [DateTime] FROM [SQL102].[Chiyu].[dbo].[DoorLog] DR2 WHERE DR2.[EmployeeID]=[DoorLog].[EmployeeID] AND CONVERT(varchar(100),DR2.[DateTime], 112)=CONVERT(varchar(100),[DoorLog].[DateTime], 112) ORDER BY [DateTime]) AS [STIME]");
+                sbSql.AppendFormat(@"  ,(SELECT TOP 1 [DateTime] FROM [SQL102].[Chiyu].[dbo].[DoorLog] DR2 	 WHERE DR2.[EmployeeID]=[DoorLog].[EmployeeID] AND CONVERT(varchar(100),DR2.[DateTime], 112)=CONVERT(varchar(100),[DoorLog].[DateTime], 112) ORDER BY [DateTime] DESC) AS [ETIME]  ");
                 //sbSql.AppendFormat(@"  ,(SELECT TOP 1 [DateTime] FROM [SQL102].[Chiyu].[dbo].[DoorLog] DR2 WHERE DR2.[EmployeeID]=[DoorLog].[EmployeeID] AND CONVERT(varchar(100),DR2.[DateTime], 112)=CONVERT(varchar(100),[DoorLog].[DateTime], 112) ORDER BY [DateTime] DESC) AS [ETIME]");
-                sbSql.AppendFormat(@"  ,8 AS [ETIME]");
+                //sbSql.AppendFormat(@"  ,8 AS [ETIME]");
                 sbSql.AppendFormat(@"  ,DATEDIFF(HOUR, (SELECT TOP 1 [DateTime] FROM [SQL102].[Chiyu].[dbo].[DoorLog] DR2 WHERE DR2.[EmployeeID]=[DoorLog].[EmployeeID] AND CONVERT(varchar(100),DR2.[DateTime], 112)=CONVERT(varchar(100),[DoorLog].[DateTime], 112) ORDER BY [DateTime]),(SELECT TOP 1 [DateTime] FROM [SQL102].[Chiyu].[dbo].[DoorLog] DR2 WHERE DR2.[EmployeeID]=[DoorLog].[EmployeeID] AND CONVERT(varchar(100),DR2.[DateTime], 112)=CONVERT(varchar(100),[DoorLog].[DateTime], 112) ORDER BY [DateTime] DESC)  ) AS [SHOURS]");
                 sbSql.AppendFormat(@"  ,8 AS [AHOURS],0 AS[SUNITMONEY],0 AS [AUNITMONEY]");
                 sbSql.AppendFormat(@"  FROM [SQL102].[Chiyu].[dbo].[DoorLog], [HRMDB].[dbo].[Employee]");
