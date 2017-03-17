@@ -63,6 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmChangTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChangTime.Designer.cs">
+      <DependentUpon>frmChangTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmGetInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +143,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmChangTime.resx">
+      <DependentUpon>frmChangTime.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmGetInfo.resx">
       <DependentUpon>frmGetInfo.cs</DependentUpon>
     </EmbeddedResource>
