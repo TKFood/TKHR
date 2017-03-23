@@ -330,6 +330,8 @@ namespace TKHR
                 sbSql.AppendFormat(@"  WHERE [Employee].[JobId]=[Job].[JobId]");
                 sbSql.AppendFormat(@"  AND [Department].[DepartmentId]=[Employee].[DepartmentId]");
                 sbSql.AppendFormat(@"  AND  [Employee].[CODE]='{0}'",textBox1.Text.ToString());
+                sbSql.AppendFormat(@"  ");
+
 
                 adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
 
@@ -370,6 +372,51 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+        public void SEARCHEMPLOYEELEAVE()
+        {
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+                ds1.Clear();
+
+             
+                adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+                sqlConn.Open();
+                ds1.Clear();
+                adapter.Fill(ds1, "TEMPds1");
+                sqlConn.Close();
+
+
+                if (ds1.Tables["TEMPds1"].Rows.Count == 0)
+                {
+                    SETNULLDETAIL();
+                }
+                else
+                {
+                    if (ds1.Tables["TEMPds1"].Rows.Count >= 1)
+                    {
+                      
+
+                    }
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         public void SETNULL()
         {
             textBox2.Text = "";
@@ -378,6 +425,26 @@ namespace TKHR
             textBox5.Text = "";
             textBox6.Text = "";
             textBox7.Text = "";
+        }
+        public void SETNULLDETAIL()
+        {
+            comboBox1.Text = "";
+            comboBox2.Text = "";
+            comboBox3.Text = "";
+            comboBox4.Text = "";
+            comboBox5.Text = "";
+            comboBox6.Text = "";
+            comboBox7.Text = "";
+            comboBox8.Text = "";
+            comboBox9.Text = "";
+            comboBox10.Text = "";
+            comboBox11.Text = "";
+            comboBox12.Text = "";
+            textBox8.Text = "";
+            textBox9.Text = "";
+            textBox10.Text = "";
+            textBox11.Text = "";
+
         }
         public void UPDATE()
         {
