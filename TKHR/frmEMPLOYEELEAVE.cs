@@ -53,6 +53,15 @@ namespace TKHR
         }
 
         #region FUNCTION
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                SendKeys.Send("{TAB}");
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
 
 
         public void comboBox1load()
@@ -298,7 +307,77 @@ namespace TKHR
         }
         public void SEARCH()
         {
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
 
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+                ds1.Clear();
+
+                sbSql.AppendFormat(@"  SELECT TOP 1 ");
+                sbSql.AppendFormat(@"  [Employee].[CODE]");
+                sbSql.AppendFormat(@"  ,[Employee].[Date]");
+                sbSql.AppendFormat(@"  ,[Employee].[CnName] ");
+                sbSql.AppendFormat(@"  ,[Employee].[Telephone]");
+                sbSql.AppendFormat(@"  ,[Employee].[Location]");
+                sbSql.AppendFormat(@"  ,[Employee].[GenderId]");
+                sbSql.AppendFormat(@"  ,[Job].[NAME]  AS Job");
+                sbSql.AppendFormat(@"  ,[Department].[NAME] AS Department ");
+                sbSql.AppendFormat(@"  FROM [HRMDB].[dbo].[Employee],[HRMDB].[dbo].[Job],[HRMDB].[dbo].[Department]");
+                sbSql.AppendFormat(@"  WHERE [Employee].[JobId]=[Job].[JobId]");
+                sbSql.AppendFormat(@"  AND [Department].[DepartmentId]=[Employee].[DepartmentId]");
+                sbSql.AppendFormat(@"  AND  [Employee].[CODE]='{0}'",textBox1.Text.ToString());
+
+                adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+                sqlConn.Open();
+                ds1.Clear();
+                adapter.Fill(ds1, "TEMPds1");
+                sqlConn.Close();
+
+
+                if (ds1.Tables["TEMPds1"].Rows.Count == 0)
+                {
+                    SETNULL();
+                }
+                else
+                {
+                    if (ds1.Tables["TEMPds1"].Rows.Count >= 1)
+                    {
+                        textBox2.Text = ds1.Tables["TEMPds1"].Rows[0]["CnName"].ToString();
+                        textBox3.Text = ds1.Tables["TEMPds1"].Rows[0]["Department"].ToString();
+                        textBox4.Text = ds1.Tables["TEMPds1"].Rows[0]["Job"].ToString();
+                        textBox5.Text = ds1.Tables["TEMPds1"].Rows[0]["GenderId"].ToString();
+                        textBox6.Text = ds1.Tables["TEMPds1"].Rows[0]["Telephone"].ToString();
+                        textBox7.Text = ds1.Tables["TEMPds1"].Rows[0]["Location"].ToString();
+                        dateTimePicker1.Value=Convert.ToDateTime(ds1.Tables["TEMPds1"].Rows[0]["Date"].ToString());
+
+
+                    }
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+        public void SETNULL()
+        {
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+            textBox6.Text = "";
+            textBox7.Text = "";
         }
         public void UPDATE()
         {
