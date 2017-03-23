@@ -69,6 +69,12 @@
     <Compile Include="frmChangTime.Designer.cs">
       <DependentUpon>frmChangTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmEMPLOYEELEAVE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEMPLOYEELEAVE.Designer.cs">
+      <DependentUpon>frmEMPLOYEELEAVE.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmGetInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmChangTime.resx">
       <DependentUpon>frmChangTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEMPLOYEELEAVE.resx">
+      <DependentUpon>frmEMPLOYEELEAVE.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGetInfo.resx">
       <DependentUpon>frmGetInfo.cs</DependentUpon>
