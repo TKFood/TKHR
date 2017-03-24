@@ -34,6 +34,7 @@ namespace TKHR
         DataTable dt = new DataTable();
         string SAVE;
         int result;
+        string ID;
         public frmEMPLOYEELEAVE()
         {
             InitializeComponent();
@@ -482,7 +483,75 @@ namespace TKHR
         }
         public void UPDATE()
         {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
 
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+               
+                sbSql.AppendFormat(" UPDATE [TKHR].[dbo].[EMPLOYEELEAVE]");
+                sbSql.AppendFormat(" SET [NO]='{0}'",textBox12.Text);
+                sbSql.AppendFormat(" ,[CODE]='{0}'", textBox1.Text);
+                sbSql.AppendFormat(" ,[Date]='{0}'", dateTimePicker2.Value.ToString("yyy/MM/dd"));
+                sbSql.AppendFormat(" ,[CnName]='{0}'", textBox2.Text);
+                sbSql.AppendFormat(" ,[Telephone]='{0}'", textBox6.Text);
+                sbSql.AppendFormat(" ,[Location]='{0}'", textBox7.Text);
+                sbSql.AppendFormat(" ,[GenderId]='{0}'", comboBox13.Text.ToString());
+                sbSql.AppendFormat(" ,[Job]='{0}'", textBox4.Text);
+                sbSql.AppendFormat(" ,[Department]='{0}'", textBox3.Text);
+                sbSql.AppendFormat(" ,[EVAWORK1]='{0}'", comboBox1.Text);
+                sbSql.AppendFormat(" ,[EVAWORK2]='{0}'", comboBox2.Text);
+                sbSql.AppendFormat(" ,[EVAWORK3]='{0}'", comboBox3.Text);
+                sbSql.AppendFormat(" ,[EVAWORK4]='{0}'", comboBox4.Text);
+                sbSql.AppendFormat(" ,[EVAWORK5]='{0}'", comboBox5.Text);
+                sbSql.AppendFormat(" ,[EVAWORKSUG]='{0}'", textBox8.Text);
+                sbSql.AppendFormat(" ,[EVAWORK1REVIWER]='{0}'", comboBox7.Text);
+                sbSql.AppendFormat(" ,[EVAWORK2REVIWER]='{0}'", comboBox8.Text);
+                sbSql.AppendFormat(" ,[EVAWORK3REVIWER]='{0}'", comboBox9.Text);
+                sbSql.AppendFormat(" ,[EVAWORK4REVIWER]='{0}'", comboBox10.Text);
+                sbSql.AppendFormat(" ,[EVAWORK5REVIWER]='{0}'", comboBox11.Text);
+                sbSql.AppendFormat(" ,[EVAWORKSUGREVIWER]='{0}'", textBox9.Text);
+                sbSql.AppendFormat(" ,[REASON]='{0}'", comboBox6.Text);
+                sbSql.AppendFormat(" ,[REASONSUG]='{0}'", textBox10.Text);
+                sbSql.AppendFormat(" ,[REASONREVIWER]='{0}'", comboBox12.Text);
+                sbSql.AppendFormat(" ,[REASONSUGREVIWER]='{0}'", textBox11.Text);
+                sbSql.AppendFormat(" ,[COMMENT]=''");
+                sbSql.AppendFormat(" WHERE [ID]='{0}'",ID);
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                    MessageBox.Show("FAIL");
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("OK");
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
         }
 
         public void ADD()
@@ -556,6 +625,8 @@ namespace TKHR
                 textBox9.Text = dataGridView1.CurrentRow.Cells["面談結論"].Value.ToString();
                 textBox10.Text = dataGridView1.CurrentRow.Cells["對公司建議"].Value.ToString();
                 textBox11.Text = dataGridView1.CurrentRow.Cells["面談總結論"].Value.ToString();
+
+                ID= dataGridView1.CurrentRow.Cells["ID"].Value.ToString();
             }
         }
 
@@ -582,6 +653,7 @@ namespace TKHR
             button2.Visible = false;
             button3.Visible = true;
             button4.Visible = true;
+            SEARCHEMPLOYEELEAVE();
         }
 
         private void button3_Click(object sender, EventArgs e)
