@@ -412,7 +412,7 @@ namespace TKHR
                 sbSql.AppendFormat(@"  ,[COMMENT] AS '簽核意見'");
                 sbSql.AppendFormat(@"  ,[ID] ");
                 sbSql.AppendFormat(@"  FROM [TKHR].[dbo].[EMPLOYEELEAVE]");
-                sbSql.AppendFormat(@"  WHERE [CODE]=''");
+                sbSql.AppendFormat(@"  WHERE [CODE]='{0}'", textBox1.Text);
                 sbSql.AppendFormat(@"  ORDER BY [NO] ");
                 sbSql.AppendFormat(@"  ");
 
@@ -436,6 +436,7 @@ namespace TKHR
                     {
                         dataGridView1.DataSource = ds2.Tables["TEMPds2"];
                         dataGridView1.AutoResizeColumns();
+                       
                     }
                 }
 
@@ -535,7 +536,28 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
-
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count >= 1)
+            {
+                comboBox1.Text = dataGridView1.CurrentRow.Cells["工作量"].Value.ToString();
+                comboBox2.Text = dataGridView1.CurrentRow.Cells["困難度"].Value.ToString();
+                comboBox3.Text = dataGridView1.CurrentRow.Cells["適應度"].Value.ToString();
+                comboBox4.Text = dataGridView1.CurrentRow.Cells["順暢度"].Value.ToString();
+                comboBox5.Text = dataGridView1.CurrentRow.Cells["工作程序"].Value.ToString();
+                comboBox6.Text = dataGridView1.CurrentRow.Cells["離職原因"].Value.ToString();
+                comboBox7.Text = dataGridView1.CurrentRow.Cells["工作量-面談"].Value.ToString();
+                comboBox8.Text = dataGridView1.CurrentRow.Cells["困難度-面談"].Value.ToString();
+                comboBox9.Text = dataGridView1.CurrentRow.Cells["適應度-面談"].Value.ToString();
+                comboBox10.Text = dataGridView1.CurrentRow.Cells["順暢度-面談"].Value.ToString();
+                comboBox11.Text = dataGridView1.CurrentRow.Cells["工作程序-面談"].Value.ToString();
+                comboBox12.Text = dataGridView1.CurrentRow.Cells["離職原因-面談"].Value.ToString();
+                textBox8.Text = dataGridView1.CurrentRow.Cells["工作建議"].Value.ToString();
+                textBox9.Text = dataGridView1.CurrentRow.Cells["面談結論"].Value.ToString();
+                textBox10.Text = dataGridView1.CurrentRow.Cells["對公司建議"].Value.ToString();
+                textBox11.Text = dataGridView1.CurrentRow.Cells["面談總結論"].Value.ToString();
+            }
+        }
 
         #endregion
 
@@ -543,6 +565,7 @@ namespace TKHR
         private void button1_Click(object sender, EventArgs e)
         {
             SEARCH();
+            SEARCHEMPLOYEELEAVE();
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -577,8 +600,9 @@ namespace TKHR
             button4.Visible = false;
         }
 
+
         #endregion
 
-
+        
     }
 }
