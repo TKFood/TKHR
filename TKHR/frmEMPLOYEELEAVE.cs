@@ -33,7 +33,7 @@ namespace TKHR
         DataSet ds2 = new DataSet();
         DataTable dt = new DataTable();
         string SAVE;
-
+        int result;
         public frmEMPLOYEELEAVE()
         {
             InitializeComponent();
@@ -323,7 +323,7 @@ namespace TKHR
                 sbSql.AppendFormat(@"  ,[Employee].[CnName] ");
                 sbSql.AppendFormat(@"  ,[Employee].[Telephone]");
                 sbSql.AppendFormat(@"  ,[Employee].[Location]");
-                sbSql.AppendFormat(@"  ,[Employee].[GenderId]");
+                sbSql.AppendFormat(@"  ,CASE [Employee].[GenderId] WHEN 'Gender_001' THEN '男' ELSE '女' END  AS [GenderId]");
                 sbSql.AppendFormat(@"  ,[Job].[NAME]  AS Job");
                 sbSql.AppendFormat(@"  ,[Department].[NAME] AS Department ");
                 sbSql.AppendFormat(@"  FROM [HRMDB].[dbo].[Employee],[HRMDB].[dbo].[Job],[HRMDB].[dbo].[Department]");
@@ -352,11 +352,11 @@ namespace TKHR
                     {
                         textBox2.Text = ds1.Tables["TEMPds1"].Rows[0]["CnName"].ToString();
                         textBox3.Text = ds1.Tables["TEMPds1"].Rows[0]["Department"].ToString();
-                        textBox4.Text = ds1.Tables["TEMPds1"].Rows[0]["Job"].ToString();
-                        textBox5.Text = ds1.Tables["TEMPds1"].Rows[0]["GenderId"].ToString();
+                        textBox4.Text = ds1.Tables["TEMPds1"].Rows[0]["Job"].ToString();                        
                         textBox6.Text = ds1.Tables["TEMPds1"].Rows[0]["Telephone"].ToString();
                         textBox7.Text = ds1.Tables["TEMPds1"].Rows[0]["Location"].ToString();
                         dateTimePicker1.Value=Convert.ToDateTime(ds1.Tables["TEMPds1"].Rows[0]["Date"].ToString());
+                        comboBox13.Text = ds1.Tables["TEMPds1"].Rows[0]["GenderId"].ToString();
 
 
                     }
@@ -384,26 +384,58 @@ namespace TKHR
                 sbSqlQuery.Clear();
                 ds1.Clear();
 
-             
+                sbSql.AppendFormat(@"  SELECT [NO] AS '編號'");
+                sbSql.AppendFormat(@"  ,[CODE] AS '工號'");
+                sbSql.AppendFormat(@"  ,[Date] AS '填表日'");
+                sbSql.AppendFormat(@"  ,[CnName] AS '姓名'");
+                sbSql.AppendFormat(@"  ,[Telephone] AS '電話'");
+                sbSql.AppendFormat(@"  ,[Location] AS '地址'");
+                sbSql.AppendFormat(@"  ,[GenderId] AS '性別'");
+                sbSql.AppendFormat(@"  ,[Job] AS '職稱'");
+                sbSql.AppendFormat(@"  ,[Department] AS '部門'");
+                sbSql.AppendFormat(@"  ,[EVAWORK1] AS '工作量'");
+                sbSql.AppendFormat(@"  ,[EVAWORK2] AS '困難度'");
+                sbSql.AppendFormat(@"  ,[EVAWORK3] AS '適應度'");
+                sbSql.AppendFormat(@"  ,[EVAWORK4] AS '順暢度'");
+                sbSql.AppendFormat(@"  ,[EVAWORK5] AS '工作程序'");
+                sbSql.AppendFormat(@"  ,[EVAWORKSUG] AS '工作建議'");
+                sbSql.AppendFormat(@"  ,[EVAWORK1REVIWER] AS '工作量-面談'");
+                sbSql.AppendFormat(@"  ,[EVAWORK2REVIWER] AS '困難度-面談'");
+                sbSql.AppendFormat(@"  ,[EVAWORK3REVIWER] AS '適應度-面談'");
+                sbSql.AppendFormat(@"  ,[EVAWORK4REVIWER] AS '順暢度-面談'");
+                sbSql.AppendFormat(@"  ,[EVAWORK5REVIWER] AS '工作程序-面談'");
+                sbSql.AppendFormat(@"  ,[EVAWORKSUGREVIWER] AS '面談結論'");
+                sbSql.AppendFormat(@"  ,[REASON] AS '離職原因'");
+                sbSql.AppendFormat(@"  ,[REASONSUG] AS '對公司建議'");
+                sbSql.AppendFormat(@"  ,[REASONREVIWER] AS '離職原因-面談'");
+                sbSql.AppendFormat(@"  ,[REASONSUGREVIWER] AS '面談總結論'");
+                sbSql.AppendFormat(@"  ,[COMMENT] AS '簽核意見'");
+                sbSql.AppendFormat(@"  ,[ID] ");
+                sbSql.AppendFormat(@"  FROM [TKHR].[dbo].[EMPLOYEELEAVE]");
+                sbSql.AppendFormat(@"  WHERE [CODE]=''");
+                sbSql.AppendFormat(@"  ORDER BY [NO] ");
+                sbSql.AppendFormat(@"  ");
+
                 adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
 
                 sqlCmdBuilder = new SqlCommandBuilder(adapter);
                 sqlConn.Open();
-                ds1.Clear();
-                adapter.Fill(ds1, "TEMPds1");
+                ds2.Clear();
+                adapter.Fill(ds2, "TEMPds2");
                 sqlConn.Close();
 
 
-                if (ds1.Tables["TEMPds1"].Rows.Count == 0)
+                if (ds2.Tables["TEMPds2"].Rows.Count == 0)
                 {
+                    dataGridView1.DataSource = null;
                     SETNULLDETAIL();
                 }
                 else
                 {
-                    if (ds1.Tables["TEMPds1"].Rows.Count >= 1)
+                    if (ds2.Tables["TEMPds2"].Rows.Count >= 1)
                     {
-                      
-
+                        dataGridView1.DataSource = ds2.Tables["TEMPds2"];
+                        dataGridView1.AutoResizeColumns();
                     }
                 }
 
@@ -422,9 +454,10 @@ namespace TKHR
             textBox2.Text = "";
             textBox3.Text = "";
             textBox4.Text = "";
-            textBox5.Text = "";
+            
             textBox6.Text = "";
             textBox7.Text = "";
+            comboBox13.Text = "男";
         }
         public void SETNULLDETAIL()
         {
@@ -453,7 +486,54 @@ namespace TKHR
 
         public void ADD()
         {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
 
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat(" INSERT INTO [TKHR].[dbo].[EMPLOYEELEAVE]");
+                sbSql.AppendFormat(" ([ID],[NO],[CODE],[Date],[CnName]");
+                sbSql.AppendFormat(" ,[Telephone],[Location],[GenderId],[Job],[Department]");
+                sbSql.AppendFormat(" ,[EVAWORK1],[EVAWORK2],[EVAWORK3],[EVAWORK4],[EVAWORK5]");
+                sbSql.AppendFormat(" ,[EVAWORKSUG],[EVAWORK1REVIWER],[EVAWORK2REVIWER],[EVAWORK3REVIWER],[EVAWORK4REVIWER]");
+                sbSql.AppendFormat(" ,[EVAWORK5REVIWER],[EVAWORKSUGREVIWER],[REASON],[REASONSUG],[REASONREVIWER]");
+                sbSql.AppendFormat(" ,[REASONSUGREVIWER],[COMMENT])");
+                sbSql.AppendFormat(" VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}','{21}','{22}','{23}','{24}','{25}','{26}')", Guid.NewGuid(), textBox12.Text, textBox1.Text, dateTimePicker2.Value.ToString("yyy/MM/dd"), textBox2.Text, textBox6.Text, textBox7.Text, comboBox13.Text.ToString(), textBox4.Text, textBox3.Text, comboBox1.Text, comboBox2.Text, comboBox3.Text, comboBox4.Text, comboBox5.Text, textBox8.Text, comboBox7.Text, comboBox8.Text, comboBox9.Text, comboBox10.Text, comboBox11.Text, textBox9.Text, comboBox6.Text, textBox10.Text, comboBox12.Text, textBox11.Text,"");
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                    MessageBox.Show("FAIL");
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("OK");
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
         }
 
 
@@ -466,6 +546,7 @@ namespace TKHR
         }
         private void button2_Click(object sender, EventArgs e)
         {
+
             if (SAVE.ToString().Equals("UPDATE"))
             {
                 UPDATE();
@@ -474,8 +555,27 @@ namespace TKHR
             {
                 ADD();
             }
+
+            button2.Visible = false;
+            button3.Visible = true;
+            button4.Visible = true;
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SAVE = "ADD";
+            button2.Visible = true;
+            button3.Visible = false;
+            button4.Visible = false;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            SAVE = "UPDATE";
+            button2.Visible = true;
+            button3.Visible = false;
+            button4.Visible = false;
+        }
 
         #endregion
 
