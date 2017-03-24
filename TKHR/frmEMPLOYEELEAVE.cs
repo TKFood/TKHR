@@ -31,6 +31,7 @@ namespace TKHR
         SqlCommand cmd = new SqlCommand();
         DataSet ds1 = new DataSet();
         DataSet ds2 = new DataSet();
+        DataSet ds3 = new DataSet();
         DataTable dt = new DataTable();
         string SAVE;
         int result;
@@ -629,7 +630,84 @@ namespace TKHR
                 ID= dataGridView1.CurrentRow.Cells["ID"].Value.ToString();
             }
         }
+        public void SEARCHEMPLOYEELEAVEREPORT()
+        {
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
 
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+                ds1.Clear();
+
+                sbSql.AppendFormat(@"  SELECT [NO] AS '編號'");
+                sbSql.AppendFormat(@"  ,[CODE] AS '工號'");
+                sbSql.AppendFormat(@"  ,[Date] AS '填表日'");
+                sbSql.AppendFormat(@"  ,[CnName] AS '姓名'");
+                sbSql.AppendFormat(@"  ,[Telephone] AS '電話'");
+                sbSql.AppendFormat(@"  ,[Location] AS '地址'");
+                sbSql.AppendFormat(@"  ,[GenderId] AS '性別'");
+                sbSql.AppendFormat(@"  ,[Job] AS '職稱'");
+                sbSql.AppendFormat(@"  ,[Department] AS '部門'");
+                sbSql.AppendFormat(@"  ,[EVAWORK1] AS '工作量'");
+                sbSql.AppendFormat(@"  ,[EVAWORK2] AS '困難度'");
+                sbSql.AppendFormat(@"  ,[EVAWORK3] AS '適應度'");
+                sbSql.AppendFormat(@"  ,[EVAWORK4] AS '順暢度'");
+                sbSql.AppendFormat(@"  ,[EVAWORK5] AS '工作程序'");
+                sbSql.AppendFormat(@"  ,[EVAWORKSUG] AS '工作建議'");
+                sbSql.AppendFormat(@"  ,[EVAWORK1REVIWER] AS '工作量-面談'");
+                sbSql.AppendFormat(@"  ,[EVAWORK2REVIWER] AS '困難度-面談'");
+                sbSql.AppendFormat(@"  ,[EVAWORK3REVIWER] AS '適應度-面談'");
+                sbSql.AppendFormat(@"  ,[EVAWORK4REVIWER] AS '順暢度-面談'");
+                sbSql.AppendFormat(@"  ,[EVAWORK5REVIWER] AS '工作程序-面談'");
+                sbSql.AppendFormat(@"  ,[EVAWORKSUGREVIWER] AS '面談結論'");
+                sbSql.AppendFormat(@"  ,[REASON] AS '離職原因'");
+                sbSql.AppendFormat(@"  ,[REASONSUG] AS '對公司建議'");
+                sbSql.AppendFormat(@"  ,[REASONREVIWER] AS '離職原因-面談'");
+                sbSql.AppendFormat(@"  ,[REASONSUGREVIWER] AS '面談總結論'");
+                sbSql.AppendFormat(@"  ,[COMMENT] AS '簽核意見'");
+                sbSql.AppendFormat(@"  ,[ID] ");
+                sbSql.AppendFormat(@"  FROM [TKHR].[dbo].[EMPLOYEELEAVE]");
+                sbSql.AppendFormat(@"  WHERE [Date]>='{0}' AND [Date]<='{1}'", dateTimePicker3.Value.ToString("yyyy/MM/dd"), dateTimePicker4.Value.ToString("yyyy/MM/dd"));
+                sbSql.AppendFormat(@"  ORDER BY [NO] ");
+                sbSql.AppendFormat(@"  ");
+
+                adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder = new SqlCommandBuilder(adapter);
+                sqlConn.Open();
+                ds3.Clear();
+                adapter.Fill(ds3, "TEMPds3");
+                sqlConn.Close();
+
+
+                if (ds3.Tables["TEMPds3"].Rows.Count == 0)
+                {
+                    dataGridView2.DataSource = null;
+                    SETNULLDETAIL();
+                }
+                else
+                {
+                    if (ds3.Tables["TEMPds3"].Rows.Count >= 1)
+                    {
+                        dataGridView2.DataSource = ds3.Tables["TEMPds3"];
+                        dataGridView2.AutoResizeColumns();
+
+                    }
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         #endregion
 
         #region BUTTON
@@ -672,9 +750,13 @@ namespace TKHR
             button4.Visible = false;
         }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            SEARCHEMPLOYEELEAVEREPORT();
+        }
 
         #endregion
 
-        
+
     }
 }
