@@ -102,6 +102,7 @@
             this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
             this.button5 = new System.Windows.Forms.Button();
             this.label30 = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -901,7 +902,7 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.dataGridView2);
             this.splitContainer3.Size = new System.Drawing.Size(970, 693);
-            this.splitContainer3.SplitterDistance = 92;
+            this.splitContainer3.SplitterDistance = 99;
             this.splitContainer3.TabIndex = 0;
             // 
             // dataGridView2
@@ -913,7 +914,7 @@
             this.dataGridView2.Location = new System.Drawing.Point(0, 0);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(966, 593);
+            this.dataGridView2.Size = new System.Drawing.Size(966, 586);
             this.dataGridView2.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -935,6 +936,7 @@
             this.tableLayoutPanel3.Controls.Add(this.dateTimePicker4, 3, 0);
             this.tableLayoutPanel3.Controls.Add(this.button5, 4, 0);
             this.tableLayoutPanel3.Controls.Add(this.label30, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.button6, 4, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -943,7 +945,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(966, 88);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(966, 95);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // label29
@@ -997,6 +999,17 @@
             this.label30.TabIndex = 20;
             this.label30.Text = "~";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button6
+            // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Location = new System.Drawing.Point(323, 43);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(74, 34);
+            this.button6.TabIndex = 21;
+            this.button6.Text = "匯出";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // frmEMPLOYEELEAVE
             // 
@@ -1109,5 +1122,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Button button6;
     }
 }
