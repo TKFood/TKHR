@@ -44,6 +44,10 @@ namespace TKHR
         string NowDB = "test";
         int rownum = 0;
         string NowTable = null;
+
+        DataGridViewRow dr = new DataGridViewRow();
+
+
         public frmMONTHDEPPEOPLE()
         {
             InitializeComponent();
@@ -216,28 +220,29 @@ namespace TKHR
 
         private void dataGridView1_CurrentCellChanged(object sender, EventArgs e)
         {
-            int columnIndex = 0;
-            int rowIndex = 0;
-            try
-            {
-                columnIndex = dataGridView1.CurrentCell.ColumnIndex;
-                rowIndex = dataGridView1.CurrentCell.RowIndex;
+            //int columnIndex = 0;
+            //int rowIndex = 0;
+            //try
+            //{
+               
+            //    columnIndex = dataGridView1.CurrentCell.ColumnIndex;
+            //    rowIndex = dataGridView1.CurrentCell.RowIndex;
 
-                DateTime dt = Convert.ToDateTime(dataGridView1.Rows[rowIndex].Cells[0].Value.ToString() + "/" + dataGridView1.Rows[rowIndex].Cells[1].Value.ToString() + "/1");
+            //    DateTime dt = Convert.ToDateTime(dataGridView1.Rows[rowIndex].Cells[0].Value.ToString() + "/" + dataGridView1.Rows[rowIndex].Cells[1].Value.ToString() + "/1");
 
-                dateTimePicker2.Value = dt;
-                textBox1.Text = dataGridView1.Rows[rowIndex].Cells[2].Value.ToString();
-                textBox2.Text = dataGridView1.Rows[rowIndex].Cells[3].Value.ToString();
-                textBox3.Text = dataGridView1.Rows[rowIndex].Cells[4].Value.ToString();
-                textBox4.Text = dataGridView1.Rows[rowIndex].Cells[5].Value.ToString();
-                textBox5.Text = dataGridView1.Rows[rowIndex].Cells[6].Value.ToString();
-                textBox6.Text = dataGridView1.Rows[rowIndex].Cells[7].Value.ToString();
-                textBox7.Text = dataGridView1.Rows[rowIndex].Cells[8].Value.ToString();
+            //    dateTimePicker2.Value = dt;
+            //    textBox1.Text = dataGridView1.Rows[rowIndex].Cells[2].Value.ToString();
+            //    textBox2.Text = dataGridView1.Rows[rowIndex].Cells[3].Value.ToString();
+            //    textBox3.Text = dataGridView1.Rows[rowIndex].Cells[4].Value.ToString();
+            //    textBox4.Text = dataGridView1.Rows[rowIndex].Cells[5].Value.ToString();
+            //    textBox5.Text = dataGridView1.Rows[rowIndex].Cells[6].Value.ToString();
+            //    textBox6.Text = dataGridView1.Rows[rowIndex].Cells[7].Value.ToString();
+            //    textBox7.Text = dataGridView1.Rows[rowIndex].Cells[8].Value.ToString();
 
-            }
-            catch
-            {
-            }
+            //}
+            //catch
+            //{
+            //}
         }
 
         public void HRUPDATE()
@@ -409,8 +414,15 @@ namespace TKHR
 
         public void CALTOTAL()
         {
-            textBox5.Text = (Convert.ToInt16(textBox3.Text.ToString())- Convert.ToInt16(textBox4.Text.ToString())-Convert.ToInt16(textBox6.Text.ToString())).ToString();
-            textBox7.Text = (Convert.ToInt16(textBox4.Text.ToString()) +Convert.ToInt16(textBox6.Text.ToString())).ToString();
+            if(!string.IsNullOrEmpty(textBox3.Text.ToString())&& !string.IsNullOrEmpty(textBox4.Text.ToString()) && !string.IsNullOrEmpty(textBox6.Text.ToString()))
+            {
+                textBox5.Text = (Convert.ToInt16(textBox3.Text.ToString()) - Convert.ToInt16(textBox4.Text.ToString()) - Convert.ToInt16(textBox6.Text.ToString())).ToString();
+            }
+            if(!string.IsNullOrEmpty(textBox4.Text.ToString()) && !string.IsNullOrEmpty(textBox6.Text.ToString()))
+            {
+                textBox7.Text = (Convert.ToInt16(textBox4.Text.ToString()) + Convert.ToInt16(textBox6.Text.ToString())).ToString();
+            }
+            
 
         }
         private void textBox6_TextChanged(object sender, EventArgs e)
@@ -427,6 +439,26 @@ namespace TKHR
             CALTOTAL();
         }
 
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if(dataGridView1.Rows.Count >= 1)
+            {
+                dr = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex];
+
+                DateTime dt = Convert.ToDateTime(dr.Cells["年"].Value.ToString() + "/" + dr.Cells["月"].Value.ToString() + "/01");
+                dateTimePicker2.Value = dt;
+
+                textBox1.Text= dr.Cells["部門代號"].Value.ToString();
+                textBox2.Text = dr.Cells["部門名稱"].Value.ToString();
+                textBox3.Text = dr.Cells["現編制人數"].Value.ToString();
+                textBox4.Text = dr.Cells["非編制人員(PT)"].Value.ToString();
+                textBox5.Text = dr.Cells["缺編人數"].Value.ToString();
+                textBox6.Text = dr.Cells["部門正職人數"].Value.ToString();
+                textBox7.Text = dr.Cells["部門總人數"].Value.ToString();
+
+            }
+
+        }
         #endregion
 
         #region BUTTON
@@ -434,11 +466,7 @@ namespace TKHR
         {
             Search();
         }
-        private void button6_Click(object sender, EventArgs e)
-        {
-            Loaddep();
-        }
-
+       
         private void button5_Click(object sender, EventArgs e)
         {
             ExcelExport();
@@ -453,6 +481,11 @@ namespace TKHR
         {
             HRUPDATENULL();
         }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Loaddep();
+        }
+
 
 
 
