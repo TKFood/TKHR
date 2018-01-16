@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="01/16/2018 11:11:41" ReportInfo.Modified="01/16/2018 11:23:12" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9IB9GUK8nV2Cp0RM4bULOvf">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT [Employee].[Code] AS '工號' , [Employee].CnName AS '姓名',[AttendanceRank].[Name] AS '班別',[AttendanceEmpRank].[Date] '上班日' &#13;&#10;,(SELECT TOP 1 [Date] FROM [HRMDB].[dbo].[AttendanceCollect] WHERE [AttendanceCollect]. [EmployeeId]= [AttendanceEmpRank].[EmployeeId] AND  CONVERT(NVARCHAR,[AttendanceCollect].[Date],112)=  CONVERT(NVARCHAR,[AttendanceEmpRank].[Date],112) ORDER BY [Date]) AS  '上班打卡' &#13;&#10;,(SELECT TOP 1 [Date] FROM [HRMDB].[dbo].[AttendanceCollect] WHERE [AttendanceCollect]. [EmployeeId]= [AttendanceEmpRank].[EmployeeId] AND  CONVERT(NVARCHAR,[AttendanceCollect].[Date],112)=  CONVERT(NVARCHAR,[AttendanceEmpRank].[Date],112) ORDER BY [Date] DESC) AS '下班打卡'&#13;&#10;FROM [HRMDB].[dbo].[AttendanceEmpRank],[HRMDB].[dbo].[AttendanceRank],[HRMDB].[dbo].[Employee]&#13;&#10;WHERE [AttendanceEmpRank].[AttendanceRankId]=[AttendanceRank].[AttendanceRankId]&#13;&#10;AND [Employee].[EmployeeId]=[AttendanceEmpRank].[EmployeeId]&#13;&#10;AND [AttendanceRank].[Name]=@P1&#13;&#10;AND  CONVERT(NVARCHAR,[AttendanceEmpRank].[Date],112)&gt;=@P2 &#13;&#10;AND  CONVERT(NVARCHAR,[AttendanceEmpRank].[Date],112)&lt;=@P3&#13;&#10;&#13;&#10;">
+        <Column Name="工號" DataType="System.String"/>
+        <Column Name="姓名" DataType="System.String"/>
+        <Column Name="班別" DataType="System.String"/>
+        <Column Name="上班日" DataType="System.DateTime"/>
+        <Column Name="上班打卡" DataType="System.DateTime"/>
+        <Column Name="下班打卡" DataType="System.DateTime"/>
+        <CommandParameter Name="P1" DataType="12" Expression="[P1]" DefaultValue="A9生產部休息早1班"/>
+        <CommandParameter Name="P2" DataType="12" Expression="[P2]" DefaultValue="20180112"/>
+        <CommandParameter Name="P3" DataType="12" Expression="[P3]" DefaultValue="20180120"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="P1" DataType="System.String"/>
+    <Parameter Name="P2" DataType="System.String"/>
+    <Parameter Name="P3" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="18.9">
+      <TextObject Name="Text13" Width="680.4" Height="18.9" Text="報表" HorzAlign="Center" VertAlign="Center"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="22.75" Width="718.2" Height="18.9">
+      <TextObject Name="Text2" Width="94.5" Height="18.9" Border.Lines="All" Text="工號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text4" Left="94.5" Width="94.5" Height="18.9" Border.Lines="All" Text="姓名" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text6" Left="189" Width="151.2" Height="18.9" Border.Lines="All" Text="班別" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text8" Left="340.2" Width="94.5" Height="18.9" Border.Lines="All" Text="上班日" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text10" Left="434.7" Width="122.85" Height="18.9" Border.Lines="All" Text="上班打卡" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text12" Left="557.55" Width="122.85" Height="18.9" Border.Lines="All" Text="下班打卡" HorzAlign="Center" VertAlign="Center"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="45.49" Width="718.2" Height="18.9" DataSource="Table">
+      <TextObject Name="Text1" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.工號]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text3" Left="94.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.姓名]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text5" Left="189" Width="151.2" Height="18.9" Border.Lines="All" Text="[Table.班別]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text7" Left="340.2" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.上班日]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text9" Left="434.7" Width="122.85" Height="18.9" Border.Lines="All" Text="[Table.上班打卡]" Format="Time" Format.Format="HH:mm" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text11" Left="557.55" Width="122.85" Height="18.9" Border.Lines="All" Text="[Table.下班打卡]" Format="Time" Format.Format="HH:mm" HorzAlign="Center" VertAlign="Center"/>
+    </DataBand>
+  </ReportPage>
+</Report>

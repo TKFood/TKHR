@@ -66,7 +66,7 @@ namespace TKHR
         {
             report1 = new Report();
 
-            report1.Load(@"REPORT\訂單統計表.frx");
+            report1.Load(@"REPORT\查班別打卡.frx");
 
             report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
             report1.SetParameterValue("P1", comboBox1.Text.ToString());
