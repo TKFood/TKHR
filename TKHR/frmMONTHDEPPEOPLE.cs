@@ -198,7 +198,7 @@ namespace TKHR
             sbSql.Clear();
             //ADD COPTC
             sbSql.Append(" ");
-            sbSql.AppendFormat(" INSERT INTO [TKHR].[dbo].[MONTHDEPPEOPLE] ([HRYEARS],[HRMONTHS],[DEPNO],[DEPNAME],[HRNOW],[HRPT],[HRLOST],[HRONBAORD],[HRTOTAL] ) SELECT '{0}','{1}',[Code],[Name],0,0,0,ISNULL((SELECT COUNT(EM.EmployeeId) FROM [HRMDB].[dbo].Employee EM WITH (NOLOCK), [HRMDB].[dbo].Department DEP WITH (NOLOCK) WHERE EM.DepartmentId=DEP.DepartmentId AND DEP.Code=Department.Code COLLATE Chinese_Taiwan_Stroke_BIN  AND CONVERT(NVARCHAR,LastWorkDate,112) like '9999%'),0) ,0 FROM [TKHR].[dbo].[Department] ORDER BY Code ", dateTimePicker1.Value.Year.ToString(), dateTimePicker1.Value.Month.ToString());
+            sbSql.AppendFormat(" INSERT INTO [TKHR].[dbo].[MONTHDEPPEOPLE] ([HRYEARS],[HRMONTHS],[DEPNO],[DEPNAME],[HRNOW],[HRPT],[HRLOST],[HRONBAORD],[HRTOTAL] ) SELECT '{0}','{1}',[Code],[Name],0,0,0,ISNULL((SELECT COUNT(EM.EmployeeId) FROM [HRMDB].[dbo].Employee EM WITH (NOLOCK) WHERE EM.DepartmentId=DEP.DepartmentId   AND CONVERT(NVARCHAR,LastWorkDate,112) like '9999%'),0) ,0 FROM [HRMDB].[dbo].Department DEP WHERE [Name] NOT LIKE '%停用%' ORDER BY Code ", dateTimePicker1.Value.Year.ToString(), dateTimePicker1.Value.Month.ToString());
 
             cmd.Connection = sqlConn;
             cmd.CommandTimeout = 60;
