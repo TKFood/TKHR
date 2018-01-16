@@ -69,7 +69,7 @@ namespace TKHR
             report1.Load(@"REPORT\查班別打卡.frx");
 
             report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
-            report1.SetParameterValue("P1", comboBox1.Text.ToString());
+            //report1.SetParameterValue("P1", comboBox1.Text.ToString());
             report1.SetParameterValue("P2", dateTimePicker1.Value.ToString("yyyyMMdd"));
             report1.SetParameterValue("P3", dateTimePicker2.Value.ToString("yyyyMMdd"));
 

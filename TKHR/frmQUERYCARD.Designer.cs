@@ -154,6 +154,7 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "班別";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1.Visible = false;
             // 
             // label2
             // 
@@ -197,6 +198,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(234, 24);
             this.comboBox1.TabIndex = 4;
+            this.comboBox1.Visible = false;
             // 
             // dateTimePicker1
             // 
