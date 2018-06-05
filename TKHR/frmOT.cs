@@ -63,10 +63,10 @@ namespace TKHR
                     sbSql.AppendFormat(@" ,[AttendanceOTResult_Employee_EmployeeId].[CnName] AS '姓名'");
                     sbSql.AppendFormat(@" ,[AttendanceOTResult_CodeInfo_OvertimeKindId].[ScName] AS '班次'");
                     sbSql.AppendFormat(@" ,[AttendanceOTResult].[Hours] AS '加班時數'");
-                    sbSql.AppendFormat(@" ,CONVERT(nvarchar,[AttendanceOTResult].[Date],112) AS '加班日'");
-                    sbSql.AppendFormat(@" ,CONVERT(nvarchar,[AttendanceOTResult].[BeginDate],112) AS '加班開始日'");
+                    sbSql.AppendFormat(@" ,CONVERT(nvarchar,[AttendanceOTResult].[Date],111) AS '加班日'");
+                    sbSql.AppendFormat(@" ,CONVERT(nvarchar,[AttendanceOTResult].[BeginDate],111) AS '加班開始日'");
                     sbSql.AppendFormat(@" ,[AttendanceOTResult].[BeginTime] AS '加班開始時間'");
-                    sbSql.AppendFormat(@" ,CONVERT(nvarchar,[AttendanceOTResult].[EndDate],112) AS '加班結束日'");
+                    sbSql.AppendFormat(@" ,CONVERT(nvarchar,[AttendanceOTResult].[EndDate],111) AS '加班結束日'");
                     sbSql.AppendFormat(@" ,[AttendanceOTResult].[EndTime] AS '加班結束時間'");
                     sbSql.AppendFormat(@" ,[AttendanceOTResult_Employee_EmployeeId_Department_DepartmentId].[Name] AS '部門'");
                     sbSql.AppendFormat(@" ,[AttendanceOTResult_Employee_EmployeeId_Department_DepartmentId_Department_DirectDeptId].[Name] AS '課'");
@@ -88,7 +88,7 @@ namespace TKHR
                     sbSql.AppendFormat(@" LEFT  JOIN [HRMDB].dbo.[CodeInfo] AS [AttendanceOTResult_CodeInfo_ApproveResultId] ON [AttendanceOTResult].[ApproveResultId]=[AttendanceOTResult_CodeInfo_ApproveResultId].[CodeInfoId]  ");
                     sbSql.AppendFormat(@" LEFT  JOIN [HRMDB].dbo.[User] AS [AttendanceOTResult_User_CreateBy] ON [AttendanceOTResult].[CreateBy]=[AttendanceOTResult_User_CreateBy].[UserId]  ");
                     sbSql.AppendFormat(@" LEFT  JOIN [HRMDB].dbo.[User] AS [AttendanceOTResult_User_LastModifiedBy] ON [AttendanceOTResult].[LastModifiedBy]=[AttendanceOTResult_User_LastModifiedBy].[UserId]  ");
-                    sbSql.AppendFormat(@" WHERE [AttendanceOTResult].[Date]>='{0}' AND [AttendanceOTResult].[Date]<='{0}'",dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
+                    sbSql.AppendFormat(@" WHERE [AttendanceOTResult].[Date]>='{0}' AND [AttendanceOTResult].[Date]<='{1}'",dateTimePicker1.Value.ToString("yyyyMMdd"), dateTimePicker2.Value.ToString("yyyyMMdd"));
                     sbSql.AppendFormat(@" AND [AttendanceOTResult_CodeInfo_OvertimeKindId].[ScName]='{0}'",comboBox1.Text.ToString());
                     sbSql.AppendFormat(@" ORDER BY [AttendanceOTResult].[Date],[AttendanceOTResult].[AttendanceOTResultId]");                    
                     sbSql.AppendFormat(@" ");
@@ -155,6 +155,64 @@ namespace TKHR
             }
         }
 
+        public void SearchSALOTTIME()
+        {
+            try
+            {
+
+                if (!string.IsNullOrEmpty(dateTimePicker1.Value.ToString()))
+                {
+                    connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                    sqlConn = new SqlConnection(connectionString);
+
+                    sbSql.Clear();
+                    sbSql.AppendFormat(@" SELECT ");                    
+                    sbSql.AppendFormat(@" [Code] AS '工號'");
+                    sbSql.AppendFormat(@" ,[CnName] AS '姓名'");
+                    sbSql.AppendFormat(@" ,[OtDate] AS '加班日'");
+                    sbSql.AppendFormat(@" ,[OtHours] AS '加班時間'");
+                    sbSql.AppendFormat(@" ,[OtADJHours] AS '調整加班時間'");
+                    sbSql.AppendFormat(@" ,[ID] AS 'ID'");
+                    sbSql.AppendFormat(@" FROM [TKHR].[dbo].[SALOTTIME]");
+                    sbSql.AppendFormat(@" WHERE [OtDate]>='{0}' AND [OtDate]<='{1}'",dateTimePicker3.Value.ToString("yyyyMMdd"), dateTimePicker4.Value.ToString("yyyyMMdd"));
+                    sbSql.AppendFormat(@" ");
+                    sbSql.AppendFormat(@" ");
+
+                    adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
+                    sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                    sqlConn.Open();
+                    ds.Clear();
+                    adapter.Fill(ds, "TEMPds2");
+                    sqlConn.Close();
+
+
+                    if (ds.Tables["TEMPds2"].Rows.Count == 0)
+                    {
+
+                    }
+                    else
+                    {
+
+                        dataGridView2.DataSource = ds.Tables["TEMPds2"];
+                        dataGridView2.AutoResizeColumns();
+                    }
+                }
+                else
+                {
+
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
         #endregion
 
         #region BUTTON
@@ -164,9 +222,13 @@ namespace TKHR
         {
             Search();
         }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SearchSALOTTIME();
+        }
 
         #endregion
 
-       
+
     }
 }
