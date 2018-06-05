@@ -51,6 +51,7 @@
             this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.button4 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -144,6 +145,7 @@
             this.tableLayoutPanel2.Controls.Add(this.numericUpDown1, 2, 1);
             this.tableLayoutPanel2.Controls.Add(this.button1, 4, 0);
             this.tableLayoutPanel2.Controls.Add(this.button2, 4, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button4, 4, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -286,6 +288,7 @@
             this.button2.TabIndex = 8;
             this.button2.Text = "查詢加班時數";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // splitContainer3
             // 
@@ -380,6 +383,17 @@
             this.dataGridView2.Size = new System.Drawing.Size(323, 388);
             this.dataGridView2.TabIndex = 1;
             // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(483, 83);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(114, 34);
+            this.button4.TabIndex = 9;
+            this.button4.Text = "調整加班時數";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // frmOT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -440,5 +454,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Button button4;
     }
 }
