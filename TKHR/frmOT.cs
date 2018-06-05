@@ -493,6 +493,53 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+        public void DELSALOTTIME()
+        {
+            int result;
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+                sbSql.AppendFormat(" DELETE [TKHR].[dbo].[SALOTTIME]  WHERE [ID]='{0}'",  textBox5.Text);
+                sbSql.AppendFormat(" ");
+                sbSql.AppendFormat(" ");
+
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("完成");
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
         #endregion
 
         #region BUTTON
@@ -524,6 +571,11 @@ namespace TKHR
         private void button6_Click(object sender, EventArgs e)
         {
             UPDATESALOTTIME();
+            SearchSALOTTIMEV2();
+        }
+        private void button7_Click(object sender, EventArgs e)
+        {
+            DELSALOTTIME();
             SearchSALOTTIMEV2();
         }
 

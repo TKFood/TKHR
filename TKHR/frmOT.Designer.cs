@@ -74,6 +74,7 @@
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.button6 = new System.Windows.Forms.Button();
             this.textBox5 = new System.Windows.Forms.TextBox();
+            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -579,6 +580,7 @@
             this.tableLayoutPanel4.Controls.Add(this.numericUpDown2, 1, 4);
             this.tableLayoutPanel4.Controls.Add(this.textBox5, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.button6, 2, 5);
+            this.tableLayoutPanel4.Controls.Add(this.button7, 2, 6);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -719,6 +721,17 @@
             this.textBox5.Size = new System.Drawing.Size(134, 27);
             this.textBox5.TabIndex = 13;
             // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Location = new System.Drawing.Point(243, 243);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(134, 34);
+            this.button7.TabIndex = 14;
+            this.button7.Text = "刪除";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // frmOT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
@@ -817,5 +830,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Button button7;
     }
 }
