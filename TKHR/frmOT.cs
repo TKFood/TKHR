@@ -562,6 +562,7 @@ namespace TKHR
         private void button4_Click(object sender, EventArgs e)
         {
             ADJUSTOTTIME();
+            MessageBox.Show("完成");
         }
 
         private void button5_Click(object sender, EventArgs e)
