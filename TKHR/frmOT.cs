@@ -36,6 +36,7 @@ namespace TKHR
         SqlCommand cmd = new SqlCommand();
         DataSet ds = new DataSet();
         DataSet ds2 = new DataSet();
+        DataSet ds3 = new DataSet();
         DataTable dt = new DataTable();
         string strFilePath;
         OpenFileDialog file = new OpenFileDialog();
@@ -373,6 +374,79 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+
+
+        public void SearchSALOTTIMEV2()
+        {
+            try
+            {
+
+                if (!string.IsNullOrEmpty(dateTimePicker1.Value.ToString()))
+                {
+                    connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                    sqlConn = new SqlConnection(connectionString);
+
+                    sbSql.Clear();
+                    sbSql.AppendFormat(@" SELECT ");
+                    sbSql.AppendFormat(@" [Code] AS '工號'");
+                    sbSql.AppendFormat(@" ,[CnName] AS '姓名'");
+                    sbSql.AppendFormat(@" ,CONVERT(NVARCHAR,[OtDate],111) AS '加班日'");
+                    sbSql.AppendFormat(@" ,[OtHours] AS '加班時間'");
+                    sbSql.AppendFormat(@" ,[OtADJHours] AS '調整加班時間'");
+                    sbSql.AppendFormat(@" ,[ID] AS 'ID'");
+                    sbSql.AppendFormat(@" FROM [TKHR].[dbo].[SALOTTIME]");
+                    sbSql.AppendFormat(@" WHERE [OtDate]>='{0}' AND [OtDate]<='{1}'", dateTimePicker5.Value.ToString("yyyyMMdd"), dateTimePicker6.Value.ToString("yyyyMMdd"));
+                    sbSql.AppendFormat(@" ");
+                    sbSql.AppendFormat(@" ");
+
+                    adapter = new SqlDataAdapter(@"" + sbSql, sqlConn);
+                    sqlCmdBuilder = new SqlCommandBuilder(adapter);
+
+                    sqlConn.Open();
+                    ds3.Clear();
+                    adapter.Fill(ds3, "TEMPds3");
+                    sqlConn.Close();
+
+
+                    if (ds3.Tables["TEMPds3"].Rows.Count == 0)
+                    {
+
+                    }
+                    else
+                    {
+
+                        dataGridView3.DataSource = ds3.Tables["TEMPds3"];
+                        dataGridView3.AutoResizeColumns();
+                    }
+                }
+                else
+                {
+
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+        private void dataGridView3_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView3.Rows.Count >= 1)
+            {
+                textBox1.Text = dataGridView3.CurrentRow.Cells["工號"].Value.ToString();
+                textBox2.Text = dataGridView3.CurrentRow.Cells["姓名"].Value.ToString();
+                textBox3.Text = dataGridView3.CurrentRow.Cells["加班日"].Value.ToString();
+                textBox4.Text = dataGridView3.CurrentRow.Cells["調整加班時間"].Value.ToString();
+                textBox5.Text = dataGridView3.CurrentRow.Cells["ID"].Value.ToString();
+                numericUpDown2.Value= Convert.ToDecimal(dataGridView3.CurrentRow.Cells["調整加班時間"].Value.ToString());
+            }
+        }
+
         #endregion
 
         #region BUTTON
@@ -395,6 +469,11 @@ namespace TKHR
         private void button4_Click(object sender, EventArgs e)
         {
             ADJUSTOTTIME();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            SearchSALOTTIMEV2();
         }
 
         #endregion
