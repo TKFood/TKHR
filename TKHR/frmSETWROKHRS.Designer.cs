@@ -1149,6 +1149,7 @@
             this.button13.TabIndex = 2;
             this.button13.Text = "移除工作";
             this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
             // label10
             // 
@@ -1274,6 +1275,7 @@
             this.dataGridView8.RowTemplate.Height = 24;
             this.dataGridView8.Size = new System.Drawing.Size(525, 147);
             this.dataGridView8.TabIndex = 3;
+            this.dataGridView8.SelectionChanged += new System.EventHandler(this.dataGridView8_SelectionChanged);
             // 
             // tableLayoutPanel9
             // 
@@ -1310,6 +1312,7 @@
             this.button15.TabIndex = 2;
             this.button15.Text = "加入工作";
             this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
             // label12
             // 
@@ -1393,6 +1396,7 @@
             this.button16.TabIndex = 1;
             this.button16.Text = "查詢未加入角色的工作";
             this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
             // tableLayoutPanel11
             // 

@@ -419,6 +419,66 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+
+        public void SEARCHWORKID2(string ROLE)
+        {
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+
+                sbSql.AppendFormat(@"  SELECT [WORKID] AS '代號',[WORKNAME] AS '名稱'");
+                sbSql.AppendFormat(@"  FROM [TKWEB].[dbo].[HRWORK]");
+                sbSql.AppendFormat(@"  WHERE [WORKID] NOT IN ");
+                sbSql.AppendFormat(@"  (");
+                sbSql.AppendFormat(@"  SELECT [HRROLEWORK].[WORKID]");
+                sbSql.AppendFormat(@"  FROM [TKWEB].[dbo].[HRROLEWORK],[TKWEB].[dbo].[HRWORK],[TKWEB].[dbo].[AspNetRoles]");
+                sbSql.AppendFormat(@"  WHERE [HRROLEWORK].WORKID=[HRWORK].WORKID");
+                sbSql.AppendFormat(@"  AND [HRROLEWORK].[ROLE]=[AspNetRoles].[Name]");
+                sbSql.AppendFormat(@"  AND [ROLE]='{0}'",ROLE);
+                sbSql.AppendFormat(@"  )");
+                sbSql.AppendFormat(@"  ORDER BY [WORKID]");
+                sbSql.AppendFormat(@"  ");
+                sbSql.AppendFormat(@"  ");
+                sbSql.AppendFormat(@"  ");
+
+
+                adapter8 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder8 = new SqlCommandBuilder(adapter8);
+                sqlConn.Open();
+                ds8.Clear();
+                adapter8.Fill(ds8, "ds8");
+                sqlConn.Close();
+
+
+                if (ds8.Tables["ds8"].Rows.Count == 0)
+                {
+                    dataGridView8.DataSource = null;
+
+                }
+                else
+                {
+                    dataGridView8.DataSource = ds8.Tables["ds8"];
+                    dataGridView8.AutoResizeColumns();
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.Rows.Count >= 1)
@@ -502,8 +562,9 @@ namespace TKHR
                 RoleId2 = dataGridView6.CurrentRow.Cells["代號"].Value.ToString();
                 SEARCHHRROLEWORK(RoleId2);
 
-                textBox18.Text = dataGridView6.CurrentRow.Cells["代號"].Value.ToString();
-                textBox20.Text = dataGridView6.CurrentRow.Cells["Id"].Value.ToString();
+
+                textBox18.Text = dataGridView6.CurrentRow.Cells["名稱"].Value.ToString();
+                textBox20.Text = dataGridView6.CurrentRow.Cells["代號"].Value.ToString();
             }
             else
             {
@@ -527,6 +588,22 @@ namespace TKHR
                 textBox15.Text = null;
                 textBox16.Text = null;
                 textBox17.Text = null;
+            }
+        }
+
+        private void dataGridView8_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView8.Rows.Count >= 1)
+            {
+                textBox19.Text = dataGridView8.CurrentRow.Cells["名稱"].Value.ToString();
+                textBox21.Text = dataGridView8.CurrentRow.Cells["代號"].Value.ToString();
+             
+            }
+            else
+            {
+                textBox19.Text = null;
+                textBox21.Text = null;
+                
             }
         }
 
@@ -859,7 +936,103 @@ namespace TKHR
             }
         }
 
-   
+        public void DELETEHRROLEWORK()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(" DELETE [TKWEB].[dbo].[HRROLEWORK]");
+                sbSql.AppendFormat(" WHERE  [ROLE]='{0}' AND [WORKID]='{1}'", textBox16.Text,textBox17.Text);
+                sbSql.AppendFormat(" ");
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                    MessageBox.Show("FAIL");
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("OK");
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void ADDHRROLEWORK()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(" INSERT INTO [TKWEB].[dbo].[HRROLEWORK]");
+                sbSql.AppendFormat(" ([ROLE],[WORKID])");
+                sbSql.AppendFormat(" VALUES('{0}','{1}')", textBox20.Text, textBox21.Text);
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                    MessageBox.Show("FAIL");
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("OK");
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+
         #endregion
 
         #region BUTTON
@@ -962,11 +1135,31 @@ namespace TKHR
         }
 
 
+        private void button16_Click(object sender, EventArgs e)
+        {
+            SEARCHWORKID2(RoleId2);
+        }
 
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            DELETEHRROLEWORK();
+
+            SEARCHHRROLEWORK(RoleId2);
+            SEARCHWORKID2(RoleId2);
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            ADDHRROLEWORK();
+
+            SEARCHHRROLEWORK(RoleId2);
+            SEARCHWORKID2(RoleId2);
+        }
 
 
         #endregion
 
-       
+
     }
 }
