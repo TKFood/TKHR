@@ -507,7 +507,26 @@ namespace TKHR
             }
             else
             {
-                
+                textBox18.Text = null;
+                textBox20.Text = null;
+            }
+        }
+
+        private void dataGridView7_SelectionChanged(object sender, EventArgs e)
+        {
+            if(dataGridView7.Rows.Count >= 1)
+            {  
+                textBox14.Text = dataGridView7.CurrentRow.Cells["部門"].Value.ToString();
+                textBox15.Text = dataGridView7.CurrentRow.Cells["工作項目"].Value.ToString();
+                textBox16.Text = dataGridView7.CurrentRow.Cells["ROLE"].Value.ToString();
+                textBox17.Text = dataGridView7.CurrentRow.Cells["WORKID"].Value.ToString();
+            }
+            else
+            {
+                textBox14.Text = null;
+                textBox15.Text = null;
+                textBox16.Text = null;
+                textBox17.Text = null;
             }
         }
 
@@ -840,6 +859,7 @@ namespace TKHR
             }
         }
 
+   
         #endregion
 
         #region BUTTON
@@ -940,6 +960,7 @@ namespace TKHR
         {
             SEARCHAspNetRoles3();
         }
+
 
 
 

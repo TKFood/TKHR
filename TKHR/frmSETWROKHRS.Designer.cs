@@ -1112,6 +1112,7 @@
             this.dataGridView7.RowTemplate.Height = 24;
             this.dataGridView7.Size = new System.Drawing.Size(514, 138);
             this.dataGridView7.TabIndex = 3;
+            this.dataGridView7.SelectionChanged += new System.EventHandler(this.dataGridView7_SelectionChanged);
             // 
             // tableLayoutPanel8
             // 
@@ -1187,7 +1188,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(54, 16);
             this.label11.TabIndex = 7;
-            this.label11.Text = "帳號";
+            this.label11.Text = "工作";
             // 
             // textBox16
             // 
@@ -1348,7 +1349,7 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(54, 16);
             this.label13.TabIndex = 7;
-            this.label13.Text = "帳號";
+            this.label13.Text = "工作";
             // 
             // textBox20
             // 
