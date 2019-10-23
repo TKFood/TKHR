@@ -46,6 +46,7 @@ namespace TKHR
         string ID;
 
         string STATUSAspNetRoles;
+        string STATUSWORKID;
 
         public frmSETWROKHRS()
         {
@@ -62,8 +63,7 @@ namespace TKHR
 
                 StringBuilder sbSql = new StringBuilder();
                 sbSql.Clear();
-                sbSqlQuery.Clear();
-                ds1.Clear();
+                sbSqlQuery.Clear();               
 
                 sbSql.AppendFormat(@"  SELECT [Name] AS '代號',[NormalizedName] AS '名稱',[Id],[ConcurrencyStamp]");
                 sbSql.AppendFormat(@"  FROM [TKWEB].[dbo].[AspNetRoles]");
@@ -89,6 +89,53 @@ namespace TKHR
                 {
                     dataGridView1.DataSource = ds1.Tables["TEMPds1"];
                     dataGridView1.AutoResizeColumns();
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void SEARCHWORKID()
+        {
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+                
+                sbSql.AppendFormat(@"  SELECT [WORKID] AS '代號',[WORKNAME] AS '名稱'");
+                sbSql.AppendFormat(@"  FROM [TKWEB].[dbo].[HRWORK]");
+                sbSql.AppendFormat(@"  ORDER BY [WORKID]");
+                sbSql.AppendFormat(@"  ");
+
+                adapter2 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder2 = new SqlCommandBuilder(adapter2);
+                sqlConn.Open();
+                ds2.Clear();
+                adapter2.Fill(ds2, "ds2");
+                sqlConn.Close();
+
+
+                if (ds2.Tables["ds2"].Rows.Count == 0)
+                {
+                    dataGridView2.DataSource = null;
+                    SETNULL2();
+                }
+                else
+                {
+                    dataGridView2.DataSource = ds2.Tables["ds2"];
+                    dataGridView2.AutoResizeColumns();
                 }
 
             }
@@ -131,6 +178,23 @@ namespace TKHR
             textBox1.ReadOnly = false;
             textBox2.ReadOnly = false;
             //textBox3.ReadOnly = false;
+        }
+
+        public void SETNULL2()
+        {
+            textBox4.Text = null;
+            textBox5.Text = null;
+            textBox6.Text = null;
+
+            textBox4.ReadOnly = true;
+            textBox5.ReadOnly = true;
+            //textBox6.ReadOnly = true;
+        }
+        public void SETREADONLY2()
+        {
+            textBox4.ReadOnly = false;
+            textBox5.ReadOnly = false;
+            //textBox6.ReadOnly = false;
         }
 
         public void ADDAspNetRoles()
@@ -265,6 +329,25 @@ namespace TKHR
             SETNULL();
             SEARCHAspNetRoles();
             
+        }
+        private void button8_Click(object sender, EventArgs e)
+        {
+            SEARCHWORKID();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
 
