@@ -38,6 +38,12 @@ namespace TKHR
         SqlCommandBuilder sqlCmdBuilder4 = new SqlCommandBuilder();
         SqlDataAdapter adapter5 = new SqlDataAdapter();
         SqlCommandBuilder sqlCmdBuilder5 = new SqlCommandBuilder();
+        SqlDataAdapter adapter6 = new SqlDataAdapter();
+        SqlCommandBuilder sqlCmdBuilder6 = new SqlCommandBuilder();
+        SqlDataAdapter adapter7 = new SqlDataAdapter();
+        SqlCommandBuilder sqlCmdBuilder7 = new SqlCommandBuilder();
+        SqlDataAdapter adapter8 = new SqlDataAdapter();
+        SqlCommandBuilder sqlCmdBuilder8 = new SqlCommandBuilder();
         SqlTransaction tran;
         SqlCommand cmd = new SqlCommand();
         DataSet ds = new DataSet();
@@ -46,6 +52,10 @@ namespace TKHR
         DataSet ds3 = new DataSet();
         DataSet ds4 = new DataSet();
         DataSet ds5= new DataSet();
+        DataSet ds6 = new DataSet();
+        DataSet ds7 = new DataSet();
+        DataSet ds8 = new DataSet();
+    
         DataTable dt = new DataTable();
         string SAVE;
         int result;
@@ -54,6 +64,7 @@ namespace TKHR
         string STATUSAspNetRoles;
         string STATUSWORKID;
         string RoleId;
+        string RoleId2;
 
         public frmSETWROKHRS()
         {
@@ -203,6 +214,53 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+        public void SEARCHAspNetRoles3()
+        {
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+                sbSql.AppendFormat(@"  SELECT [Name] AS '代號',[NormalizedName] AS '名稱',[Id],[ConcurrencyStamp]");
+                sbSql.AppendFormat(@"  FROM [TKWEB].[dbo].[AspNetRoles]");
+                sbSql.AppendFormat(@"  ORDER BY [Name]");
+                sbSql.AppendFormat(@"  ");
+
+
+                adapter6 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder6 = new SqlCommandBuilder(adapter6);
+                sqlConn.Open();
+                ds6.Clear();
+                adapter6.Fill(ds6, "ds6");
+                sqlConn.Close();
+
+
+                if (ds6.Tables["ds6"].Rows.Count == 0)
+                {
+                    dataGridView6.DataSource = null;
+                    
+                }
+                else
+                {
+                    dataGridView6.DataSource = ds6.Tables["ds6"];
+                    dataGridView6.AutoResizeColumns();
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         public void SEARCHAspNetUserRoles(string RoleId)
         {
             try
@@ -309,6 +367,58 @@ namespace TKHR
             }
         }
 
+        public void SEARCHHRROLEWORK(string ROLE)
+        {
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+                
+                sbSql.AppendFormat(@"  SELECT [AspNetRoles].[NormalizedName] AS '部門',[WORKNAME] AS '工作項目',[ROLE],[HRROLEWORK].[WORKID]");
+                sbSql.AppendFormat(@"  FROM [TKWEB].[dbo].[HRROLEWORK],[TKWEB].[dbo].[HRWORK],[TKWEB].[dbo].[AspNetRoles]");
+                sbSql.AppendFormat(@"  WHERE [HRROLEWORK].WORKID=[HRWORK].WORKID");
+                sbSql.AppendFormat(@"  AND [HRROLEWORK].[ROLE]=[AspNetRoles].[Name]");
+                sbSql.AppendFormat(@"  AND [ROLE]='{0}'",ROLE);
+                sbSql.AppendFormat(@"  ORDER BY [HRROLEWORK].[WORKID]");
+                sbSql.AppendFormat(@"  ");
+                sbSql.AppendFormat(@"  ");
+
+
+                adapter7 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder7 = new SqlCommandBuilder(adapter7);
+                sqlConn.Open();
+                ds7.Clear();
+                adapter7.Fill(ds7, "ds7");
+                sqlConn.Close();
+
+
+                if (ds7.Tables["ds7"].Rows.Count == 0)
+                {
+                    dataGridView7.DataSource = null;
+
+                }
+                else
+                {
+                    dataGridView7.DataSource = ds7.Tables["ds7"];
+                    dataGridView7.AutoResizeColumns();
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.Rows.Count >= 1)
@@ -384,6 +494,23 @@ namespace TKHR
                 
             }
         }
+
+        private void dataGridView6_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView6.Rows.Count >= 1)
+            {
+                RoleId2 = dataGridView6.CurrentRow.Cells["代號"].Value.ToString();
+                SEARCHHRROLEWORK(RoleId2);
+
+                textBox18.Text = dataGridView6.CurrentRow.Cells["代號"].Value.ToString();
+                textBox20.Text = dataGridView6.CurrentRow.Cells["Id"].Value.ToString();
+            }
+            else
+            {
+                
+            }
+        }
+
         public void SETNULL()
         {
             textBox1.Text = null;
@@ -423,6 +550,8 @@ namespace TKHR
             textBox13.Text = null;
 
         }
+
+        
 
         public void ADDAspNetRoles()
         {
@@ -807,11 +936,16 @@ namespace TKHR
             SEARCHAspNetUserRoles(RoleId);
             SEARCHAspNetUsers();
         }
+        private void button12_Click(object sender, EventArgs e)
+        {
+            SEARCHAspNetRoles3();
+        }
+
 
 
 
         #endregion
 
-
+       
     }
 }

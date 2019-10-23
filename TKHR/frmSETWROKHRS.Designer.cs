@@ -1032,6 +1032,7 @@
             this.button12.TabIndex = 0;
             this.button12.Text = "查詢角色及工作";
             this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // dataGridView6
             // 
@@ -1043,6 +1044,7 @@
             this.dataGridView6.RowTemplate.Height = 24;
             this.dataGridView6.Size = new System.Drawing.Size(321, 519);
             this.dataGridView6.TabIndex = 4;
+            this.dataGridView6.SelectionChanged += new System.EventHandler(this.dataGridView6_SelectionChanged);
             // 
             // splitContainer10
             // 
