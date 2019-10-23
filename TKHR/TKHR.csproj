@@ -172,6 +172,12 @@
     <Compile Include="frmSALARYOVERTIME.Designer.cs">
       <DependentUpon>frmSALARYOVERTIME.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSETWROKHRS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSETWROKHRS.Designer.cs">
+      <DependentUpon>frmSETWROKHRS.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSysRESETPS.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -227,6 +233,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSALARYOVERTIME.resx">
       <DependentUpon>frmSALARYOVERTIME.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSETWROKHRS.resx">
+      <DependentUpon>frmSETWROKHRS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSysRESETPS.resx">
       <DependentUpon>frmSysRESETPS.cs</DependentUpon>
