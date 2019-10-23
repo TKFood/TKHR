@@ -34,12 +34,18 @@ namespace TKHR
         SqlCommandBuilder sqlCmdBuilder2 = new SqlCommandBuilder();
         SqlDataAdapter adapter3 = new SqlDataAdapter();
         SqlCommandBuilder sqlCmdBuilder3 = new SqlCommandBuilder();
+        SqlDataAdapter adapter4 = new SqlDataAdapter();
+        SqlCommandBuilder sqlCmdBuilder4 = new SqlCommandBuilder();
+        SqlDataAdapter adapter5 = new SqlDataAdapter();
+        SqlCommandBuilder sqlCmdBuilder5 = new SqlCommandBuilder();
         SqlTransaction tran;
         SqlCommand cmd = new SqlCommand();
         DataSet ds = new DataSet();
         DataSet ds1 = new DataSet();
         DataSet ds2 = new DataSet();
         DataSet ds3 = new DataSet();
+        DataSet ds4 = new DataSet();
+        DataSet ds5= new DataSet();
         DataTable dt = new DataTable();
         string SAVE;
         int result;
@@ -47,6 +53,7 @@ namespace TKHR
 
         string STATUSAspNetRoles;
         string STATUSWORKID;
+        string RoleId;
 
         public frmSETWROKHRS()
         {
@@ -149,6 +156,159 @@ namespace TKHR
             }
         }
 
+        public void SEARCHAspNetRoles2()
+        {
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+                sbSql.AppendFormat(@"  SELECT [Name] AS '代號',[NormalizedName] AS '名稱',[Id],[ConcurrencyStamp]");
+                sbSql.AppendFormat(@"  FROM [TKWEB].[dbo].[AspNetRoles]");
+                sbSql.AppendFormat(@"  ORDER BY [Name]");
+                sbSql.AppendFormat(@"  ");
+
+
+                adapter3 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder3 = new SqlCommandBuilder(adapter3);
+                sqlConn.Open();
+                ds3.Clear();
+                adapter3.Fill(ds3, "ds3");
+                sqlConn.Close();
+
+
+                if (ds3.Tables["ds3"].Rows.Count == 0)
+                {
+                    dataGridView3.DataSource = null;
+                   
+                }
+                else
+                {
+                    dataGridView3.DataSource = ds3.Tables["ds3"];
+                    dataGridView3.AutoResizeColumns();
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+        public void SEARCHAspNetUserRoles(string RoleId)
+        {
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+
+               
+                sbSql.AppendFormat(@"  SELECT [Name] AS '角色',[UserName]  AS '帳號',[UserId],[RoleId],[AspNetUsers].[Id],[AspNetRoles].[Id],[NormalizedName]");
+                sbSql.AppendFormat(@"  FROM [TKWEB].[dbo].[AspNetUserRoles],[TKWEB].[dbo].[AspNetRoles],[TKWEB].[dbo].[AspNetUsers]");
+                sbSql.AppendFormat(@"  WHERE [AspNetUserRoles].[UserId]=[AspNetUsers].[Id] ");
+                sbSql.AppendFormat(@"  AND [AspNetUserRoles].[RoleId]=[AspNetRoles].[Id]");
+                sbSql.AppendFormat(@"  AND [AspNetUserRoles].[RoleId]='{0}'",RoleId);
+                sbSql.AppendFormat(@"  ");
+
+
+                adapter4 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder4 = new SqlCommandBuilder(adapter4);
+                sqlConn.Open();
+                ds4.Clear();
+                adapter4.Fill(ds4, "ds4");
+                sqlConn.Close();
+
+
+                if (ds4.Tables["ds4"].Rows.Count == 0)
+                {
+                    dataGridView4.DataSource = null;
+
+                }
+                else
+                {
+                    dataGridView4.DataSource = ds4.Tables["ds4"];
+                    dataGridView4.AutoResizeColumns();
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void SEARCHAspNetUsers()
+        {
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                StringBuilder sbSql = new StringBuilder();
+                sbSql.Clear();
+                sbSqlQuery.Clear();
+                                
+                sbSql.AppendFormat(@"  SELECT [UserName] AS '帳號',[Id]");
+                sbSql.AppendFormat(@"  FROM [TKWEB].[dbo].[AspNetUsers]");
+                sbSql.AppendFormat(@"  WHERE [Id] NOT IN (");
+                sbSql.AppendFormat(@"  SELECT [UserId]");
+                sbSql.AppendFormat(@"  FROM [TKWEB].[dbo].[AspNetUserRoles],[TKWEB].[dbo].[AspNetRoles],[TKWEB].[dbo].[AspNetUsers]");
+                sbSql.AppendFormat(@"  WHERE [AspNetUserRoles].[UserId]=[AspNetUsers].[Id]");
+                sbSql.AppendFormat(@"  AND [AspNetUserRoles].[RoleId]=[AspNetRoles].[Id]");
+                sbSql.AppendFormat(@"  AND [AspNetUserRoles].[RoleId]='{0}'",RoleId);
+                sbSql.AppendFormat(@"  )");
+                sbSql.AppendFormat(@"  ORDER BY [UserName]");
+                sbSql.AppendFormat(@"  ");
+
+
+                adapter5 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder5 = new SqlCommandBuilder(adapter5);
+                sqlConn.Open();
+                ds5.Clear();
+                adapter5.Fill(ds5, "ds5");
+                sqlConn.Close();
+
+
+                if (ds5.Tables["ds5"].Rows.Count == 0)
+                {
+                    dataGridView5.DataSource = null;
+
+                }
+                else
+                {
+                    dataGridView5.DataSource = ds5.Tables["ds5"];
+                    dataGridView5.AutoResizeColumns();
+                }
+
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.Rows.Count >= 1)
@@ -177,6 +337,53 @@ namespace TKHR
             }
 
         }
+
+        private void dataGridView3_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView3.Rows.Count >= 1)
+            {
+                RoleId= dataGridView3.CurrentRow.Cells["Id"].Value.ToString();
+                SEARCHAspNetUserRoles(RoleId);
+
+                textBox6.Text = dataGridView3.CurrentRow.Cells["代號"].Value.ToString();
+                textBox8.Text = dataGridView3.CurrentRow.Cells["Id"].Value.ToString();
+            }
+            else
+            {
+                SETNULL2();
+            }
+
+        }
+
+        private void dataGridView4_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView4.Rows.Count >= 1)
+            {
+                textBox10.Text= dataGridView4.CurrentRow.Cells["角色"].Value.ToString();
+                textBox11.Text = dataGridView4.CurrentRow.Cells["帳號"].Value.ToString();
+                textBox12.Text = dataGridView4.CurrentRow.Cells["RoleId"].Value.ToString();
+                textBox13.Text = dataGridView4.CurrentRow.Cells["UserId"].Value.ToString();
+               
+            }
+            else
+            {
+                SETNULL3();
+            }
+        }
+
+        private void dataGridView5_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView5.Rows.Count >= 1)
+            {
+                textBox7.Text = dataGridView5.CurrentRow.Cells["帳號"].Value.ToString();
+                textBox9.Text = dataGridView5.CurrentRow.Cells["Id"].Value.ToString();
+
+            }
+            else
+            {
+                
+            }
+        }
         public void SETNULL()
         {
             textBox1.Text = null;
@@ -196,11 +403,9 @@ namespace TKHR
 
         public void SETNULL2()
         {
-            textBox4.Text = null;
-            textBox5.Text = null;            
+            textBox6.Text = null;
+            textBox8.Text = null;            
 
-            textBox4.ReadOnly = true;
-            textBox5.ReadOnly = true;
            
         }
         public void SETREADONLY2()
@@ -208,6 +413,15 @@ namespace TKHR
             textBox4.ReadOnly = false;
             textBox5.ReadOnly = false;
             
+        }
+
+        public void SETNULL3()
+        {
+            textBox10.Text = null;
+            textBox11.Text = null;
+            textBox12.Text = null;
+            textBox13.Text = null;
+
         }
 
         public void ADDAspNetRoles()
@@ -403,6 +617,99 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+        public void ADDAspNetUserRoles()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(" INSERT INTO [TKWEB].[dbo].[AspNetUserRoles]");
+                sbSql.AppendFormat(" ([UserId],[RoleId])");
+                sbSql.AppendFormat(" VALUES ('{0}','{1}')",textBox9.Text,textBox8.Text);
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                    MessageBox.Show("FAIL");
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("OK");
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+        public void DELETEAspNetUserRoles()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(" DELETE [TKWEB].[dbo].[AspNetUserRoles]");
+                sbSql.AppendFormat(" WHERE [UserId]='{0}' AND [RoleId]='{1}'",textBox13.Text,textBox12.Text);
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                    MessageBox.Show("FAIL");
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("OK");
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
 
         #endregion
 
@@ -476,9 +783,35 @@ namespace TKHR
             SETNULL2();
             SEARCHWORKID();
         }
+        private void button9_Click(object sender, EventArgs e)
+        {
+            SEARCHAspNetRoles2();
+        }
+        private void button10_Click(object sender, EventArgs e)
+        {
+            SEARCHAspNetUsers();
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            ADDAspNetUserRoles();
+
+            SEARCHAspNetUserRoles(RoleId);
+            SEARCHAspNetUsers();
+        }
+        
+        private void button14_Click(object sender, EventArgs e)
+        {
+            DELETEAspNetUserRoles();
+
+            SEARCHAspNetUserRoles(RoleId);
+            SEARCHAspNetUsers();
+        }
+
+
 
         #endregion
 
-    
+
     }
 }
