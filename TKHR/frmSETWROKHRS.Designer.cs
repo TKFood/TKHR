@@ -55,10 +55,8 @@
             this.button8 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -325,6 +323,7 @@
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(412, 625);
             this.dataGridView2.TabIndex = 1;
+            this.dataGridView2.SelectionChanged += new System.EventHandler(this.dataGridView2_SelectionChanged);
             // 
             // tableLayoutPanel2
             // 
@@ -339,12 +338,10 @@
             this.tableLayoutPanel2.Controls.Add(this.button6, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.button7, 3, 2);
             this.tableLayoutPanel2.Controls.Add(this.button8, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label4, 0, 4);
-            this.tableLayoutPanel2.Controls.Add(this.label5, 0, 5);
-            this.tableLayoutPanel2.Controls.Add(this.label6, 0, 6);
-            this.tableLayoutPanel2.Controls.Add(this.textBox4, 1, 4);
-            this.tableLayoutPanel2.Controls.Add(this.textBox5, 1, 5);
-            this.tableLayoutPanel2.Controls.Add(this.textBox6, 1, 6);
+            this.tableLayoutPanel2.Controls.Add(this.textBox5, 1, 4);
+            this.tableLayoutPanel2.Controls.Add(this.label5, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this.label4, 0, 5);
+            this.tableLayoutPanel2.Controls.Add(this.textBox4, 1, 5);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -408,7 +405,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 172);
+            this.label4.Location = new System.Drawing.Point(3, 212);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(114, 16);
             this.label4.TabIndex = 4;
@@ -418,27 +415,17 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 212);
+            this.label5.Location = new System.Drawing.Point(3, 172);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(114, 16);
             this.label5.TabIndex = 5;
             this.label5.Text = "名稱";
             // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 252);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(114, 16);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "ID";
-            // 
             // textBox4
             // 
             this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.textBox4, 2);
-            this.textBox4.Location = new System.Drawing.Point(123, 166);
+            this.textBox4.Location = new System.Drawing.Point(123, 206);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(234, 27);
@@ -448,21 +435,11 @@
             // 
             this.textBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.textBox5, 2);
-            this.textBox5.Location = new System.Drawing.Point(123, 206);
+            this.textBox5.Location = new System.Drawing.Point(123, 166);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(234, 27);
             this.textBox5.TabIndex = 8;
-            // 
-            // textBox6
-            // 
-            this.textBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.SetColumnSpan(this.textBox6, 2);
-            this.textBox6.Location = new System.Drawing.Point(123, 246);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(234, 27);
-            this.textBox6.TabIndex = 9;
             // 
             // frmSETWROKHRS
             // 
@@ -524,9 +501,7 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
     }
 }

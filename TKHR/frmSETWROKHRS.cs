@@ -163,6 +163,20 @@ namespace TKHR
             }
         }
 
+
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView2.Rows.Count >= 1)
+            {
+                textBox4.Text = dataGridView2.CurrentRow.Cells["代號"].Value.ToString();
+                textBox5.Text = dataGridView2.CurrentRow.Cells["名稱"].Value.ToString();
+            }
+            else
+            {
+                SETNULL2();
+            }
+
+        }
         public void SETNULL()
         {
             textBox1.Text = null;
@@ -183,18 +197,17 @@ namespace TKHR
         public void SETNULL2()
         {
             textBox4.Text = null;
-            textBox5.Text = null;
-            textBox6.Text = null;
+            textBox5.Text = null;            
 
             textBox4.ReadOnly = true;
             textBox5.ReadOnly = true;
-            //textBox6.ReadOnly = true;
+           
         }
         public void SETREADONLY2()
         {
             textBox4.ReadOnly = false;
             textBox5.ReadOnly = false;
-            //textBox6.ReadOnly = false;
+            
         }
 
         public void ADDAspNetRoles()
@@ -294,6 +307,103 @@ namespace TKHR
             }
         }
 
+        public void ADDWORKID()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(" INSERT INTO [TKWEB].[dbo].[HRWORK]");
+                sbSql.AppendFormat(" ([WORKID],[WORKNAME])");
+                sbSql.AppendFormat(" VALUES ('{0}','{1}')",textBox4.Text,textBox5.Text);
+                sbSql.AppendFormat(" ");
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                    MessageBox.Show("FAIL");
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("OK");
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void UPDATEWORKID()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(" UPDATE [TKWEB].[dbo].[HRWORK]");
+                sbSql.AppendFormat(" SET [WORKNAME]='{0}'", textBox5.Text);
+                sbSql.AppendFormat(" WHERE [WORKID]='{0}'", textBox4.Text);
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                    MessageBox.Show("FAIL");
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("OK");
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
         #endregion
 
         #region BUTTON
@@ -326,6 +436,8 @@ namespace TKHR
                 UPDATEAspNetRoles();
             }
 
+            STATUSAspNetRoles = null;
+
             SETNULL();
             SEARCHAspNetRoles();
             
@@ -337,20 +449,36 @@ namespace TKHR
 
         private void button6_Click(object sender, EventArgs e)
         {
-
+            SETNULL2();
+            SETREADONLY2();
+            STATUSWORKID = "ADD";
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-
+            SETREADONLY2();
+            STATUSWORKID = "EDIT";
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
+            if (STATUSWORKID.Equals("ADD"))
+            {
+                ADDWORKID();
+            }
+            else if (STATUSWORKID.Equals("EDIT"))
+            {
+                UPDATEWORKID();
+            }
 
+            STATUSWORKID = null;
+
+            SETNULL2();
+            SEARCHWORKID();
         }
+
         #endregion
 
-
+    
     }
 }
