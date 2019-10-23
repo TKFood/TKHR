@@ -45,6 +45,8 @@ namespace TKHR
         int result;
         string ID;
 
+        string STATUSAspNetRoles;
+
         public frmSETWROKHRS()
         {
             InitializeComponent();
@@ -119,6 +121,113 @@ namespace TKHR
             textBox1.Text = null;
             textBox2.Text = null;
             textBox3.Text = null;
+
+            textBox1.ReadOnly = true;
+            textBox2.ReadOnly = true;
+            //textBox3.ReadOnly = true;
+        }
+        public void SETREADONLY()
+        {
+            textBox1.ReadOnly = false;
+            textBox2.ReadOnly = false;
+            //textBox3.ReadOnly = false;
+        }
+
+        public void ADDAspNetRoles()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+               
+                sbSql.AppendFormat(" INSERT INTO [TKWEB].[dbo].[AspNetRoles]");
+                sbSql.AppendFormat(" ([Id],[Name],[NormalizedName],[ConcurrencyStamp])");
+                sbSql.AppendFormat(" VALUES (NEWID(),'{0}','{1}',NEWID())",textBox1.Text,textBox2.Text);
+                sbSql.AppendFormat(" ");
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                    MessageBox.Show("FAIL");
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("OK");
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
+        public void UPDATEAspNetRoles()
+        {
+            try
+            {
+                //add ZWAREWHOUSEPURTH
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+                sbSql.AppendFormat(" UPDATE [TKWEB].[dbo].[AspNetRoles]");
+                sbSql.AppendFormat(" SET [Name]='{0}',[NormalizedName]='{1}'",textBox1.Text,textBox2.Text);
+                sbSql.AppendFormat(" WHERE [Id]='{0}'",textBox3.Text);
+                sbSql.AppendFormat(" ");
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                    MessageBox.Show("FAIL");
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                    MessageBox.Show("OK");
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
         }
 
         #endregion
@@ -129,6 +238,34 @@ namespace TKHR
             SEARCHAspNetRoles();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SETNULL();
+            SETREADONLY();
+            STATUSAspNetRoles = "ADD";
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SETREADONLY();
+            STATUSAspNetRoles = "EDIT";
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if(STATUSAspNetRoles.Equals("ADD"))
+            {
+                ADDAspNetRoles();
+            }
+            else if(STATUSAspNetRoles.Equals("EDIT"))
+            {
+                UPDATEAspNetRoles();
+            }
+
+            SETNULL();
+            SEARCHAspNetRoles();
+            
+        }
         #endregion
 
 
