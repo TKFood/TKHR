@@ -48,7 +48,7 @@ namespace TKHR
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Title = "Select file";
             dialog.InitialDirectory = ".\\";
-            dialog.Filter = "xls files (*.*)|*.xls";
+            dialog.Filter = "Excel Files(.xlsx)|*.xlsx|xls files (*.*)|*.xls ";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 MessageBox.Show(dialog.FileName);
