@@ -18,6 +18,7 @@ using System.Threading;
 using Microsoft.Office.Core;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Data.OleDb;
+using System.Globalization;
 
 namespace TKHR
 {
@@ -74,20 +75,58 @@ namespace TKHR
 
                 cnn.Close();
 
-
-
-
-
+                
 
             }
         }
 
-    
+        public void ADDEMPDAILY()
+        {
+            StringBuilder SQL = new StringBuilder();
+            if(tableSql.Rows.Count>0)
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+                sqlConn.Open();
+
+                if (dataGridView1.Rows.Count > 0)
+                {
+                    DataRow dr = null;
+                    for (int i = 0; i < tableSql.Rows.Count; i++)
+                    {
+                        dr = tableSql.Rows[i];
+                    
+                        DateTime dt = Convert.ToDateTime(dr["時間戳記"].ToString().Replace("下午", "PM").Replace("上午", "AM"));
+
+                        SQL.AppendFormat(@" INSERT INTO [TKHR].[dbo].[EMPDAILY]");
+                        SQL.AppendFormat(@" ( [ID],[NAME],[DATES])");
+                        SQL.AppendFormat(@" VALUES ('{0}','{1}','{2}')", dr["ID"].ToString(), dr["NAME"].ToString(), dt.ToString("yyyy-MM-dd HH:mm:ss"));
+                        SQL.AppendFormat(@" ");
+                    }
+
+                    cmd = new SqlCommand(SQL.ToString(), sqlConn);
+                    cmd.ExecuteNonQuery();
+                    sqlConn.Close();
+                    MessageBox.Show("匯入成功");
+                }
+                else
+                {
+                    MessageBox.Show("匯入失敗");
+                }
+            }
+        }
+
+      
         #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {
             OPENFILE();
         }
         #endregion
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ADDEMPDAILY();
+        }
     }
 }
