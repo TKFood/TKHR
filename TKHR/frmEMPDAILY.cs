@@ -61,7 +61,20 @@ namespace TKHR
             {
                 //MessageBox.Show(dialog.FileName);
 
-             
+                string strSQL;  //SQL字串
+                String cnnS = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\j\Desktop\20200420B2.xlsx;" + "Extended Properties=\"EXCEL 12.0;HDR=YES\"";  //資料庫連接字串
+                OleDbConnection cnn = new OleDbConnection(cnnS);
+                strSQL = " Select * From [表單回應 1$] "; //選擇所有資料列從工作表TABLE1 
+                using (OleDbDataAdapter dr = new OleDbDataAdapter(strSQL, cnn))
+                {
+
+                    dr.Fill(tableSql);  //將所有資料填充至tableSql
+                    this.dataGridView1.DataSource = tableSql;
+                }
+
+                cnn.Close();
+
+
 
 
 
