@@ -15,6 +15,9 @@ using NPOI.XSSF.UserModel;
 using NPOI.SS.Util;
 using System.Reflection;
 using System.Threading;
+using Microsoft.Office.Core;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Data.OleDb;
 
 namespace TKHR
 {
@@ -34,6 +37,11 @@ namespace TKHR
         SqlCommand cmd = new SqlCommand();
         DataSet ds = new DataSet();
         DataSet ds1 = new DataSet();
+        DataTable tableSql = new DataTable();
+
+        public static int rows = 1;   
+        public static int colums = 1;
+
 
         public frmEMPDAILY()
         {
@@ -51,9 +59,17 @@ namespace TKHR
             dialog.Filter = "Excel Files(.xlsx)|*.xlsx|xls files (*.*)|*.xls ";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show(dialog.FileName);
+                //MessageBox.Show(dialog.FileName);
+
+             
+
+
+
+
             }
         }
+
+    
         #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {
