@@ -74,7 +74,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(976, 717);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "匯入";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
@@ -186,9 +186,9 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 26);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(976, 718);
+            this.tabPage2.Size = new System.Drawing.Size(976, 717);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "報表";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // openFileDialog1
