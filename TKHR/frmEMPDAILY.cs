@@ -19,6 +19,8 @@ using Microsoft.Office.Core;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Data.OleDb;
 using System.Globalization;
+using FastReport;
+using FastReport.Data;
 
 namespace TKHR
 {
@@ -51,7 +53,7 @@ namespace TKHR
 
         #region FUNCTION
 
-        #endregion
+
         public void OPENFILE()
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -116,17 +118,59 @@ namespace TKHR
             }
         }
 
-      
+        public void SETFASTREPORT()
+        {
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL();
+            Report report1 = new Report();
+            report1.Load(@"REPORT\特別-未回覆問卷.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            report1.SetParameterValue("P1", dateTimePicker1.Value.ToString("yyyyMMdd"));
+            report1.Preview = previewControl1;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL()
+        {
+            StringBuilder SB = new StringBuilder();
+
+            SB.AppendFormat(" SELECT ID AS '工號',NAME AS '姓名',ME001 AS '代號',ME002 AS '部門'");
+            SB.AppendFormat(" FROM [TKHR].[dbo].[EMP],[TK].dbo.CMSMV,[TK].dbo.CMSME");
+            SB.AppendFormat(" WHERE  MV004=ME001");
+            SB.AppendFormat(" AND ID=MV001");
+            SB.AppendFormat(" AND ID NOT IN (SELECT [ID] FROM [TKHR].[dbo].[EMPDAILY] WHERE CONVERT(nvarchar,[DATES],112)='{0}')",dateTimePicker1.Value.ToString("yyyyMMdd"));
+            SB.AppendFormat(" ORDER BY ME001,ID,NAME ");
+            SB.AppendFormat(" ");
+            SB.AppendFormat(" ");
+
+            return SB;
+
+        }
+
+        #endregion
+
         #region BUTTON
         private void button1_Click(object sender, EventArgs e)
         {
             OPENFILE();
         }
-        #endregion
+
 
         private void button2_Click(object sender, EventArgs e)
         {
             ADDEMPDAILY();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT();
+        }
+
+        #endregion
     }
 }
