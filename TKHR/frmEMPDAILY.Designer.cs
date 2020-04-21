@@ -48,6 +48,8 @@
             this.previewControl1 = new FastReport.Preview.PreviewControl();
             this.previewControl2 = new FastReport.Preview.PreviewControl();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -250,7 +252,7 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.previewControl2);
             this.splitContainer3.Size = new System.Drawing.Size(970, 710);
-            this.splitContainer3.SplitterDistance = 323;
+            this.splitContainer3.SplitterDistance = 358;
             this.splitContainer3.TabIndex = 0;
             // 
             // splitContainer4
@@ -268,8 +270,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.previewControl1);
-            this.splitContainer4.Size = new System.Drawing.Size(323, 710);
-            this.splitContainer4.SplitterDistance = 107;
+            this.splitContainer4.Size = new System.Drawing.Size(358, 710);
+            this.splitContainer4.SplitterDistance = 140;
             this.splitContainer4.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -284,8 +286,10 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.button3, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.dateTimePicker1, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.button3, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.label3, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.comboBox1, 1, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -293,7 +297,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(319, 103);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(354, 136);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
             // label2
@@ -308,7 +312,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(123, 43);
+            this.button3.Location = new System.Drawing.Point(123, 83);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(114, 34);
             this.button3.TabIndex = 1;
@@ -325,7 +329,7 @@
             this.previewControl1.Name = "previewControl1";
             this.previewControl1.PageOffset = new System.Drawing.Point(10, 10);
             this.previewControl1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.previewControl1.Size = new System.Drawing.Size(319, 595);
+            this.previewControl1.Size = new System.Drawing.Size(354, 562);
             this.previewControl1.TabIndex = 0;
             // 
             // previewControl2
@@ -337,7 +341,7 @@
             this.previewControl2.Name = "previewControl2";
             this.previewControl2.PageOffset = new System.Drawing.Point(10, 10);
             this.previewControl2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.previewControl2.Size = new System.Drawing.Size(639, 706);
+            this.previewControl2.Size = new System.Drawing.Size(604, 706);
             this.previewControl2.TabIndex = 1;
             // 
             // dateTimePicker1
@@ -349,6 +353,29 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(114, 27);
             this.dateTimePicker1.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 52);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(114, 16);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "過濾";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "全部",
+            "異常"});
+            this.comboBox1.Location = new System.Drawing.Point(123, 50);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(114, 24);
+            this.comboBox1.TabIndex = 8;
+            this.comboBox1.Text = "全部";
             // 
             // frmEMPDAILY
             // 
@@ -411,5 +438,7 @@
         private FastReport.Preview.PreviewControl previewControl1;
         private FastReport.Preview.PreviewControl previewControl2;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

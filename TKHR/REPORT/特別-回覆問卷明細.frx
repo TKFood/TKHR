@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="04/21/2020 09:08:09" ReportInfo.Modified="04/21/2020 09:10:19" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <Parameter Name="P1" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210">
+    <ReportTitleBand Name="ReportTitle1" Width="1047.06" Height="37.8">
+      <TextObject Name="Text1" Width="491.4" Height="37.8" Text="每日問卷明細&#13;&#10;日期:[P1]" VertAlign="Center"/>
+    </ReportTitleBand>
+    <ColumnHeaderBand Name="ColumnHeader1" Top="41.65" Width="1047.06" Height="37.8"/>
+    <DataBand Name="Data1" Top="83.29" Width="1047.06" Height="75.6"/>
+  </ReportPage>
+</Report>
