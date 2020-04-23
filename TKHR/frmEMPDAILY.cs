@@ -100,9 +100,9 @@ namespace TKHR
                     
                         DateTime dt = Convert.ToDateTime(dr["時間戳記"].ToString().Replace("下午", "PM").Replace("上午", "AM"));
 
-                        SQL.AppendFormat(@" INSERT INTO [TKHR].[dbo].[EMPDAILY]");
-                        SQL.AppendFormat(@" ( [ID],[NAME],[DATES])");
-                        SQL.AppendFormat(@" VALUES ('{0}','{1}','{2}')", dr["ID"].ToString(), dr["NAME"].ToString(), dt.ToString("yyyy-MM-dd HH:mm:ss"));
+                        SQL.AppendFormat(@" INSERT INTO [TKWEB].[dbo].[QUESTIONNAIRES]");
+                        SQL.AppendFormat(@" ([DATES],[NO],[NAME],[DEP],[QUESTION1],[QUESTION2],[QUESTION3],[QUESTION4],[QUESTION5],[QUESTION6],[QUESTION7],[QUESTION8],[QUESTION9],[QUESTION10],[QUESTION11])");
+                        SQL.AppendFormat(@" VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}')", dt.ToString("yyyy-MM-dd HH:mm:ss"), dr["工號"].ToString(), dr["姓名"].ToString(), dr["部門"].ToString(), dr["請問24小時內，您與您同住的家屬/室友否出現以下微狀(複選)"].ToString(), dr["承上題，如有症狀請簡短說明何時、何地、何人"].ToString(), dr["請問24小時內您與您的同住的家屬/室友是否從其他國家入境台灣？"].ToString(), dr["承上題，簡短說明何時、何地、何人、班次?"].ToString(), dr["請問24小時內您與您的同住的家屬/室友是否曾與已確診/疑似/正在接受檢驗之新型冠狀病毒肺炎病患有接觸？"].ToString(), dr["承上題，簡短說明何時接觸、何地接觸、何人接觸?"].ToString(), dr["請問24小時內您與您的同住的家屬/室友是否曾前往非閉密空間但人潮擁擠的公共場所(無適當社交距離1M)，如旅遊地區、夜市、風景地區"].ToString(), dr["承上題，簡短說明何時、何地、何人、共約幾人"].ToString(), dr["請問24小時內您與您的同住的家屬/室友是否曾搭乘大眾交通運輸工具（公車、台鐵、高鐵、捷運、渡輪、客運、遊覽車…）"].ToString(), dr["承上題，簡短說明何時、何地、何人、何種交通工具、班次?"].ToString(), dr["其他想告知的事項"].ToString());
                         SQL.AppendFormat(@" ");
                     }
 
