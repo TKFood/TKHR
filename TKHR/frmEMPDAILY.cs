@@ -139,12 +139,28 @@ namespace TKHR
         {
             StringBuilder SB = new StringBuilder();
 
-            SB.AppendFormat(" SELECT ID AS '工號',NAME AS '姓名',ME001 AS '代號',ME002 AS '部門'");
-            SB.AppendFormat(" FROM [TKHR].[dbo].[EMP],[TK].dbo.CMSMV,[TK].dbo.CMSME");
-            SB.AppendFormat(" WHERE  MV004=ME001");
-            SB.AppendFormat(" AND ID=MV001");
-            SB.AppendFormat(" AND ID NOT IN (SELECT [ID] FROM [TKHR].[dbo].[EMPDAILY] WHERE CONVERT(nvarchar,[DATES],112)='{0}')",dateTimePicker1.Value.ToString("yyyyMMdd"));
-            SB.AppendFormat(" ORDER BY ME001,ID,NAME ");
+            if(comboBox2.Text.Equals("早班"))
+            {
+                SB.AppendFormat(" SELECT ID AS '工號',NAME AS '姓名',ME001 AS '代號',ME002 AS '部門'");
+                SB.AppendFormat(" FROM [TKHR].[dbo].[EMP],[TK].dbo.CMSMV,[TK].dbo.CMSME");
+                SB.AppendFormat(" WHERE  MV004=ME001");
+                SB.AppendFormat(" AND ID=MV001");
+                SB.AppendFormat(" AND ID NOT IN (SELECT [NO] FROM [TKWEB].[dbo].[QUESTIONNAIRES]  WHERE CONVERT(nvarchar,[DATES],112)='{0}')", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                SB.AppendFormat(" AND CLASS='早班'");
+                SB.AppendFormat(" ORDER BY ME001,ID,NAME ");
+                SB.AppendFormat(" ");
+            }
+            else if (comboBox2.Text.Equals("中班"))
+            {
+                SB.AppendFormat(" SELECT ID AS '工號',NAME AS '姓名',ME001 AS '代號',ME002 AS '部門'");
+                SB.AppendFormat(" FROM [TKHR].[dbo].[EMP],[TK].dbo.CMSMV,[TK].dbo.CMSME");
+                SB.AppendFormat(" WHERE  MV004=ME001");
+                SB.AppendFormat(" AND ID=MV001");
+                SB.AppendFormat(" AND ID NOT IN (SELECT [NO] FROM [TKWEB].[dbo].[QUESTIONNAIRES]  WHERE CONVERT(nvarchar,[DATES],112)='{0}')", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                SB.AppendFormat(" AND CLASS='中班'");
+                SB.AppendFormat(" ORDER BY ME001,ID,NAME ");
+                SB.AppendFormat(" ");
+            }
             SB.AppendFormat(" ");
             SB.AppendFormat(" ");
 
