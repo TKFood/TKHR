@@ -168,6 +168,82 @@ namespace TKHR
 
         }
 
+        public void SETFASTREPORT2()
+        {
+            StringBuilder SQL1 = new StringBuilder();
+
+            SQL1 = SETSQL3();
+            Report report1 = new Report();
+            report1.Load(@"REPORT\特別-回覆問卷明細.frx");
+
+            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            TableDataSource table = report1.GetDataSource("Table") as TableDataSource;
+            table.SelectCommand = SQL1.ToString();
+
+            report1.SetParameterValue("P1", dateTimePicker1.Value.ToString("yyyyMMdd"));
+            report1.Preview = previewControl3;
+            report1.Show();
+        }
+
+        public StringBuilder SETSQL3()
+        {
+            StringBuilder SB = new StringBuilder();
+
+            if (comboBox1.Text.Equals("異常"))
+            {
+                SB.AppendFormat(" SELECT CONVERT(nvarchar,[DATES],112) AS '填寫日期'");
+                SB.AppendFormat(" ,[NO] AS '工號'");
+                SB.AppendFormat(" ,[NAME] AS '姓名'");
+                SB.AppendFormat(" ,[DEP] AS '部門'");
+                SB.AppendFormat(" ,[QUESTION1] AS '請問24小時內，您與您同住的家屬/室友否出現以下微狀(複選)'");
+                SB.AppendFormat(" ,[QUESTION2] AS '承上題，如有症狀請簡短說明何時、何地、何人'");
+                SB.AppendFormat(" ,[QUESTION3] AS '請問24小時內您與您的同住的家屬/室友是否從其他國家入境台灣？'");
+                SB.AppendFormat(" ,[QUESTION4] AS '承上題，簡短說明何時、何地、何人、班次?'");
+                SB.AppendFormat(" ,[QUESTION5] AS '請問24小時內您與您的同住的家屬/室友是否曾與已確診/疑似/正在接受檢驗之新型冠狀病毒肺炎病患有接觸？'");
+                SB.AppendFormat(" ,[QUESTION6] AS '承上題，簡短說明何時接觸、何地接觸、何人接觸?'");
+                SB.AppendFormat(" ,[QUESTION7] AS '請問24小時內您與您的同住的家屬/室友是否曾前往非閉密空間但人潮擁擠的公共場所(無適當社交距離1M)'");
+                SB.AppendFormat(" ,[QUESTION8] AS '承上題，簡短說明何時、何地、何人、共約幾人'");
+                SB.AppendFormat(" ,[QUESTION9] AS '請問24小時內您與您的同住的家屬/室友是否曾搭乘大眾交通運輸工具'");
+                SB.AppendFormat(" ,[QUESTION10] AS '承上題，簡短說明何時、何地、何人、何種交通工具、班次?'");
+                SB.AppendFormat(" ,[QUESTION11] AS '其他想告知的事項'");
+                SB.AppendFormat(" ,[ID]");
+                SB.AppendFormat(" FROM [TKWEB].[dbo].[QUESTIONNAIRES]");
+                SB.AppendFormat(" WHERE CONVERT(nvarchar,[DATES],112)='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
+                SB.AppendFormat(" AND ([QUESTION1]<>'否' OR ISNULL([QUESTION2],'')<>'' OR [QUESTION3]<>'否' OR ISNULL([QUESTION4],'')<>''OR [QUESTION5]<>'否' OR ISNULL([QUESTION6],'')<>'' OR [QUESTION7]<>'否' OR ISNULL([QUESTION8],'')<>'' OR [QUESTION9]<>'否' OR ISNULL([QUESTION10],'')<>'' OR ISNULL([QUESTION11],'')<>'')");
+                SB.AppendFormat(" ");
+                SB.AppendFormat(" ");
+            }
+            else if (comboBox1.Text.Equals("全部"))
+            {
+
+                SB.AppendFormat(" SELECT CONVERT(nvarchar,[DATES],112) AS '填寫日期'");
+                SB.AppendFormat(" ,[NO] AS '工號'");
+                SB.AppendFormat(" ,[NAME] AS '姓名'");
+                SB.AppendFormat(" ,[DEP] AS '部門'");
+                SB.AppendFormat(" ,[QUESTION1] AS '請問24小時內，您與您同住的家屬/室友否出現以下微狀(複選)'");
+                SB.AppendFormat(" ,[QUESTION2] AS '承上題，如有症狀請簡短說明何時、何地、何人'");
+                SB.AppendFormat(" ,[QUESTION3] AS '請問24小時內您與您的同住的家屬/室友是否從其他國家入境台灣？'");
+                SB.AppendFormat(" ,[QUESTION4] AS '承上題，簡短說明何時、何地、何人、班次?'");
+                SB.AppendFormat(" ,[QUESTION5] AS '請問24小時內您與您的同住的家屬/室友是否曾與已確診/疑似/正在接受檢驗之新型冠狀病毒肺炎病患有接觸？'");
+                SB.AppendFormat(" ,[QUESTION6] AS '承上題，簡短說明何時接觸、何地接觸、何人接觸?'");
+                SB.AppendFormat(" ,[QUESTION7] AS '請問24小時內您與您的同住的家屬/室友是否曾前往非閉密空間但人潮擁擠的公共場所(無適當社交距離1M)'");
+                SB.AppendFormat(" ,[QUESTION8] AS '承上題，簡短說明何時、何地、何人、共約幾人'");
+                SB.AppendFormat(" ,[QUESTION9] AS '請問24小時內您與您的同住的家屬/室友是否曾搭乘大眾交通運輸工具'");
+                SB.AppendFormat(" ,[QUESTION10] AS '承上題，簡短說明何時、何地、何人、何種交通工具、班次?'");
+                SB.AppendFormat(" ,[QUESTION11] AS '其他想告知的事項'");
+                SB.AppendFormat(" ,[ID]");
+                SB.AppendFormat(" FROM [TKWEB].[dbo].[QUESTIONNAIRES]");
+                SB.AppendFormat(" WHERE CONVERT(nvarchar,[DATES],112)='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));                
+                SB.AppendFormat(" ");
+                SB.AppendFormat(" ");
+            }
+            SB.AppendFormat(" ");
+            SB.AppendFormat(" ");
+
+            return SB;
+
+        }
+
         #endregion
 
         #region BUTTON
@@ -185,6 +261,7 @@ namespace TKHR
         private void button3_Click(object sender, EventArgs e)
         {
             SETFASTREPORT();
+            SETFASTREPORT2();
         }
 
         #endregion

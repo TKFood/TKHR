@@ -1,13 +1,65 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="04/21/2020 09:08:09" ReportInfo.Modified="04/21/2020 09:10:19" ReportInfo.CreatorVersion="2016.4.4.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="04/21/2020 09:08:09" ReportInfo.Modified="04/27/2020 15:29:32" ReportInfo.CreatorVersion="2016.4.4.0">
   <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpNK7VAg28EMb2zujBtCWMs8uR7KE3TT1XHtlPqNg0WX9IKApZ2kbFmPiNyN0kOOFcp">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="/****** SSMS 中 SelectTopNRows 命令的指令碼  ******/&#13;&#10;SELECT CONVERT(nvarchar,[DATES],112) AS '填寫日期'&#13;&#10;,[NO] AS '工號'&#13;&#10;,[NAME] AS '姓名'&#13;&#10;,[DEP] AS '部門'&#13;&#10;,[QUESTION1] AS '請問24小時內，您與您同住的家屬/室友否出現以下微狀(複選)'&#13;&#10;,[QUESTION2] AS '承上題，如有症狀請簡短說明何時、何地、何人'&#13;&#10;,[QUESTION3] AS '請問24小時內您與您的同住的家屬/室友是否從其他國家入境台灣？'&#13;&#10;,[QUESTION4] AS '承上題，簡短說明何時、何地、何人、班次?'&#13;&#10;,[QUESTION5] AS '請問24小時內您與您的同住的家屬/室友是否曾與已確診/疑似/正在接受檢驗之新型冠狀病毒肺炎病患有接觸？'&#13;&#10;,[QUESTION6] AS '承上題，簡短說明何時接觸、何地接觸、何人接觸?'&#13;&#10;,[QUESTION7] AS '請問24小時內您與您的同住的家屬/室友是否曾前往非閉密空間但人潮擁擠的公共場所(無適當社交距離1M)'&#13;&#10;,[QUESTION8] AS '承上題，簡短說明何時、何地、何人、共約幾人'&#13;&#10;,[QUESTION9] AS '請問24小時內您與您的同住的家屬/室友是否曾搭乘大眾交通運輸工具'&#13;&#10;,[QUESTION10] AS '承上題，簡短說明何時、何地、何人、何種交通工具、班次?'&#13;&#10;,[QUESTION11] AS '其他想告知的事項'&#13;&#10;,[ID]&#13;&#10;FROM [TKWEB].[dbo].[QUESTIONNAIRES]&#13;&#10;WHERE CONVERT(nvarchar,[DATES],112)='20200427'&#13;&#10;AND ([QUESTION1]&lt;&gt;'否' OR ISNULL([QUESTION2],'')&lt;&gt;'' OR [QUESTION3]&lt;&gt;'否' OR ISNULL([QUESTION4],'')&lt;&gt;''OR [QUESTION5]&lt;&gt;'否' OR ISNULL([QUESTION6],'')&lt;&gt;'' OR [QUESTION7]&lt;&gt;'否' OR ISNULL([QUESTION8],'')&lt;&gt;'' OR [QUESTION9]&lt;&gt;'否' OR ISNULL([QUESTION10],'')&lt;&gt;'' OR ISNULL([QUESTION11],'')&lt;&gt;'')&#13;&#10;&#13;&#10;">
+        <Column Name="填寫日期" DataType="System.String"/>
+        <Column Name="工號" DataType="System.String"/>
+        <Column Name="姓名" DataType="System.String"/>
+        <Column Name="部門" DataType="System.String"/>
+        <Column Name="請問24小時內，您與您同住的家屬/室友否出現以下微狀(複選)" DataType="System.String"/>
+        <Column Name="承上題，如有症狀請簡短說明何時、何地、何人" DataType="System.String"/>
+        <Column Name="請問24小時內您與您的同住的家屬/室友是否從其他國家入境台灣？" DataType="System.String"/>
+        <Column Name="承上題，簡短說明何時、何地、何人、班次?" DataType="System.String"/>
+        <Column Name="請問24小時內您與您的同住的家屬/室友是否曾與已確診/疑似/正在接受檢驗之新型冠狀病毒肺炎病患有接觸？" DataType="System.String"/>
+        <Column Name="承上題，簡短說明何時接觸、何地接觸、何人接觸?" DataType="System.String"/>
+        <Column Name="請問24小時內您與您的同住的家屬/室友是否曾前往非閉密空間但人潮擁擠的公共場所(無適當社交距離1M)" DataType="System.String"/>
+        <Column Name="承上題，簡短說明何時、何地、何人、共約幾人" DataType="System.String"/>
+        <Column Name="請問24小時內您與您的同住的家屬/室友是否曾搭乘大眾交通運輸工具" DataType="System.String"/>
+        <Column Name="承上題，簡短說明何時、何地、何人、何種交通工具、班次?" DataType="System.String"/>
+        <Column Name="其他想告知的事項" DataType="System.String"/>
+        <Column Name="ID" DataType="System.Guid"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
     <Parameter Name="P1" DataType="System.String"/>
   </Dictionary>
-  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210">
-    <ReportTitleBand Name="ReportTitle1" Width="1047.06" Height="37.8">
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="900" PaperHeight="210">
+    <ReportTitleBand Name="ReportTitle1" Width="3326.4" Height="37.8">
       <TextObject Name="Text1" Width="491.4" Height="37.8" Text="每日問卷明細&#13;&#10;日期:[P1]" VertAlign="Center"/>
     </ReportTitleBand>
-    <ColumnHeaderBand Name="ColumnHeader1" Top="41.65" Width="1047.06" Height="37.8"/>
-    <DataBand Name="Data1" Top="83.29" Width="1047.06" Height="75.6"/>
+    <ColumnHeaderBand Name="ColumnHeader1" Top="41.65" Width="3326.4" Height="37.8">
+      <TextObject Name="Text3" Width="94.5" Height="37.8" Border.Lines="All" Text="填寫日期" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text5" Left="94.5" Width="94.5" Height="37.8" Border.Lines="All" Text="工號" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text7" Left="189" Width="94.5" Height="37.8" Border.Lines="All" Text="姓名" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text9" Left="283.5" Width="207.9" Height="37.8" Border.Lines="All" Text="部門" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text11" Left="491.4" Width="198.45" Height="37.8" Border.Lines="All" Text="請問24小時內，您與您同住的家屬/室友否出現以下微狀(複選)" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text15" Left="841.05" Width="207.9" Height="37.8" Border.Lines="All" Text="請問24小時內您與您的同住的家屬/室友是否從其他國家入境台灣？" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text17" Left="1048.95" Width="179.55" Height="37.8" Border.Lines="All" Text="承上題，簡短說明何時、何地、何人、班次?" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text19" Left="1228.5" Width="340.2" Height="37.8" Border.Lines="All" Text="請問24小時內您與您的同住的家屬/室友是否曾與已確診/疑似/正在接受檢驗之新型冠狀病毒肺炎病患有接觸？" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text21" Left="1568.7" Width="179.55" Height="37.8" Border.Lines="All" Text="承上題，簡短說明何時接觸、何地接觸、何人接觸?" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text23" Left="1748.25" Width="302.4" Height="37.8" Border.Lines="All" Text="請問24小時內您與您的同住的家屬/室友是否曾前往非閉密空間但人潮擁擠的公共場所(無適當社交距離1M)" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text25" Left="2050.65" Width="179.55" Height="37.8" Border.Lines="All" Text="承上題，簡短說明何時、何地、何人、共約幾人" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text27" Left="2230.2" Width="255.15" Height="37.8" Border.Lines="All" Text="請問24小時內您與您的同住的家屬/室友是否曾搭乘大眾交通運輸工具" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text29" Left="2485.35" Width="245.7" Height="37.8" Border.Lines="All" Text="承上題，簡短說明何時、何地、何人、何種交通工具、班次?" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text31" Left="2731.05" Width="122.85" Height="37.8" Border.Lines="All" Text="其他想告知的事項" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text13" Left="689.85" Width="151.2" Height="37.8" Border.Lines="All" Text="承上題，如有症狀請簡短說明何時、何地、何人" HorzAlign="Center" VertAlign="Center"/>
+    </ColumnHeaderBand>
+    <DataBand Name="Data1" Top="83.29" Width="3326.4" Height="37.8" CanGrow="true" DataSource="Table">
+      <TextObject Name="Text2" Width="94.5" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.填寫日期]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text4" Left="94.5" Width="94.5" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.工號]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text6" Left="189" Width="94.5" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.姓名]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text8" Left="283.5" Width="207.9" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.部門]" VertAlign="Center"/>
+      <TextObject Name="Text10" Left="491.4" Width="198.45" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.請問24小時內，您與您同住的家屬/室友否出現以下微狀(複選)]" VertAlign="Center"/>
+      <TextObject Name="Text12" Left="689.85" Width="151.2" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.承上題，如有症狀請簡短說明何時、何地、何人]" VertAlign="Center"/>
+      <TextObject Name="Text14" Left="841.05" Width="207.9" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.請問24小時內您與您的同住的家屬/室友是否從其他國家入境台灣？]" VertAlign="Center"/>
+      <TextObject Name="Text16" Left="1048.95" Width="179.55" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.承上題，簡短說明何時、何地、何人、班次?]" VertAlign="Center"/>
+      <TextObject Name="Text18" Left="1228.5" Width="340.2" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.請問24小時內您與您的同住的家屬/室友是否曾與已確診/疑似/正在接受檢驗之新型冠狀病毒肺炎病患有接觸？]" VertAlign="Center"/>
+      <TextObject Name="Text20" Left="1568.7" Width="179.55" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.承上題，簡短說明何時接觸、何地接觸、何人接觸?]" VertAlign="Center"/>
+      <TextObject Name="Text30" Left="2731.05" Width="122.85" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.其他想告知的事項]" VertAlign="Center"/>
+      <TextObject Name="Text22" Left="1748.25" Width="302.4" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.請問24小時內您與您的同住的家屬/室友是否曾前往非閉密空間但人潮擁擠的公共場所(無適當社交距離1M)]" VertAlign="Center"/>
+      <TextObject Name="Text28" Left="2485.35" Width="245.7" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.承上題，簡短說明何時、何地、何人、何種交通工具、班次?]" VertAlign="Center"/>
+      <TextObject Name="Text24" Left="2050.65" Width="179.55" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.承上題，簡短說明何時、何地、何人、共約幾人]" VertAlign="Center"/>
+      <TextObject Name="Text26" Left="2230.2" Width="255.15" Height="37.8" Border.Lines="All" CanGrow="true" GrowToBottom="true" Text="[Table.請問24小時內您與您的同住的家屬/室友是否曾搭乘大眾交通運輸工具]" VertAlign="Center"/>
+    </DataBand>
   </ReportPage>
 </Report>
