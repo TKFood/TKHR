@@ -209,8 +209,7 @@ namespace TKHR
                 SB.AppendFormat(" ,[ID]");
                 SB.AppendFormat(" FROM [TKWEB].[dbo].[QUESTIONNAIRES]");
                 SB.AppendFormat(" WHERE CONVERT(nvarchar,[DATES],112)='{0}'", dateTimePicker1.Value.ToString("yyyyMMdd"));
-                SB.AppendFormat(" AND ([QUESTION1]<>'否' OR ISNULL([QUESTION2],'')<>'' OR [QUESTION3]<>'否' OR ISNULL([QUESTION4],'')<>''OR [QUESTION5]<>'否' OR ISNULL([QUESTION6],'')<>'' OR [QUESTION7]<>'否' OR ISNULL([QUESTION8],'')<>'' OR [QUESTION9]<>'否' OR ISNULL([QUESTION10],'')<>'' OR ISNULL([QUESTION11],'')<>'')");
-                SB.AppendFormat(" ");
+                SB.AppendFormat(" AND ([QUESTION1] NOT IN ('否，以上皆無',N'Không') OR ISNULL([QUESTION2],'')<>'' OR [QUESTION3] NOT IN ('否',N'Không') OR ISNULL([QUESTION4],'')<>''OR [QUESTION5]  NOT IN ('否',N'Không') OR ISNULL([QUESTION6],'')<>'' OR [QUESTION7]  NOT IN ('否',N'Không') OR ISNULL([QUESTION8],'')<>'' OR [QUESTION9]  NOT IN ('否',N'Không') OR ISNULL([QUESTION10],'')<>'' OR ISNULL([QUESTION11],'')<>'' )");                
                 SB.AppendFormat(" ");
             }
             else if (comboBox1.Text.Equals("全部"))
