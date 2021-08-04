@@ -196,6 +196,12 @@
     <Compile Include="frmSysRESETPS.Designer.cs">
       <DependentUpon>frmSysRESETPS.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmTBEIPPUNCH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTBEIPPUNCH.Designer.cs">
+      <DependentUpon>frmTBEIPPUNCH.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmChangTime.resx">
@@ -254,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSysRESETPS.resx">
       <DependentUpon>frmSysRESETPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTBEIPPUNCH.resx">
+      <DependentUpon>frmTBEIPPUNCH.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
