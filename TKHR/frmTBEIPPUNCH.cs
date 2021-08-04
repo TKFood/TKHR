@@ -40,11 +40,11 @@ namespace TKHR
         {
             InitializeComponent();
 
-            textBox1.Text = @"C:\SCSHR\Card";
+            textBox1.Text = @"D:\SCSHR\Card";
 
             timer1.Enabled = true;
-            //timer1.Interval = 1000 * 60;
-            timer1.Interval = 1000 ;
+            timer1.Interval = 1000 * 60;
+            //timer1.Interval = 1000 ;
             timer1.Start();
         }
 
@@ -114,7 +114,7 @@ namespace TKHR
 
             if (START.Equals("Y"))
             {
-                if (TS1.TotalSeconds >9)
+                if (TS1.TotalHours >0.9)
                 {
                     dateTimePicker1.Value = dateTimePicker2.Value;
 
