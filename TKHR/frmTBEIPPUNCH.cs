@@ -71,7 +71,17 @@ namespace TKHR
         }
         private void button3_Click(object sender, EventArgs e)
         {
+            string Path = textBox1.Text;
+            string Filename = DateTime.Now.ToString("yyyyMMddHH") + "刷卡紀錄.txt";
+            string[] lines = { "這是第一行", "這是第二行", "這是第三行" };
 
+            using (System.IO.StreamWriter file =new System.IO.StreamWriter(Path + @"\"+ Filename, false))
+            {
+                foreach (string line in lines)
+                {
+                    file.WriteLine(line);
+                }
+            }
         }
 
 
