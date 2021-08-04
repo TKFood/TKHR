@@ -27,6 +27,11 @@ namespace TKHR
 {
     public partial class frmTBEIPPUNCH : Form
     {
+        SqlConnection sqlConn = new SqlConnection();
+        SqlCommand sqlComm = new SqlCommand();
+        string connectionString;
+        StringBuilder sbSql = new StringBuilder();
+
         string START = "N";
 
 
@@ -39,6 +44,61 @@ namespace TKHR
         }
 
         #region FUNCTION
+
+        public DataTable SERACHTB_EIP_PUNCH(string STARTTIME,string ENDTIME)
+        {
+            SqlDataAdapter adapter1 = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder1 = new SqlCommandBuilder();
+            DataSet ds1 = new DataSet();
+
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dbUOF"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sbSql.Clear();
+               
+
+                sbSql.AppendFormat(@"  
+                                    SELECT [ACCOUNT]+' '+CONVERT(NVARCHAR,[MODIFY_DATE],112)+' '+SUBSTRING((REPLACE((CONVERT(varchar(100), [MODIFY_DATE], 108)),':','')),1,4) AS DATAS,[MODIFY_DATE]
+                                    FROM [UOF].[dbo].[TB_EIP_PUNCH],[UOF].[dbo].[TB_EB_USER]
+                                    WHERE [TB_EIP_PUNCH].USER_GUID=[TB_EB_USER].USER_GUID
+                                    AND CONVERT(NVARCHAR,[MODIFY_DATE],112)+SUBSTRING((REPLACE((CONVERT(varchar(100), [MODIFY_DATE], 108)),':','')),1,4)>='{0}' 
+                                    AND CONVERT(NVARCHAR,[MODIFY_DATE],112)+SUBSTRING((REPLACE((CONVERT(varchar(100), [MODIFY_DATE], 108)),':','')),1,4)<='{1}'
+
+                              
+                                    ", STARTTIME, ENDTIME);
+
+
+                adapter1 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder1 = new SqlCommandBuilder(adapter1);
+                sqlConn.Open();
+                ds1.Clear();
+                adapter1.Fill(ds1, "ds1");
+                sqlConn.Close();
+
+                if (ds1.Tables["ds1"].Rows.Count >= 1)
+                {
+                    return ds1.Tables["ds1"];
+
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
 
         #endregion
 
@@ -73,15 +133,32 @@ namespace TKHR
         {
             string Path = textBox1.Text;
             string Filename = DateTime.Now.ToString("yyyyMMddHH") + "刷卡紀錄.txt";
-            string[] lines = { "這是第一行", "這是第二行", "這是第三行" };
 
-            using (System.IO.StreamWriter file =new System.IO.StreamWriter(Path + @"\"+ Filename, false))
+            DataTable DT = SERACHTB_EIP_PUNCH(dateTimePicker1.Value.ToString("yyyyMMddHH")+"00", dateTimePicker2.Value.ToString("yyyyMMddHH") + "00");
+
+            if(DT.Rows.Count>0)
             {
-                foreach (string line in lines)
+                try
                 {
-                    file.WriteLine(line);
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path + @"\" + Filename, false))
+                    {
+                        foreach (DataRow dr in DT.Rows)
+                        {
+                            file.WriteLine(dr["DATAS"].ToString());
+                        }
+                    }
+                }
+                catch
+                {
+
+                }
+
+                finally
+                {
+
                 }
             }
+            
         }
 
 
