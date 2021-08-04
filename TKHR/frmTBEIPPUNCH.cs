@@ -34,6 +34,8 @@ namespace TKHR
         public frmTBEIPPUNCH()
         {
             InitializeComponent();
+
+            textBox1.Text = @"C:\SCSHR\Card";
         }
 
         #region FUNCTION
@@ -58,6 +60,16 @@ namespace TKHR
                 button1.BackColor = Color.Red;
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog path = new FolderBrowserDialog();
+            path.ShowDialog();
+            this.textBox1.Text = path.SelectedPath;
+        }
+
         #endregion
+
+
     }
 }
