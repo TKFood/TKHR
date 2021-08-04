@@ -64,9 +64,16 @@ namespace TKHR
         private void button2_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog path = new FolderBrowserDialog();
+            path.SelectedPath = this.textBox1.Text;
             path.ShowDialog();
+
             this.textBox1.Text = path.SelectedPath;
         }
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
         #endregion
 
