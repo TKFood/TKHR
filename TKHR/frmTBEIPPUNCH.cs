@@ -41,6 +41,11 @@ namespace TKHR
             InitializeComponent();
 
             textBox1.Text = @"C:\SCSHR\Card";
+
+            timer1.Enabled = true;
+            //timer1.Interval = 1000 * 60;
+            timer1.Interval = 1000 ;
+            timer1.Start();
         }
 
         #region FUNCTION
@@ -98,7 +103,65 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            dateTimePicker2.Value = DateTime.Now;
 
+            DateTime DT1 = dateTimePicker1.Value;
+            DateTime DT2 = dateTimePicker2.Value;
+
+            TimeSpan TS1 = new TimeSpan( DT2.Ticks- DT1.Ticks );
+
+            if (START.Equals("Y"))
+            {
+                if (TS1.TotalSeconds >9)
+                {
+                    dateTimePicker1.Value = dateTimePicker2.Value;
+
+                    ADDFILE();
+                    //MessageBox.Show("GO");
+
+
+                }
+            }
+            
+
+            
+        }
+
+        public void ADDFILE()
+        {
+            string Path = textBox1.Text;
+            string Filename = DateTime.Now.ToString("yyyyMMddHH") + "刷卡紀錄.txt";
+
+            DataTable DT = SERACHTB_EIP_PUNCH(dateTimePicker1.Value.ToString("yyyyMMddHH") + "00", dateTimePicker2.Value.ToString("yyyyMMddHH") + "00");
+
+           
+            if (DT!=null && DT.Rows.Count > 0)
+            {
+                try
+                {
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path + @"\" + Filename, false))
+                    {
+                        foreach (DataRow dr in DT.Rows)
+                        {
+                            file.WriteLine(dr["DATAS"].ToString());
+                        }
+                    }
+
+                    MessageBox.Show("OK");
+                }
+                catch
+                {
+
+                }
+
+                finally
+                {
+
+                }
+            }
+        }
 
         #endregion
 
@@ -111,6 +174,8 @@ namespace TKHR
 
                 button1.Text = "啟動";
                 button1.BackColor = Color.Blue;
+
+                dateTimePicker1.Value = dateTimePicker2.Value;
             }
             else
             {
@@ -147,6 +212,8 @@ namespace TKHR
                             file.WriteLine(dr["DATAS"].ToString());
                         }
                     }
+
+                    MessageBox.Show("OK");
                 }
                 catch
                 {
@@ -162,8 +229,9 @@ namespace TKHR
         }
 
 
+
         #endregion
 
-
+        
     }
 }
