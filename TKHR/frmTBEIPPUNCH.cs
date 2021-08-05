@@ -153,7 +153,7 @@ namespace TKHR
                         }
                     }
 
-                    MessageBox.Show("OK");
+                    //MessageBox.Show("OK");
                 }
                 catch
                 {
@@ -203,9 +203,14 @@ namespace TKHR
             string Path = textBox1.Text;
             string Filename = DateTime.Now.ToString("yyyyMMddHH") + "刷卡紀錄.txt";
 
-            DataTable DT = SERACHTB_EIP_PUNCH(dateTimePicker1.Value.ToString("yyyyMMddHH")+"00", dateTimePicker2.Value.ToString("yyyyMMddHH") + "00");
+            DateTime SDT = dateTimePicker1.Value;
+            SDT = SDT.AddHours(-1);
+            DateTime EDT = dateTimePicker2.Value;
 
-            if(DT.Rows.Count>0)
+            DataTable DT = SERACHTB_EIP_PUNCH(SDT.ToString("yyyyMMddHH") + "00", EDT.ToString("yyyyMMddHH") + "00");
+
+
+            if (DT != null && DT.Rows.Count > 0)
             {
                 try
                 {
@@ -229,7 +234,7 @@ namespace TKHR
 
                 }
             }
-            
+
         }
 
 
