@@ -31,6 +31,9 @@ namespace TKHR
         SqlCommand sqlComm = new SqlCommand();
         string connectionString;
         StringBuilder sbSql = new StringBuilder();
+        SqlTransaction tran;
+        SqlCommand cmd = new SqlCommand();
+        int result;
 
         string START = "N";
 
@@ -107,18 +110,20 @@ namespace TKHR
         {
             dateTimePicker2.Value = DateTime.Now;
 
-            DateTime DT1 = dateTimePicker1.Value;
+            //DateTime DT1 = dateTimePicker1.Value;
             DateTime DT2 = dateTimePicker2.Value;
+            DateTime DT3 = dateTimePicker3.Value;
 
-            TimeSpan TS1 = new TimeSpan( DT2.Ticks- DT1.Ticks );
+            //TimeSpan TS1 = new TimeSpan( DT2.Ticks- DT1.Ticks );
 
             if (START.Equals("Y"))
             {
-                if (TS1.TotalHours >0.9)
+                //if (TS1.TotalHours >0.9)
+                if (DT2.ToString("yyyyMMddHHMMSS").Equals(DT3.ToString("yyyyMMddHHMMSS")))
                 {
-                    dateTimePicker1.Value = dateTimePicker2.Value;
-
                     ADDFILE();
+
+                    dateTimePicker1.Value = dateTimePicker2.Value;                    
                     //MessageBox.Show("GO");
 
 
@@ -134,7 +139,7 @@ namespace TKHR
             string Path = textBox1.Text;
             string Filename = DateTime.Now.ToString("yyyyMMddHH") + "刷卡紀錄.txt";
 
-            DateTime SDT = dateTimePicker1.Value;
+            DateTime SDT = dateTimePicker3.Value;
             SDT = SDT.AddHours(-1);
             DateTime EDT = dateTimePicker2.Value;
 
@@ -152,7 +157,7 @@ namespace TKHR
                             file.WriteLine(dr["DATAS"].ToString());
                         }
                     }
-
+                    ADDTB_EIP_PUNCH_RECORD(SDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
                     //MessageBox.Show("OK");
                 }
                 catch
@@ -164,6 +169,59 @@ namespace TKHR
                 {
 
                 }
+            }
+        }
+
+        public void ADDTB_EIP_PUNCH_RECORD(string EXETIME,string TXTNAME)
+        {
+
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+
+      
+                sbSql.AppendFormat(@" 
+                                    INSERT [TKHR].[dbo].[TB_EIP_PUNCH_RECORD]
+                                    ([EXETIME],[TXTNAME])
+                                    VALUES
+                                    ('{0}','{1}')
+                                    ", EXETIME, TXTNAME);
+
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+                 
+
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
             }
         }
 
@@ -180,6 +238,11 @@ namespace TKHR
                 button1.BackColor = Color.Blue;
 
                 dateTimePicker1.Value = dateTimePicker2.Value;
+
+                DateTime dt = dateTimePicker2.Value;
+                dt=dt.AddHours(1);
+                dateTimePicker3.Value = dt;
+
             }
             else
             {
@@ -203,7 +266,7 @@ namespace TKHR
             string Path = textBox1.Text;
             string Filename = DateTime.Now.ToString("yyyyMMddHH") + "刷卡紀錄.txt";
 
-            DateTime SDT = dateTimePicker1.Value;
+            DateTime SDT = dateTimePicker3.Value;
             SDT = SDT.AddHours(-1);
             DateTime EDT = dateTimePicker2.Value;
 
@@ -222,6 +285,7 @@ namespace TKHR
                         }
                     }
 
+                    ADDTB_EIP_PUNCH_RECORD(SDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
                     MessageBox.Show("OK");
                 }
                 catch
