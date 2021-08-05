@@ -119,7 +119,7 @@ namespace TKHR
             if (START.Equals("Y"))
             {
                 //if (TS1.TotalHours >0.9)
-                if (DT2.ToString("yyyyMMddHHMMSS").Equals(DT3.ToString("yyyyMMddHHMMSS")))
+                if (DT2.ToString("yyyyMMddHHMM").Equals(DT3.ToString("yyyyMMddHHMM")))
                 {
                     ADDFILE();
 
@@ -157,7 +157,7 @@ namespace TKHR
                             file.WriteLine(dr["DATAS"].ToString());
                         }
                     }
-                    ADDTB_EIP_PUNCH_RECORD(SDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
+                    ADDTB_EIP_PUNCH_RECORD(EDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
                     //MessageBox.Show("OK");
                 }
                 catch
@@ -240,7 +240,12 @@ namespace TKHR
                 dateTimePicker1.Value = dateTimePicker2.Value;
 
                 DateTime dt = dateTimePicker2.Value;
-                dt=dt.AddHours(1);
+                int MINS = dt.Minute*-1;
+                dt =dt.AddHours(1);
+                dt = dt.AddMinutes(MINS);
+
+                //dt = dt.AddHours(1);
+
                 dateTimePicker3.Value = dt;
 
             }
