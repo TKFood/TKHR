@@ -68,11 +68,12 @@ namespace TKHR
                
 
                 sbSql.AppendFormat(@"  
-                                    SELECT [ACCOUNT]+' '+CONVERT(NVARCHAR,[MODIFY_DATE],112)+' '+SUBSTRING((REPLACE((CONVERT(varchar(100), [MODIFY_DATE], 108)),':','')),1,4) AS DATAS,[MODIFY_DATE]
-                                    FROM [UOF].[dbo].[TB_EIP_PUNCH],[UOF].[dbo].[TB_EB_USER]
-                                    WHERE [TB_EIP_PUNCH].USER_GUID=[TB_EB_USER].USER_GUID
+                                   SELECT [ACCOUNT]+' '+CONVERT(NVARCHAR,[MODIFY_DATE],112)+' '+SUBSTRING((REPLACE((CONVERT(varchar(100), [MODIFY_DATE], 108)),':','')),1,4) AS DATAS,[MODIFY_DATE]
+                                    FROM [UOF].[dbo].[TB_EIP_PUNCH_LOG],[UOF].[dbo].[TB_EB_USER]
+                                    WHERE [TB_EIP_PUNCH_LOG].USER_GUID=[TB_EB_USER].USER_GUID
                                     AND CONVERT(NVARCHAR,[MODIFY_DATE],112)+SUBSTRING((REPLACE((CONVERT(varchar(100), [MODIFY_DATE], 108)),':','')),1,4)>='{0}' 
                                     AND CONVERT(NVARCHAR,[MODIFY_DATE],112)+SUBSTRING((REPLACE((CONVERT(varchar(100), [MODIFY_DATE], 108)),':','')),1,4)<='{1}'
+
 
                               
                                     ", STARTTIME, ENDTIME);
