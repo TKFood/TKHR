@@ -53,6 +53,7 @@ namespace TKHR
 
         #region FUNCTION
 
+ 
         public DataTable SERACHTB_EIP_PUNCH(string STARTTIME,string ENDTIME)
         {
             SqlDataAdapter adapter1 = new SqlDataAdapter();
@@ -307,10 +308,48 @@ namespace TKHR
 
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string Path = textBox1.Text;
+            string Filename = DateTime.Now.ToString("yyyyMMddHH") + "補卡紀錄.txt";
+
+            DateTime SDT = dateTimePicker4.Value;
+            SDT = SDT.AddHours(-1);
+            DateTime EDT = dateTimePicker5.Value;
+
+            DataTable DT = SERACHTB_EIP_PUNCH(SDT.ToString("yyyyMMddHH") + "00", EDT.ToString("yyyyMMddHH") + "00");
+
+
+            if (DT != null && DT.Rows.Count > 0)
+            {
+                try
+                {
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path + @"\" + Filename, false))
+                    {
+                        foreach (DataRow dr in DT.Rows)
+                        {
+                            file.WriteLine(dr["DATAS"].ToString());
+                        }
+                    }
+
+                    ADDTB_EIP_PUNCH_RECORD(SDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
+                    MessageBox.Show("OK");
+                }
+                catch
+                {
+
+                }
+
+                finally
+                {
+
+                }
+            }
+        }
 
 
         #endregion
 
-        
+
     }
 }
