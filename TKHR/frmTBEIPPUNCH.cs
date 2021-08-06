@@ -317,7 +317,7 @@ namespace TKHR
             string Filename = DateTime.Now.ToString("yyyyMMddHH") + "補卡紀錄.txt";
 
             DateTime SDT = dateTimePicker4.Value;
-            SDT = SDT.AddHours(-1);
+            //SDT = SDT.AddHours(-1);
             DateTime EDT = dateTimePicker5.Value;
 
             DataTable DT = SERACHTB_EIP_PUNCH(SDT.ToString("yyyyMMddHH") + "00", EDT.ToString("yyyyMMddHH") + "00");
