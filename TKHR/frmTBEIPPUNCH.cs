@@ -125,9 +125,10 @@ namespace TKHR
                 {
                     ADDFILE();
 
-                    dateTimePicker1.Value = dateTimePicker2.Value;                    
+                    dateTimePicker1.Value = dateTimePicker2.Value;
                     //MessageBox.Show("GO");
-
+                    dateTimePicker3.Value = DateTime.Now.AddHours(1);
+                        
 
                 }
             }
@@ -293,6 +294,8 @@ namespace TKHR
                     }
 
                     ADDTB_EIP_PUNCH_RECORD(SDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
+
+                    dateTimePicker3.Value = DateTime.Now;
                     MessageBox.Show("OK");
                 }
                 catch
