@@ -175,6 +175,99 @@ namespace TKHR
             }
         }
 
+        public void ADDFILERCLOCK()
+        {
+            string Path = textBox1.Text;
+            string Filename = DateTime.Now.ToString("yyyyMMddHH") + "刷卡紀錄RCLOCK.txt";
+
+            DateTime SDT = dateTimePicker3.Value;
+            SDT = SDT.AddHours(-1);
+            DateTime EDT = dateTimePicker2.Value;
+
+            DataTable DT = SERACHRCLOCK(SDT.ToString("yyyyMMddHH") + "00", EDT.ToString("yyyyMMddHH") + "00");
+
+
+            if (DT != null && DT.Rows.Count > 0)
+            {
+                try
+                {
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path + @"\" + Filename, false))
+                    {
+                        foreach (DataRow dr in DT.Rows)
+                        {
+                            file.WriteLine(dr["DATAS"].ToString());
+                        }
+                    }
+
+                    ADDTB_EIP_PUNCH_RECORD(EDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
+                    //MessageBox.Show("OK");
+                }
+                catch
+                {
+
+                }
+
+                finally
+                {
+
+                }
+            }
+        }
+
+        public DataTable SERACHRCLOCK(string STARTTIME, string ENDTIME)
+        {
+            SqlDataAdapter adapter1 = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder1 = new SqlCommandBuilder();
+            DataSet ds1 = new DataSet();
+
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dbUOF"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sbSql.Clear();
+
+
+                sbSql.AppendFormat(@"  
+                                    SELECT [PF_USER]+' '+CONVERT(NVARCHAR,[PF_CLOCK],112)+' '+SUBSTRING((REPLACE((CONVERT(varchar(100), [PF_CLOCK], 108)),':','')),1,4) AS DATAS,[PF_CLOCK]
+                                    FROM [PF_clock].[dbo].[RCLOCK]
+                                    WHERE 
+                                    CONVERT(NVARCHAR,[PF_CLOCK],112)+SUBSTRING((REPLACE((CONVERT(varchar(100), [PF_CLOCK], 108)),':','')),1,4)>='{0}' 
+                                    AND CONVERT(NVARCHAR,[PF_CLOCK],112)+SUBSTRING((REPLACE((CONVERT(varchar(100), [PF_CLOCK], 108)),':','')),1,4)<='{1}'
+
+                              
+                                    ", STARTTIME, ENDTIME);
+
+
+                adapter1 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder1 = new SqlCommandBuilder(adapter1);
+                sqlConn.Open();
+                ds1.Clear();
+                adapter1.Fill(ds1, "ds1");
+                sqlConn.Close();
+
+                if (ds1.Tables["ds1"].Rows.Count >= 1)
+                {
+                    return ds1.Tables["ds1"];
+
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
+
         public void ADDTB_EIP_PUNCH_RECORD(string EXETIME,string TXTNAME)
         {
 
@@ -228,6 +321,85 @@ namespace TKHR
             }
         }
 
+        public void ADDFILE2()
+        {
+            string Path = textBox1.Text;
+            string Filename = DateTime.Now.ToString("yyyyMMddHH") + "補卡紀錄.txt";
+
+            DateTime SDT = dateTimePicker4.Value;
+            //SDT = SDT.AddHours(-1);
+            DateTime EDT = dateTimePicker5.Value;
+
+            DataTable DT = SERACHTB_EIP_PUNCH(SDT.ToString("yyyyMMddHH") + "00", EDT.ToString("yyyyMMddHH") + "00");
+
+
+            if (DT != null && DT.Rows.Count > 0)
+            {
+                try
+                {
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path + @"\" + Filename, false))
+                    {
+                        foreach (DataRow dr in DT.Rows)
+                        {
+                            file.WriteLine(dr["DATAS"].ToString());
+                        }
+                    }
+
+                    ADDTB_EIP_PUNCH_RECORD(SDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
+                    MessageBox.Show("OK");
+                }
+                catch
+                {
+
+                }
+
+                finally
+                {
+
+                }
+            }
+        }
+
+        public void ADDFILERCLOCK2()
+        {
+            string Path = textBox1.Text;
+            string Filename = DateTime.Now.ToString("yyyyMMddHH") + "補卡紀錄RCLOCK.txt";
+
+            DateTime SDT = dateTimePicker4.Value;
+            //SDT = SDT.AddHours(-1);
+            DateTime EDT = dateTimePicker5.Value;
+
+            DataTable DT = SERACHRCLOCK(SDT.ToString("yyyyMMddHH") + "00", EDT.ToString("yyyyMMddHH") + "00");
+
+
+            if (DT != null && DT.Rows.Count > 0)
+            {
+                try
+                {
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path + @"\" + Filename, false))
+                    {
+                        foreach (DataRow dr in DT.Rows)
+                        {
+                            file.WriteLine(dr["DATAS"].ToString());
+                        }
+                    }
+
+                    ADDTB_EIP_PUNCH_RECORD(SDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
+                    MessageBox.Show("OK");
+                }
+                catch
+                {
+
+                }
+
+                finally
+                {
+
+                }
+            }
+        }
+
+
         #endregion
 
         #region BUTTON
@@ -271,83 +443,17 @@ namespace TKHR
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            string Path = textBox1.Text;
-            string Filename = DateTime.Now.ToString("yyyyMMddHH") + "刷卡紀錄.txt";
+            ADDFILE();
 
-            DateTime SDT = dateTimePicker3.Value;
-            SDT = SDT.AddHours(-1);
-            DateTime EDT = dateTimePicker2.Value;
-
-            DataTable DT = SERACHTB_EIP_PUNCH(SDT.ToString("yyyyMMddHH") + "00", EDT.ToString("yyyyMMddHH") + "00");
-
-
-            if (DT != null && DT.Rows.Count > 0)
-            {
-                try
-                {
-                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path + @"\" + Filename, false))
-                    {
-                        foreach (DataRow dr in DT.Rows)
-                        {
-                            file.WriteLine(dr["DATAS"].ToString());
-                        }
-                    }
-
-                    ADDTB_EIP_PUNCH_RECORD(SDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
-
-                    dateTimePicker3.Value = DateTime.Now;
-                    MessageBox.Show("OK");
-                }
-                catch
-                {
-
-                }
-
-                finally
-                {
-
-                }
-            }
+            ADDFILERCLOCK();
 
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string Path = textBox1.Text;
-            string Filename = DateTime.Now.ToString("yyyyMMddHH") + "補卡紀錄.txt";
+            ADDFILE2();
 
-            DateTime SDT = dateTimePicker4.Value;
-            //SDT = SDT.AddHours(-1);
-            DateTime EDT = dateTimePicker5.Value;
-
-            DataTable DT = SERACHTB_EIP_PUNCH(SDT.ToString("yyyyMMddHH") + "00", EDT.ToString("yyyyMMddHH") + "00");
-
-
-            if (DT != null && DT.Rows.Count > 0)
-            {
-                try
-                {
-                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path + @"\" + Filename, false))
-                    {
-                        foreach (DataRow dr in DT.Rows)
-                        {
-                            file.WriteLine(dr["DATAS"].ToString());
-                        }
-                    }
-
-                    ADDTB_EIP_PUNCH_RECORD(SDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
-                    MessageBox.Show("OK");
-                }
-                catch
-                {
-
-                }
-
-                finally
-                {
-
-                }
-            }
+            ADDFILERCLOCK2();
         }
 
 
