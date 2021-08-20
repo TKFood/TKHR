@@ -125,6 +125,8 @@ namespace TKHR
                 {
                     ADDFILE();
 
+                    ADDFILERCLOCK();
+
                     dateTimePicker1.Value = dateTimePicker2.Value;
                     //MessageBox.Show("GO");
                     dateTimePicker3.Value = DateTime.Now.AddHours(1);
