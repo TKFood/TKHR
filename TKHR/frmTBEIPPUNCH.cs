@@ -401,6 +401,109 @@ namespace TKHR
             }
         }
 
+        public void ADDFILE3()
+        {
+            string Path = textBox1.Text;
+            string Filename = DateTime.Now.ToString("yyyyMMddHH") + "理級補卡紀錄.txt";
+
+            DateTime SDT = dateTimePicker4.Value;
+            //SDT = SDT.AddHours(-1);
+            DateTime EDT = dateTimePicker5.Value;
+
+            DataTable DT = SERACHTB_CARDEMP();
+
+           
+
+            if (DT != null && DT.Rows.Count > 0)
+            {
+                try
+                {
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path + @"\" + Filename, false))
+                    {
+                        foreach (DataRow dr in DT.Rows)
+                        {
+                            //set BeginTime,EndTime
+                            Random Begin = new Random(Guid.NewGuid().GetHashCode());//亂數種子
+                            int BeginTime = Begin.Next(15, 29);
+                            Random End = new Random(Guid.NewGuid().GetHashCode());//亂數種子
+                            int EndTime = End.Next(25, 59);
+
+                            string SBeginTime = "08:" + BeginTime.ToString();
+                            string SEndTime = "18:" + EndTime.ToString();
+
+                            file.WriteLine(dr["ID"].ToString() + " " + DateTime.Now.ToString("yyyyMMdd") + " " + SBeginTime);
+                            file.WriteLine(dr["ID"].ToString() + " " + DateTime.Now.ToString("yyyyMMdd") + " " + SEndTime);
+                        }
+                    }
+
+                    //ADDTB_EIP_PUNCH_RECORD(SDT.ToString("yyyy/MM/dd HH:mm:dd"), Filename);
+
+                    MessageBox.Show("OK");
+                }
+                catch
+                {
+
+                }
+
+                finally
+                {
+
+                }
+            }
+        }
+
+        public DataTable SERACHTB_CARDEMP()
+        {
+            SqlDataAdapter adapter1 = new SqlDataAdapter();
+            SqlCommandBuilder sqlCmdBuilder1 = new SqlCommandBuilder();
+            DataSet ds1 = new DataSet();
+
+            try
+            {
+                connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
+                sqlConn = new SqlConnection(connectionString);
+
+                sbSql.Clear();
+
+
+                sbSql.AppendFormat(@"  
+                                    SELECT
+                                    [EmployeeId]
+                                    ,[NAME]
+                                    ,[ID]
+                                    FROM [TKHR].[dbo].[CARDEMP]
+                              
+                                    ");
+
+
+                adapter1 = new SqlDataAdapter(@"" + sbSql, sqlConn);
+
+                sqlCmdBuilder1 = new SqlCommandBuilder(adapter1);
+                sqlConn.Open();
+                ds1.Clear();
+                adapter1.Fill(ds1, "ds1");
+                sqlConn.Close();
+
+                if (ds1.Tables["ds1"].Rows.Count >= 1)
+                {
+                    return ds1.Tables["ds1"];
+
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
 
         #endregion
 
@@ -458,6 +561,10 @@ namespace TKHR
             ADDFILERCLOCK2();
         }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ADDFILE3();
+        }
 
         #endregion
 
