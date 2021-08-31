@@ -43,6 +43,9 @@ namespace TKHR
         {
             InitializeComponent();
 
+            textBox2.Text = "08:10";
+
+
             textBox1.Text = @"D:\SCSHR\Card";
 
             timer1.Enabled = true;
@@ -133,10 +136,16 @@ namespace TKHR
                         
 
                 }
-            }
-            
 
-            
+                string CHECKTIMES = DateTime.Now.ToString("HH:mm");
+                if (CHECKTIMES.Equals(textBox2.Text))
+                {
+                    ADDFILE3();
+                }
+            }
+
+
+
         }
 
         public void ADDFILE()
@@ -406,6 +415,7 @@ namespace TKHR
             string Path = textBox1.Text;
             string Filename = DateTime.Now.ToString("yyyyMMddHH") + "理級補卡紀錄.txt";
 
+
             DateTime SDT = dateTimePicker4.Value;
             //SDT = SDT.AddHours(-1);
             DateTime EDT = dateTimePicker5.Value;
@@ -563,6 +573,12 @@ namespace TKHR
 
         private void button5_Click(object sender, EventArgs e)
         {
+            //string CHECKTIMES = DateTime.Now.ToString("HH:mm");
+            //if (CHECKTIMES.Equals(textBox2.Text))
+            //{
+            //    ADDFILE3();
+            //}
+
             ADDFILE3();
         }
 

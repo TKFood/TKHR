@@ -49,10 +49,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.dateTimePicker5 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
+            this.button5 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.button5 = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -113,7 +115,9 @@
             this.tableLayoutPanel3.Controls.Add(this.label7, 4, 2);
             this.tableLayoutPanel3.Controls.Add(this.dateTimePicker5, 5, 3);
             this.tableLayoutPanel3.Controls.Add(this.dateTimePicker4, 5, 2);
-            this.tableLayoutPanel3.Controls.Add(this.button5, 1, 8);
+            this.tableLayoutPanel3.Controls.Add(this.label8, 0, 9);
+            this.tableLayoutPanel3.Controls.Add(this.button5, 1, 10);
+            this.tableLayoutPanel3.Controls.Add(this.textBox2, 1, 9);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 4);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -305,6 +309,16 @@
             this.dateTimePicker4.Size = new System.Drawing.Size(158, 27);
             this.dateTimePicker4.TabIndex = 20;
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(179, 403);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(170, 34);
+            this.button5.TabIndex = 23;
+            this.button5.Text = "測試理級補卡";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 26);
@@ -320,15 +334,23 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // button5
+            // label8
             // 
-            this.button5.Location = new System.Drawing.Point(179, 323);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(170, 34);
-            this.button5.TabIndex = 23;
-            this.button5.Text = "測試理級補卡";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 372);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(170, 16);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "理級補卡時間";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Location = new System.Drawing.Point(179, 366);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(170, 27);
+            this.textBox2.TabIndex = 25;
             // 
             // frmTBEIPPUNCH
             // 
@@ -374,5 +396,7 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker5;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
