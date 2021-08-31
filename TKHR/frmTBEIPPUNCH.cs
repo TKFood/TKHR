@@ -140,7 +140,11 @@ namespace TKHR
                 string CHECKTIMES = DateTime.Now.ToString("HH:mm");
                 if (CHECKTIMES.Equals(textBox2.Text))
                 {
-                    ADDFILE3();
+                    if(DateTime.Now.DayOfWeek.ToString().Equals("Monday") || DateTime.Now.DayOfWeek.ToString().Equals("Tuesday") || DateTime.Now.DayOfWeek.ToString().Equals("Wednesday") || DateTime.Now.DayOfWeek.ToString().Equals("Thursday") || DateTime.Now.DayOfWeek.ToString().Equals("Friday"))
+                    {
+                        ADDFILE3();
+                    }
+                    
                 }
             }
 
@@ -580,6 +584,8 @@ namespace TKHR
             //}
 
             ADDFILE3();
+
+            //MessageBox.Show(DateTime.Now.DayOfWeek.ToString());
         }
 
         #endregion
