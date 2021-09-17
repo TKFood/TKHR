@@ -17,6 +17,7 @@ using System.Reflection;
 using System.Threading;
 using FastReport;
 using FastReport.Data;
+using TKITDLL;
 
 namespace TKHR
 {
@@ -43,8 +44,17 @@ namespace TKHR
         #region FUNCTION
         public void comboBox1load()
         {
-            connectionString = ConfigurationManager.ConnectionStrings["dberp"].ConnectionString;
-            sqlConn = new SqlConnection(connectionString);
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
             StringBuilder Sequel = new StringBuilder();
             Sequel.AppendFormat(@"SELECT AttendanceRankId,Name FROM [HRMDB].[dbo].[AttendanceRank] WHERE [Name] LIKE '%休假%' OR [Name] LIKE '%生產%'  ORDER BY Name ");
             SqlDataAdapter da = new SqlDataAdapter(Sequel.ToString(), sqlConn);
@@ -68,7 +78,19 @@ namespace TKHR
 
             report1.Load(@"REPORT\查班別打卡.frx");
 
-            report1.Dictionary.Connections[0].ConnectionString = ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
+            //20210902密
+            Class1 TKID = new Class1();//用new 建立類別實體
+            SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dberp"].ConnectionString);
+
+            //資料庫使用者密碼解密
+            sqlsb.Password = TKID.Decryption(sqlsb.Password);
+            sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+            String connectionString;
+            sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+            report1.Dictionary.Connections[0].ConnectionString = sqlsb.ConnectionString;
+
             //report1.SetParameterValue("P1", comboBox1.Text.ToString());
             report1.SetParameterValue("P2", dateTimePicker1.Value.ToString("yyyyMMdd"));
             report1.SetParameterValue("P3", dateTimePicker2.Value.ToString("yyyyMMdd"));
