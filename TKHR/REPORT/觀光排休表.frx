@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="09/13/2022 13:56:38" ReportInfo.Modified="09/13/2022 14:01:25" ReportInfo.CreatorVersion="2016.4.4.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8Zy6q+uhwpDsytgWqwZQZyEQUQyQ022aWUGqU90pHzzNjHuzu89K+RQ2LIBVx1fpgNkNJhwC4eetn2/Uy0fMrO7zDUE5AmRb+0bcYI+lxqpN+i5gA3VDGcwlcfm6L9ZMsLrZ3U+wEDtHCQtd9vw2XUGf+bow1UGU8WWiO5hk8up/">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT &#13;&#10;[ID]&#13;&#10;,[SEQ] AS '排休次數'&#13;&#10;,[NAMES] AS '姓名'&#13;&#10;,[NOWDATES] AS '排休起算日'&#13;&#10;,[NEWBREAKDATES] AS '預計到期日'&#13;&#10;,[DAYS] AS '差異天數'&#13;&#10;FROM [TKHR].[dbo].[STORESSCHEDULESRESULTS]&#13;&#10;ORDER BY [ID]">
+        <Column Name="ID" DataType="System.Decimal"/>
+        <Column Name="排休次數" DataType="System.Int32"/>
+        <Column Name="姓名" DataType="System.String"/>
+        <Column Name="排休起算日" DataType="System.DateTime"/>
+        <Column Name="預計到期日" DataType="System.DateTime"/>
+        <Column Name="差異天數" DataType="System.Int32"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="18.9">
+      <TextObject Name="Text1" Width="567" Height="18.9" Text="觀光排休表" HorzAlign="Center" VertAlign="Center"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="23.39" Width="718.2" Height="18.9">
+      <TextObject Name="Text3" Width="94.5" Height="18.9" Border.Lines="All" Text="ID" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text5" Left="94.5" Width="94.5" Height="18.9" Border.Lines="All" Text="排休次數" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text7" Left="189" Width="94.5" Height="18.9" Border.Lines="All" Text="姓名" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text9" Left="283.5" Width="94.5" Height="18.9" Border.Lines="All" Text="排休起算日" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text11" Left="378" Width="94.5" Height="18.9" Border.Lines="All" Text="預計到期日" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text13" Left="472.5" Width="94.5" Height="18.9" Border.Lines="All" Text="差異天數" HorzAlign="Center" VertAlign="Center"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="46.79" Width="718.2" Height="18.9" DataSource="Table">
+      <TextObject Name="Text2" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.ID]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Center" VertAlign="Center" WordWrap="false" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text4" Left="94.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.排休次數]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text6" Left="189" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.姓名]" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text8" Left="283.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.排休起算日]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text10" Left="378" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.預計到期日]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center"/>
+      <TextObject Name="Text12" Left="472.5" Width="94.5" Height="18.9" Border.Lines="All" Text="[Table.差異天數]" HorzAlign="Center" VertAlign="Center"/>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="70.18" Width="718.2" Height="18.9"/>
+  </ReportPage>
+</Report>
