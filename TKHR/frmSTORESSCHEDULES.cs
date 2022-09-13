@@ -251,6 +251,21 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+        /// <summary>
+        /// 排休，依 開始日、排休次數
+        /// </summary>
+        public void ADDSTORESSCHEDULESRESULTS(int COUNTS)
+        {
+            DateTime SDT = dateTimePicker1.Value;
+
+            for (int i = 1; i < COUNTS; i++)
+            {
+                UPDATESTORESSCHEDULESNOWDATES(SDT.ToString("yyyyMMdd"));
+                UPDATESTORESSCHEDULESNEWBREAKDATES();
+            }
+
+            //MessageBox.Show(COUNTS+" "+ SDT.ToString("yyyyMMdd"));
+        }
 
         #endregion
 
@@ -268,9 +283,7 @@ namespace TKHR
 
             if (result)
             {
-                UPDATESTORESSCHEDULESNOWDATES(dateTimePicker1.Value.ToString("yyyyMMdd"));
-                UPDATESTORESSCHEDULESNEWBREAKDATES();
-
+                ADDSTORESSCHEDULESRESULTS(n);
                 MessageBox.Show("完成");
             }
             else
