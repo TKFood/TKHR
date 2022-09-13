@@ -901,6 +901,8 @@ namespace TKHR
 
             if (result)
             {
+                RESETSTORESSCHEDULESNEWBREAKDATES();
+
                 SETSTORESSCHEDULESRESULTS(n);
 
                 SETFASTREPORT();
@@ -919,10 +921,15 @@ namespace TKHR
         private void button3_Click(object sender, EventArgs e)
         {
             RESETSTORESSCHEDULESNEWBREAKDATES();
+
+            Search();
+            MessageBox.Show("完成");
         }
         private void button5_Click(object sender, EventArgs e)
         {
             Search2();
+
+            MessageBox.Show("完成");
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -930,6 +937,8 @@ namespace TKHR
             UPDATESTORESSCHEDULES(textBox5.Text,textBox2.Text, dateTimePicker2.Value.ToString("yyyy/MM/dd"));
 
             Search2();
+
+            MessageBox.Show("完成");
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -937,6 +946,8 @@ namespace TKHR
             ADDSTORESSCHEDULES(textBox3.Text,dateTimePicker3.Value.ToString("yyyy/MM/dd"));
 
             Search2();
+
+            MessageBox.Show("完成");
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -949,6 +960,8 @@ namespace TKHR
                     DELETESTORESSCHEDULES(textBox6.Text);
 
                     Search2();
+
+                    MessageBox.Show("完成");
                 }
 
             }
