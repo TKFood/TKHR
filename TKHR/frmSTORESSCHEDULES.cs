@@ -130,7 +130,10 @@ namespace TKHR
 
             }
         }
-
+        /// <summary>
+        /// 將預計 開始日 存到STORESSCHEDULES 的 NOWDATES，用NOWDATES跟特休到期日排序
+        /// </summary>
+        /// <param name="NOWDATES"></param>
         public void UPDATESTORESSCHEDULESNOWDATES(string NOWDATES)
         {
             try
@@ -187,6 +190,67 @@ namespace TKHR
                 sqlConn.Close();
             }
         }
+        /// <summary>
+        /// 如果 開始日 跟 到期日是負天數=過期，就把 到期日 延後1年
+        /// </summary>
+        public void UPDATESTORESSCHEDULESNEWBREAKDATES()
+        {
+            try
+            {
+                //20210902密
+                Class1 TKID = new Class1();//用new 建立類別實體
+                SqlConnectionStringBuilder sqlsb = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["dbconn"].ConnectionString);
+
+                //資料庫使用者密碼解密
+                sqlsb.Password = TKID.Decryption(sqlsb.Password);
+                sqlsb.UserID = TKID.Decryption(sqlsb.UserID);
+
+                String connectionString;
+                sqlConn = new SqlConnection(sqlsb.ConnectionString);
+
+
+
+                sqlConn.Close();
+                sqlConn.Open();
+                tran = sqlConn.BeginTransaction();
+
+                sbSql.Clear();
+
+
+                sbSql.AppendFormat(@"  
+                                   UPDATE [TKHR].[dbo].[STORESSCHEDULES]
+                                    SET [NEWBREAKDATES]=DATEADD(YEAR,1,[NEWBREAKDATES])
+                                    WHERE DATEDIFF(DAY,[NOWDATES],[NEWBREAKDATES])<0
+
+                                    " );
+
+                cmd.Connection = sqlConn;
+                cmd.CommandTimeout = 60;
+                cmd.CommandText = sbSql.ToString();
+                cmd.Transaction = tran;
+                result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                {
+                    tran.Rollback();    //交易取消
+                }
+                else
+                {
+                    tran.Commit();      //執行交易  
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            finally
+            {
+                sqlConn.Close();
+            }
+        }
 
         #endregion
 
@@ -197,7 +261,9 @@ namespace TKHR
         }
         private void button2_Click(object sender, EventArgs e)
         {
+
             UPDATESTORESSCHEDULESNOWDATES(dateTimePicker1.Value.ToString("yyyyMMdd"));
+            UPDATESTORESSCHEDULESNEWBREAKDATES();
 
             MessageBox.Show("完成");
         }
