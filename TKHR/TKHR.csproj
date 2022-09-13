@@ -193,6 +193,12 @@
     <Compile Include="frmSETWROKHRS.Designer.cs">
       <DependentUpon>frmSETWROKHRS.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSTORESSCHEDULES.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSTORESSCHEDULES.Designer.cs">
+      <DependentUpon>frmSTORESSCHEDULES.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSysRESETPS.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -260,6 +266,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSETWROKHRS.resx">
       <DependentUpon>frmSETWROKHRS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSTORESSCHEDULES.resx">
+      <DependentUpon>frmSTORESSCHEDULES.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSysRESETPS.resx">
       <DependentUpon>frmSysRESETPS.cs</DependentUpon>
