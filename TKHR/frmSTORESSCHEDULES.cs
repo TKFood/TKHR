@@ -261,11 +261,26 @@ namespace TKHR
         }
         private void button2_Click(object sender, EventArgs e)
         {
+            int n;
+            string number = textBox1.Text.ToString().Trim();
 
-            UPDATESTORESSCHEDULESNOWDATES(dateTimePicker1.Value.ToString("yyyyMMdd"));
-            UPDATESTORESSCHEDULESNEWBREAKDATES();
+            bool result = Int32.TryParse(number, out n);
 
-            MessageBox.Show("完成");
+            if (result)
+            {
+                UPDATESTORESSCHEDULESNOWDATES(dateTimePicker1.Value.ToString("yyyyMMdd"));
+                UPDATESTORESSCHEDULESNEWBREAKDATES();
+
+                MessageBox.Show("完成");
+            }
+            else
+            {
+                MessageBox.Show("排休次數不是整數");
+            }
+
+           
+
+            
         }
         #endregion
 
