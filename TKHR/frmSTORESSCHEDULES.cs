@@ -198,6 +198,8 @@ namespace TKHR
         private void button2_Click(object sender, EventArgs e)
         {
             UPDATESTORESSCHEDULESNOWDATES(dateTimePicker1.Value.ToString("yyyyMMdd"));
+
+            MessageBox.Show("完成");
         }
         #endregion
 
