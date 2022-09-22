@@ -159,6 +159,8 @@ namespace TKHR
         public void ADDToUOF_TB_EIP_PRIV_MESS(string MESSAGE_TO, string MESSAGE_FROM, string CONTENT)
         {
             Guid MESSAGE_GUID = Guid.NewGuid();
+            Guid MASTER_GUID = Guid.NewGuid();
+            Guid NOTIFY_ID = Guid.NewGuid();
 
             try
             {
@@ -183,100 +185,100 @@ namespace TKHR
                 
                 sbSql.AppendFormat(@" 
 
-INSERT [UOF].dbo.TB_EIP_PRIV_MESS
-( 
-MESSAGE_GUID
-, TOPIC
-, MESSAGE_CONTENT
-, MESSAGE_TO
-, MESSAGE_FROM
-, CREATE_TIME
-, FROM_DELETED
-, TO_DELETED
-, FILE_GROUP_ID
-, MASTER_GUID 
-) 
-VALUES 
-( 
-N'14BD9836-EFD6-4E0F-88F0-F8E2B418F3AA'
-, N'TEST'
-, N'TEST'
-, N'b6f50a95-17ec-47f2-b842-4ad12512b431'
-, N'b6f50a95-17ec-47f2-b842-4ad12512b431'
-,'2022/9/22 10:00:00'
-, 0
-, 0
-, N''
-, N'366BA6A2-120B-4595-9994-7E017A12C359' 
-)
+                                    INSERT [UOF].dbo.TB_EIP_PRIV_MESS
+                                    ( 
+                                    MESSAGE_GUID
+                                    , TOPIC
+                                    , MESSAGE_CONTENT
+                                    , MESSAGE_TO
+                                    , MESSAGE_FROM
+                                    , CREATE_TIME
+                                    , FROM_DELETED
+                                    , TO_DELETED
+                                    , FILE_GROUP_ID
+                                    , MASTER_GUID 
+                                    ) 
+                                    VALUES 
+                                    ( 
+                                    N'{0}'
+                                    , N'TEST'
+                                    , N'TEST'
+                                    , N'b6f50a95-17ec-47f2-b842-4ad12512b431'
+                                    , N'b6f50a95-17ec-47f2-b842-4ad12512b431'
+                                    ,'2022/9/22 10:00:00'
+                                    , 0
+                                    , 0
+                                    , N''
+                                    , N'{1}' 
+                                    )
 
 
 
-INSERT [UOF].dbo.TB_EIP_PRIV_MESS_MASTER
-( 
-MASTER_GUID
-, TOPIC
-, MESSAGE_FROM
-, MESSAGE_TO
-,SENDER_TIME
-, CREATOR
-, CREATE_FROM
-, CREATE_DATE
-, MODIFIER
-, MODIFY_FROM
-, MODIFY_DATE
-) 
-VALUES 
-(  
-N'14BD9836-EFD6-4E0F-88F0-F8E2B418F3AA'
-,N'TEST'
-,N'366BA6A2-120B-4595-9994-7E017A12C359'
-,N'<UserSet><Element type=""user""><userId>b6f50a95-17ec-47f2-b842-4ad12512b431</userId></Element></UserSet>'
-, '2022/9/22 10:00:00' 
-,N'366BA6A2-120B-4595-9994-7E017A12C359' 
-,N'192.168.1.57' 
-,'2022/9/22 10:00:00' 
-,N'366BA6A2-120B-4595-9994-7E017A12C359' 
-,N'192.168.1.57' 
-,'2022/9/22 10:00:00'
-)
+                                    INSERT [UOF].dbo.TB_EIP_PRIV_MESS_MASTER
+                                    ( 
+                                    MASTER_GUID
+                                    , TOPIC
+                                    , MESSAGE_FROM
+                                    , MESSAGE_TO
+                                    , SENDER_TIME
+                                    , CREATOR
+                                    , CREATE_FROM
+                                    , CREATE_DATE
+                                    , MODIFIER
+                                    , MODIFY_FROM
+                                    , MODIFY_DATE
+                                    ) 
+                                    VALUES 
+                                    (  
+                                    N'{0}'
+                                    ,N'TEST'
+                                    ,N'366BA6A2-120B-4595-9994-7E017A12C359'
+                                    ,N'<UserSet><Element type=""user""><userId>b6f50a95-17ec-47f2-b842-4ad12512b431</userId></Element></UserSet>'
+                                    , '2022/9/22 10:00:00' 
+                                    ,N'366BA6A2-120B-4595-9994-7E017A12C359' 
+                                    ,N'192.168.1.57' 
+                                    ,'2022/9/22 10:00:00' 
+                                    ,N'366BA6A2-120B-4595-9994-7E017A12C359' 
+                                    ,N'192.168.1.57' 
+                                    ,'2022/9/22 10:00:00'
+                                    )
 
 
 
-INSERT TB_EIP_PUSH_QUEUE
-( 
-[NOTIFY_ID]
-, [USER_GUID]
-, [DESCRIPTION]
-,[TITLE]
-, [DISPLAY_NUMBER]
-, [MODULE_NAME]
-, [MODULE_KEY]
-,[CREATOR]
-, [CREATE_FROM]
-, [CREATE_DATE]
-, [MODIFIER]
-, [MODIFY_FROM]
-, [MODIFY_DATE]
-)
-VALUES
-(
-N'ec997d38-a105-495d-b560-0477eb130c61'
-, N'b6f50a95-17ec-47f2-b842-4ad12512b431'
-, N'',
-N'TEST'
-, 1,
-N'PrivateMessage'
-, N'PrivateMessage?id=14BD9836-EFD6-4E0F-88F0-F8E2B418F3AA'
-,N'b6f50a95-17ec-47f2-b842-4ad12512b431'
-, N'192.168.1.103'
-, '2022/9/22 10:00:00'
-, N'b6f50a95-17ec-47f2-b842-4ad12512b431'
-, N'192.168.1.103'
-, '2022/9/22 10:00:00'
-)
+                                    INSERT TB_EIP_PUSH_QUEUE
+                                    ( 
+                                    [NOTIFY_ID]
+                                    , [USER_GUID]
+                                    , [DESCRIPTION]
+                                    , [TITLE]
+                                    , [DISPLAY_NUMBER]
+                                    , [MODULE_NAME]
+                                    , [MODULE_KEY]
+                                    , [CREATOR]
+                                    , [CREATE_FROM]
+                                    , [CREATE_DATE]
+                                    , [MODIFIER]
+                                    , [MODIFY_FROM]
+                                    , [MODIFY_DATE]
+                                    )
+                                    VALUES
+                                    (
+                                    N'{2}'
+                                    , N'b6f50a95-17ec-47f2-b842-4ad12512b431'
+                                    , N'',
+                                    N'TEST'
+                                    , 1,
+                                    N'PrivateMessage'
+                                    , N'PrivateMessage?id={0}'
+                                    ,N'b6f50a95-17ec-47f2-b842-4ad12512b431'
+                                    , N'192.168.1.103'
+                                    , '2022/9/22 10:00:00'
+                                    , N'b6f50a95-17ec-47f2-b842-4ad12512b431'
+                                    , N'192.168.1.103'
+                                    , '2022/9/22 10:00:00'
+                                    )
 
-                                    ");
+                                    ", MESSAGE_GUID,MASTER_GUID, NOTIFY_ID);
 
 
                 cmd.Connection = sqlConn;
@@ -318,7 +320,7 @@ N'PrivateMessage'
         }
         private void button2_Click(object sender, EventArgs e)
         {
-
+            ADDToUOF_TB_EIP_PRIV_MESS("","","");
         }
         #endregion
 
