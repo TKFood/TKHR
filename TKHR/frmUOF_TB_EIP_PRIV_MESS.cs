@@ -162,6 +162,22 @@ namespace TKHR
             Guid MASTER_GUID = Guid.NewGuid();
             Guid NOTIFY_ID = Guid.NewGuid();
 
+            MESSAGE_TO = "b6f50a95-17ec-47f2-b842-4ad12512b431";
+            MESSAGE_FROM = "b6f50a95-17ec-47f2-b842-4ad12512b431";
+            string CREATOR = MESSAGE_FROM;
+            string MODIFIER = MESSAGE_FROM;
+            string MESSAGE_TOUSER = @"<UserSet><Element type=""user""><userId>b6f50a95-17ec-47f2-b842-4ad12512b431</userId></Element></UserSet>";
+            string TOPIC = "TEST";
+            string MESSAGE_CONTENT = "TEST";
+            string CREATE_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            string SENDER_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            string CREATE_FROM = "192.168.1.57";
+            string MODIFY_FROM = "192.168.1.57";
+            string CREATE_DATE = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            string MODIFY_DATE = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            string USER_GUID = MESSAGE_FROM;
+            string TITLE = TOPIC;
+
             try
             {
                 //20210902密
@@ -200,16 +216,16 @@ namespace TKHR
                                     ) 
                                     VALUES 
                                     ( 
-                                    N'{0}'
-                                    , N'TEST'
-                                    , N'TEST'
-                                    , N'b6f50a95-17ec-47f2-b842-4ad12512b431'
-                                    , N'b6f50a95-17ec-47f2-b842-4ad12512b431'
-                                    ,'2022/9/22 10:00:00'
+                                    @MESSAGE_GUID
+                                    , @TOPIC
+                                    , @MESSAGE_CONTENT
+                                    , @MESSAGE_TO
+                                    , @MESSAGE_FROM
+                                    , @CREATE_TIME
                                     , 0
                                     , 0
                                     , N''
-                                    , N'{1}' 
+                                    , @MASTER_GUID
                                     )
 
 
@@ -230,17 +246,17 @@ namespace TKHR
                                     ) 
                                     VALUES 
                                     (  
-                                    N'{0}'
-                                    ,N'TEST'
-                                    ,N'366BA6A2-120B-4595-9994-7E017A12C359'
-                                    ,N'<UserSet><Element type=""user""><userId>b6f50a95-17ec-47f2-b842-4ad12512b431</userId></Element></UserSet>'
-                                    , '2022/9/22 10:00:00' 
-                                    ,N'366BA6A2-120B-4595-9994-7E017A12C359' 
-                                    ,N'192.168.1.57' 
-                                    ,'2022/9/22 10:00:00' 
-                                    ,N'366BA6A2-120B-4595-9994-7E017A12C359' 
-                                    ,N'192.168.1.57' 
-                                    ,'2022/9/22 10:00:00'
+                                    @MESSAGE_GUID
+                                    ,@TOPIC
+                                    ,@MESSAGE_FROM
+                                    ,@MESSAGE_TOUSER
+                                    ,@SENDER_TIME
+                                    ,@CREATOR 
+                                    ,@CREATE_FROM
+                                    ,@CREATE_DATE
+                                    ,@MODIFIER
+                                    ,@MODIFY_FROM
+                                    ,@MODIFY_DATE
                                     )
 
 
@@ -263,27 +279,47 @@ namespace TKHR
                                     )
                                     VALUES
                                     (
-                                    N'{2}'
-                                    , N'b6f50a95-17ec-47f2-b842-4ad12512b431'
-                                    , N'',
-                                    N'TEST'
+                                    @NOTIFY_ID
+                                    , @USER_GUID
+                                    , N''
+                                    ,@TITLE
                                     , 1,
                                     N'PrivateMessage'
-                                    , N'PrivateMessage?id={0}'
-                                    ,N'b6f50a95-17ec-47f2-b842-4ad12512b431'
-                                    , N'192.168.1.103'
-                                    , '2022/9/22 10:00:00'
-                                    , N'b6f50a95-17ec-47f2-b842-4ad12512b431'
-                                    , N'192.168.1.103'
-                                    , '2022/9/22 10:00:00'
+                                    , N'PrivateMessage?id=@MESSAGE_GUID'
+                                    ,@CREATOR
+                                    , @CREATE_FROM
+                                    , @CREATE_DATE
+                                    , @MODIFIER
+                                    , @MODIFY_FROM
+                                    , @MODIFY_DATE
                                     )
 
-                                    ", MESSAGE_GUID,MASTER_GUID, NOTIFY_ID);
+                                    ");
 
 
                 cmd.Connection = sqlConn;
                 cmd.CommandTimeout = 60;
                 cmd.CommandText = sbSql.ToString();
+
+                cmd.Parameters.AddWithValue("@MESSAGE_GUID", MESSAGE_GUID);
+                cmd.Parameters.AddWithValue("@MASTER_GUID", MASTER_GUID);
+                cmd.Parameters.AddWithValue("@NOTIFY_ID", NOTIFY_ID);
+                cmd.Parameters.AddWithValue("@MESSAGE_FROM", MESSAGE_FROM);
+                cmd.Parameters.AddWithValue("@MESSAGE_TO", MESSAGE_TO);
+                cmd.Parameters.AddWithValue("@MESSAGE_TOUSER", MESSAGE_TOUSER);
+                cmd.Parameters.AddWithValue("@TOPIC", TOPIC);
+                cmd.Parameters.AddWithValue("@MESSAGE_CONTENT", MESSAGE_CONTENT);
+                cmd.Parameters.AddWithValue("@CREATE_TIME", CREATE_TIME);
+                cmd.Parameters.AddWithValue("@SENDER_TIME", SENDER_TIME);
+                cmd.Parameters.AddWithValue("@CREATOR", CREATOR);
+                cmd.Parameters.AddWithValue("@MODIFIER", MODIFIER);
+                cmd.Parameters.AddWithValue("@CREATE_FROM", CREATE_FROM);
+                cmd.Parameters.AddWithValue("@MODIFY_FROM", MODIFY_FROM);
+                cmd.Parameters.AddWithValue("@CREATE_DATE", CREATE_DATE);
+                cmd.Parameters.AddWithValue("@MODIFY_DATE", MODIFY_DATE);
+                cmd.Parameters.AddWithValue("@TITLE", TITLE);
+                cmd.Parameters.AddWithValue("@USER_GUID", USER_GUID);
+
                 cmd.Transaction = tran;
                 result = cmd.ExecuteNonQuery();
 
