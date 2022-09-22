@@ -211,6 +211,12 @@
     <Compile Include="frmTBEIPPUNCH.Designer.cs">
       <DependentUpon>frmTBEIPPUNCH.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmUOF_TB_EIP_PRIV_MESS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUOF_TB_EIP_PRIV_MESS.Designer.cs">
+      <DependentUpon>frmUOF_TB_EIP_PRIV_MESS.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmChangTime.resx">
@@ -275,6 +281,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmTBEIPPUNCH.resx">
       <DependentUpon>frmTBEIPPUNCH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUOF_TB_EIP_PRIV_MESS.resx">
+      <DependentUpon>frmUOF_TB_EIP_PRIV_MESS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
