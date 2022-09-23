@@ -170,6 +170,7 @@ namespace TKHR
             string MODIFIER = MESSAGE_FROM;
             string MESSAGE_TOUSER = @"<UserSet><Element type=""user""><userId>b6f50a95-17ec-47f2-b842-4ad12512b431</userId></Element></UserSet>";
             string MESSAGE_CONTENT = CONTENT;
+            string TB_EIP_PRIV_MESS_CREATE_TIME= DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss ") + "+08:00";
             string CREATE_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             string SENDER_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             string CREATE_FROM = "192.168.1.57";
@@ -222,7 +223,7 @@ namespace TKHR
                                     , @MESSAGE_CONTENT
                                     , @MESSAGE_TO
                                     , @MESSAGE_FROM
-                                    , @CREATE_TIME
+                                    , @TB_EIP_PRIV_MESS_CREATE_TIME
                                     , 0
                                     , 0
                                     , N''
@@ -320,6 +321,8 @@ namespace TKHR
                 cmd.Parameters.AddWithValue("@MODIFY_DATE", MODIFY_DATE);
                 cmd.Parameters.AddWithValue("@TITLE", TITLE);
                 cmd.Parameters.AddWithValue("@USER_GUID", USER_GUID);
+                cmd.Parameters.AddWithValue("@TB_EIP_PRIV_MESS_CREATE_TIME", TB_EIP_PRIV_MESS_CREATE_TIME);
+
 
                 cmd.Transaction = tran;
                 result = cmd.ExecuteNonQuery();
@@ -357,7 +360,9 @@ namespace TKHR
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            ADDToUOF_TB_EIP_PRIV_MESS("","","");
+            ADDToUOF_TB_EIP_PRIV_MESS("","","", "");
+
+            MessageBox.Show("完成");
         }
         #endregion
 
