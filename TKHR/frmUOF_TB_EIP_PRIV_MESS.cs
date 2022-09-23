@@ -156,7 +156,7 @@ namespace TKHR
             }
         }
 
-        public void ADDToUOF_TB_EIP_PRIV_MESS(string MESSAGE_TO, string MESSAGE_FROM, string CONTENT)
+        public void ADDToUOF_TB_EIP_PRIV_MESS(string MESSAGE_TO, string MESSAGE_FROM,string TOPIC, string CONTENT)
         {
             Guid MESSAGE_GUID = Guid.NewGuid();
             Guid MASTER_GUID = Guid.NewGuid();
@@ -164,11 +164,12 @@ namespace TKHR
 
             MESSAGE_TO = "b6f50a95-17ec-47f2-b842-4ad12512b431";
             MESSAGE_FROM = "b6f50a95-17ec-47f2-b842-4ad12512b431";
+            TOPIC = "TEST";
+            CONTENT = "TEST";
             string CREATOR = MESSAGE_FROM;
             string MODIFIER = MESSAGE_FROM;
             string MESSAGE_TOUSER = @"<UserSet><Element type=""user""><userId>b6f50a95-17ec-47f2-b842-4ad12512b431</userId></Element></UserSet>";
-            string TOPIC = "TEST";
-            string MESSAGE_CONTENT = "TEST";
+            string MESSAGE_CONTENT = CONTENT;
             string CREATE_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             string SENDER_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             string CREATE_FROM = "192.168.1.57";
