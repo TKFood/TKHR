@@ -162,10 +162,18 @@ namespace TKHR
             Guid MASTER_GUID = Guid.NewGuid();
             Guid NOTIFY_ID = Guid.NewGuid();
 
+            StringBuilder SBTEXT = new StringBuilder();
+
             MESSAGE_TO = "b6f50a95-17ec-47f2-b842-4ad12512b431";
             MESSAGE_FROM = "b6f50a95-17ec-47f2-b842-4ad12512b431";
             TOPIC = "TEST";
-            CONTENT = @"<p style=""font-size:160%;color:red;"">This is a paragraph.</p>";
+            SBTEXT.AppendFormat(@"
+                                <p style=""font-size:160%;color:red;"">This is a paragraph.</p>
+                                <br></br>
+                                <p style=""font-size:160%;color:blue;"">This is a paragraph.</p>
+                                  ");
+
+            CONTENT = SBTEXT.ToString();
             string CREATOR = MESSAGE_FROM;
             string MODIFIER = MESSAGE_FROM;
             string MESSAGE_TOUSER = @"<UserSet><Element type=""user""><userId>b6f50a95-17ec-47f2-b842-4ad12512b431</userId></Element></UserSet>";
