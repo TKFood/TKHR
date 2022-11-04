@@ -167,13 +167,13 @@ namespace TKHR
             MESSAGE_TO = "b6f50a95-17ec-47f2-b842-4ad12512b431";
             MESSAGE_FROM = "b6f50a95-17ec-47f2-b842-4ad12512b431";
             TOPIC = "TEST";
-            SBTEXT.AppendFormat(@"
-                                <p style=""font-size:160%;color:red;"">This is a paragraph.</p>
-                                <br></br>
-                                <p style=""font-size:160%;color:blue;"">This is a paragraph.</p>
-                                  ");
+            //SBTEXT.AppendFormat(@"
+            //                    <p style=""font-size:160%;color:red;"">This is a paragraph.</p>
+            //                    <br></br>
+            //                    <p style=""font-size:160%;color:blue;"">This is a paragraph.</p>
+            //                      ");
+            //CONTENT = SBTEXT.ToString();
 
-            CONTENT = SBTEXT.ToString();
             string CREATOR = MESSAGE_FROM;
             string MODIFIER = MESSAGE_FROM;
             string MESSAGE_TOUSER = @"<UserSet><Element type=""user""><userId>b6f50a95-17ec-47f2-b842-4ad12512b431</userId></Element></UserSet>";
@@ -359,6 +359,20 @@ namespace TKHR
 
         }
 
+        public void SETTEXTBOX3()
+        {
+            StringBuilder SBTEXT = new StringBuilder();
+
+            SBTEXT.AppendFormat(@"
+                                <p style=""font-size:160%;color:red;"">This is a paragraph.</p>
+                                <br></br>
+                                <p style=""font-size:200%;color:blue;"">This is a paragraph.</p>
+                                  ");
+
+            textBox3.Text = SBTEXT.ToString();
+
+        }
+
         #endregion
 
         #region BUTTON
@@ -368,9 +382,13 @@ namespace TKHR
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            ADDToUOF_TB_EIP_PRIV_MESS("","","", "");
+            ADDToUOF_TB_EIP_PRIV_MESS("","","", textBox3.Text);
 
             MessageBox.Show("完成");
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SETTEXTBOX3();
         }
         #endregion
 

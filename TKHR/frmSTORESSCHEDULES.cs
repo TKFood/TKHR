@@ -970,6 +970,11 @@ namespace TKHR
                 //do something else
             }
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            SETFASTREPORT();
+        }
     }
 
     #endregion
